@@ -1,6 +1,6 @@
-import Task from '../../../models/Task';
-import jwt from 'jsonwebtoken';
-import connectDB from '../../../utils/db';
+const Task = require('../../../../models/Task');
+const jwt = require('jsonwebtoken');
+const connectDB = require('../../../utils/db');
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -15,7 +15,7 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   await connectDB();
 
   if (req.method === 'GET') {

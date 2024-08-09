@@ -1,4 +1,4 @@
-import Task from '../../../models/Task';
+import Task from '../../../../models/Task';
 import jwt from 'jsonwebtoken';
 
 const authenticateToken = (req, res, next) => {
