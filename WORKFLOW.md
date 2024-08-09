@@ -1,5 +1,57 @@
 # Job-City Project Workflow
 
+## Project Overview
+Job-City is an education commerce platform built using Next.js 14, Tailwind CSS, Framer Motion, Monaco Editor, and LLaMA 3.1. It features a dashboard, aptitude reasoning, examination system, coding modules, AI research, and AI security features.
+
+## Development Setup
+1. Clone the repository:
+   ```
+   git clone https://github.com/VishwamAI/jobcity.git
+   cd jobcity
+   ```
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+
+## Committing Changes
+1. Create a new branch:
+   ```
+   git checkout -b <branch-name>
+   ```
+2. Make your changes and stage them:
+   ```
+   git add .
+   ```
+3. Commit your changes:
+   ```
+   git commit -m "Your commit message"
+   ```
+4. Push your changes:
+   ```
+   git push origin <branch-name>
+   ```
+
+## Vercel Deployment
+1. Link your project to Vercel:
+   ```
+   vercel link
+   ```
+2. Deploy your project:
+   ```
+   vercel --prod
+   ```
+3. Monitor the deployment status on the Vercel dashboard.
+
+## Additional Notes
+- Ensure all environment variables are properly set in Vercel.
+- Regularly update dependencies to maintain security and performance.
+- Use Vercel's preview deployments for testing before merging to main.
+
 ## 1. Project Setup and Initial Configuration
 
 1.1. Set up the development environment
