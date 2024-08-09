@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
-import User from '../../../models/User';
-import connectDB from '../../../utils/connectDB';
+import User from '../../../../models/User';
+import connectDB from '../../../../src/utils/db';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

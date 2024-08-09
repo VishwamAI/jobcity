@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../../../models/User';
-import connectDB from '../../../utils/db';
+import User from '../../../../models/User';
+import connectDB from '../../../../src/utils/db';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
