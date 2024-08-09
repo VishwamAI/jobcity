@@ -20,14 +20,18 @@ export default function Home() {
             { name: 'Coding Modules', href: '/coding' },
             { name: 'AI Research', href: '/ai-research' },
             { name: 'AI Security', href: '/ai-security' },
-            { name: 'Blockchain Certificates', href: '/blockchain-certificates' },
+            { name: 'Community', href: '/community' },
           ].map((section) => (
             <Link key={section.name} href={section.href}>
               <div className="bg-white overflow-hidden shadow rounded-lg cursor-pointer hover:shadow-lg transition-shadow duration-300">
                 <div className="px-4 py-5 sm:p-6">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">{section.name}</h3>
                   <div className="mt-2 max-w-xl text-sm text-gray-500">
-                    <p>Explore {section.name.toLowerCase()} modules and resources.</p>
+                    <p>
+                      {section.name === 'Community'
+                        ? 'Connect with other learners and experts.'
+                        : `Explore ${section.name.toLowerCase()} modules and resources.`}
+                    </p>
                   </div>
                 </div>
               </div>
