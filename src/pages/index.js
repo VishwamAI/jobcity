@@ -238,13 +238,13 @@ export default function Home() {
             </div>
             <div className="flex flex-wrap justify-center space-x-4">
               <Link href="#" className="hover:text-indigo-400 transition duration-150">Privacy Policy</Link>
-              <Link href="#" className="hover:text-indigo-400 transition duration-150">Terms of Service</Link>
-              <Link href="#" className="hover:text-indigo-400 transition duration-150">Contact Us</Link>
+              <Link href="/terms" className="hover:text-indigo-400 transition duration-150">Terms of Service</Link>
+              <Link href="/contact" className="hover:text-indigo-400 transition duration-150">Contact Us</Link>
+              <Link href="/privacy" className="hover:text-indigo-400 transition duration-150">Privacy Policy</Link>
             </div>
           </div>
           <div className="mt-4 text-center text-gray-400">
-            © 2024 Job-City. All rights reserved.
-          </div>
+            © {new Date().getFullYear()} Job-City. All rights reserved.
         </div>
       </footer>
     </div>
