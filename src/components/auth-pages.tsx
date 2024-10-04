@@ -4,9 +4,28 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Briefcase, Mail, Lock, User, ArrowRight, Github, Linkedin } from 'lucide-react'
 
-export default function AuthComponent() {
-  const [isLogin, setIsLogin] = useState(true)
+export default function AuthComponent({ initialIsLogin = true }: { initialIsLogin?: boolean }) {
+  const [isLogin, setIsLogin] = useState(initialIsLogin)
   const toggleForm = () => setIsLogin(!isLogin)
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data = Object.fromEntries(formData);
+    console.log(isLogin ? 'Login data:' : 'Signup data:', data);
+    // Mock authentication logic
+    if (isLogin) {
+      if (data.email === 'test@example.com' && data.password === 'password123') {
+        console.log('Login successful');
+        // TODO: Implement actual login logic here (e.g., set user state, redirect)
+      } else {
+        console.log('Login failed');
+      }
+    } else {
+      console.log('Signup successful');
+      // TODO: Implement actual signup logic here
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center p-4">
@@ -40,7 +59,7 @@ export default function AuthComponent() {
           <h3 className="text-2xl font-bold text-gray-800 mb-6">
             {isLogin ? 'Log in to your account' : 'Create your account'}
           </h3>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {!isLogin && (
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -173,5 +192,5 @@ export default function AuthComponent() {
         </div>
       </motion.div>
     </div>
-  )
+  );
 }

@@ -4,7 +4,7 @@ import AuthComponent from '../src/components/auth-pages';
 const LoginPage = () => {
   return (
     <div>
-      <AuthComponent />
+      <AuthComponent initialIsLogin={true} />
     </div>
   );
 };
