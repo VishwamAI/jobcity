@@ -1,17 +1,18 @@
-# Job-City Commerce
+# Job-City Automated Job Application Platform
 
 ## Overview
 
-Job-City is an open-source education commerce platform built with Next.js 14. It provides interactive learning paths across various disciplines such as aptitude reasoning, coding, AI research, and AI security. The project is structured with a `src` directory for better organization and is styled using Tailwind CSS for a modern look.
+Job-City is an open-source automated job application platform built with Next.js 14. It provides users with free interactive learning paths across various disciplines, such as aptitude reasoning, coding, AI research, and AI security. The project is structured with a `src` directory for better organization and is styled using Tailwind CSS for a modern look.
 
 ## Features
 
-- **Dashboard**: Overview and navigation to different learning modules.
-- **Aptitude Reasoning**: Interactive problems with animated solutions.
-- **Examination**: Custom assessments with immediate feedback.
-- **Coding Modules**: Courses for C, C++, Python, Java, and Golang with varying levels of difficulty, including tasks, hints, and auto-coding features.
-- **AI Research**: Explore AI from basics to advanced levels, powered by LLaMA 3.1.
-- **AI Security**: Learn about AI security at different proficiency levels.
+- **Dashboard**: Overview and navigation to different learning modules and job application functionalities.
+- **Aptitude Reasoning**: Interactive problems with animated solutions to enhance problem-solving skills.
+- **Examination**: Custom assessments with immediate feedback to help users track their progress.
+- **Coding Modules**: Courses covering C, C++, Python, Java, and Golang with varying levels of difficulty, including tasks, hints, and auto-coding features to prepare for technical interviews.
+- **AI Research**: Explore AI from basics to advanced levels, powered by LLaMA 3.1, with resources and materials.
+- **AI Security**: Learn about AI security at different proficiency levels, emphasizing the importance of secure AI practices.
+- **Automated Job Application**: Streamline the job application process with features that assist users in applying for jobs seamlessly.
 
 ## Tech Stack
 
@@ -32,7 +33,7 @@ Ensure you have Node.js and npm installed.
 1. Clone the repository:
 
     ```bash
-    https://github.com/VishwamAI/jobcity
+    git clone https://github.com/VishwamAI/jobcity
     ```
 
 2. Navigate to the project directory:
