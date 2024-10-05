@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.7.0",  // Add Chakra UI
+    "@emotion/react": "^11.11.0",  // Add Emotion (peer dependency for Chakra UI)
+    "@emotion/styled": "^11.11.0",  // Add Emotion styled (peer dependency for Chakra UI)
+    "framer-motion": "^11.11.1",  // This is already included in your dependencies, Chakra UI uses it
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,7 +14,6 @@
     "@types/node": "^16.18.112",
     "@types/react": "^18.3.11",
     "@types/react-router-dom": "^5.3.3",
-    "framer-motion": "^11.11.1",
     "lucide-react": "^0.447.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
