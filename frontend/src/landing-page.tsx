@@ -42,9 +42,8 @@ const ResearchArea: React.FC<ResearchAreaProps> = ({ title, description, icon: I
           <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
         </div>
         <ChevronDown
-          className={`h-5 w-5 text-gray-500 transform transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
+          className={`h-5 w-5 text-gray-500 transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+            }`}
         />
       </button>
       {isOpen && (
@@ -175,7 +174,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="development" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        {/* <section id="development" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Development Roadmap</h2>
           <div className="relative">
             <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
@@ -196,7 +195,49 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
+        </section> */}
+        <section id="development" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Development Roadmap</h2>
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
+            <div className="space-y-12">
+              {/* First Milestone (MVP Launch - 2023) */}
+              <div className="relative">
+                <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
+                <div className="relative pl-8 md:pl-16 text-center">
+                  <h3 className="text-lg font-semibold text-indigo-600 mb-1 ml-[10px] ">2023</h3>
+                  <h4 className="text-xl font-bold text-gray-900 mb-2 ml-[84px]">MVP Launch</h4>
+                  <p className="text-gray-600 ml-[184px]">Launch of our Minimum Viable <br /><span className='mr-7'>Product with core features.</span></p>
+                </div>
+              </div>
+
+              {/* Second Milestone (AI Enhancement - 2024) */}
+              <div className="relative">
+                <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
+                <div className="relative pr-8 md:pr-16 text-center">
+                  <h3 className="text-lg font-semibold text-indigo-600 mb-1 mr-[10px]">2024</h3>
+                  <h4 className="text-xl font-bold text-gray-900 mb-2 mr-[108px]">AI Enhancement</h4>
+                  <p className="text-gray-600 mr-[205px]">Major updates to our AI algorithms <br /><span className='ml-[55px]'> for improved job matching.</span></p>
+                </div>
+              </div>
+
+              {/* Third Milestone (Global Expansion - 2025) */}
+              <div className="relative">
+                <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
+                <div className="relative pl-8 md:pl-16 text-center">
+                  <h3 className="text-lg font-semibold text-indigo-600 mb-1 ml-[10px] ">2025</h3>
+                  <h4 className="text-xl font-bold text-gray-900 mb-2 ml-[125px]">Global Expansion</h4>
+                  <p className="text-gray-600 ml-[150px]">Expanding our services to <br /><span >international job markets.</span> </p>
+                </div>
+              </div>
+              
+            </div>
+          </div>
         </section>
+
+
+
+
 
         <section className="bg-indigo-700 text-white py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
