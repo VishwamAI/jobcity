@@ -74,6 +74,14 @@ const LoginPage: React.FC = () => {
             </button>
           </div>
         </form>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Don't have an account?
+            <a href="/auth" className="ml-1 font-medium text-indigo-600 hover:text-indigo-500">
+              Sign up
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
