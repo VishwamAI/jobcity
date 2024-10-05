@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Code, Brain, Rocket, Smartphone, Search, ChevronDown, Menu, X } from 'lucide-react';
+import { Briefcase, Code, Brain, Rocket, Smartphone, Search, ChevronDown, Menu, X, LucideProps } from 'lucide-react';
 
 
 interface FeatureCardProps {
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<LucideProps>;
   title: string;
   description: string;
 }
@@ -25,7 +25,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, descriptio
 interface ResearchAreaProps {
   title: string;
   description: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<LucideProps>;
 }
 
 const ResearchArea: React.FC<ResearchAreaProps> = ({ title, description, icon: Icon }) => {
@@ -68,12 +68,13 @@ export default function LandingPage() {
               <Briefcase className="h-8 w-8 text-indigo-600 mr-3" />
               <span className="text-2xl font-bold text-gray-900">Job-City</span>
             </div>
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex space-x-8 items-center">
               <a href="#features" className="text-gray-600 hover:text-indigo-600 transition duration-150">Features</a>
               <a href="#research" className="text-gray-600 hover:text-indigo-600 transition duration-150">Research</a>
               <a href="#development" className="text-gray-600 hover:text-indigo-600 transition duration-150">Development</a>
               <a href="#" className="text-gray-600 hover:text-indigo-600 transition duration-150">About Us</a>
               <a href="#" className="text-gray-600 hover:text-indigo-600 transition duration-150">Contact</a>
+              <button onClick={() => window.location.href = '/auth'} className="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-indigo-700 transition duration-300 ml-4">Login</button>
             </div>
             <div className="md:hidden">
               <button
@@ -92,6 +93,7 @@ export default function LandingPage() {
               <a href="#development" className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150">Development</a>
               <a href="#" className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150">About Us</a>
               <a href="#" className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150">Contact</a>
+              <button onClick={() => alert('Login functionality to be implemented')} className="block w-full text-left py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150">Login</button>
             </div>
           )}
         </nav>
@@ -200,12 +202,6 @@ export default function LandingPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold mb-4">Ready to revolutionize your job search?</h2>
             <p className="text-xl mb-8">Join Job-City today and experience the future of recruitment.</p>
-            <a
-              href="#"
-              className="bg-white text-indigo-700 px-8 py-3 rounded-full text-lg font-semibold hover:bg-indigo-100 transition duration-300"
-            >
-              Sign Up Now
-            </a>
           </div>
         </section>
       </main>
