@@ -74,7 +74,7 @@ export default function LandingPage() {
               <a href="#development" className="text-gray-600 hover:text-indigo-600 transition duration-150">Development</a>
               <a href="#" className="text-gray-600 hover:text-indigo-600 transition duration-150">About Us</a>
               <a href="#" className="text-gray-600 hover:text-indigo-600 transition duration-150">Contact</a>
-              <button onClick={() => alert('Login functionality to be implemented')} className="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-indigo-700 transition duration-300 ml-4">Login</button>
+              <button onClick={() => window.location.href = '/auth'} className="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-indigo-700 transition duration-300 ml-4">Login</button>
             </div>
             <div className="md:hidden">
               <button
