@@ -30,7 +30,7 @@ export default function AuthPage() {
           </div>
           <div>
             <p className="text-sm text-indigo-200">
-              © 2024 Job-City. All rights reserved.
+              © 2024 VishwamAI. All rights reserved.
             </p>
           </div>
         </div>
