@@ -181,7 +181,7 @@ export default function LandingPage() {
             <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
             <div className="space-y-12">
               {[
-                { year: '2023', title: 'MVP Launch', description: 'Launch of our Minimum Viable Product with core features.' },
+                { year: '2024', title: 'MVP Launch', description: 'Launch of our Minimum Viable Product with core features.' },
                 { year: '2024', title: 'AI Enhancement', description: 'Major updates to our AI algorithms for improved job matching.' },
                 { year: '2025', title: 'Global Expansion', description: 'Expanding our services to international job markets.' },
               ].map((item, index) => (
@@ -224,12 +224,12 @@ export default function LandingPage() {
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-              <p className="text-gray-400">Email: info@jobcity.com</p>
-              <p className="text-gray-400">Phone: +1 (123) 456-7890</p>
+              <p className="text-gray-400">Email: kasinadhsarma@gmail.com</p>
+              <p className="text-gray-400">Phone: +91 6305953487</p>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-            <p>&copy; 2023 Job-City. All rights reserved.</p>
+            <p>&copy; 2024 Job-City. All rights reserved.</p>
           </div>
         </div>
       </footer>

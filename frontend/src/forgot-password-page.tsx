@@ -1,6 +1,6 @@
 import React from 'react';
 import { Briefcase, Mail, ArrowRight } from 'lucide-react';
-
+import AuthPage from './auth-page';
 export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center p-4">
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Remember your password?
-              <a href="/login" className="ml-1 font-medium text-indigo-600 hover:text-indigo-500">
+              <a href="/auth" className="ml-1 font-medium text-indigo-600 hover:text-indigo-500">
                 Back to login
               </a>
             </p>

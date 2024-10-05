@@ -13,6 +13,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          
         </Routes>
       </div>
     </Router>

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Briefcase, Mail, Lock, User, ArrowRight, Github, Linkedin } from 'lucide-react'
-
+import ForgotPasswordPage from './forgot-password-page';
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
   const toggleForm = () => setIsLogin(!isLogin)
@@ -98,7 +98,7 @@ export default function AuthPage() {
                   </label>
                 </div>
                 <div className="text-sm">
-                  <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                  <a href="./forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
                     Forgot your password?
                   </a>
                 </div>
