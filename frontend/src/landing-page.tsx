@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Code, Brain, Rocket, Smartphone, Search, ChevronDown, Menu, X, LucideProps } from 'lucide-react';
-
+import { FaXTwitter } from "react-icons/fa6";
+import { FaDiscord } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 
 interface FeatureCardProps {
   icon: React.ComponentType<LucideProps>;
@@ -269,8 +271,23 @@ export default function LandingPage() {
               <p className="text-gray-400">Phone: +91 6305953487</p>
             </div>
           </div>
+  
           <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-            <p>&copy; 2024 VishwamAI. All rights reserved.</p>
+        
+             <span className="flex items-center gap-2">
+             <span>Follow us on</span>
+                  <a href="https://github.com/">
+                  <FaGithub />
+                  </a>
+                  <a href="https://discord.gg/">
+                  <FaDiscord />
+                  </a>
+                  <a href="#">
+                  <FaXTwitter />
+                  </a>
+                  <span style={{'marginLeft': 'auto'}}>&copy; 2024 VishwamAI. All rights reserved.</span>
+               </span>
+    
           </div>
         </div>
       </footer>
