@@ -81,6 +81,11 @@ const LoginPage: React.FC = () => {
               Sign up
             </a>
           </p>
+          <p className="text-sm text-gray-600 mt-2">
+            <a href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Forgot your password?
+            </a>
+          </p>
         </div>
       </div>
     </div>
