@@ -4,11 +4,10 @@ import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   Briefcase, MessageSquare, Globe, BarChart2,
-  Zap, Calendar, User, Home
+  Zap, Calendar, Home
 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card"
 import { Button } from "./components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip"
 
 const API_BASE_URL = 'http://localhost:5000/api'; // Update this with the correct backend URL
@@ -20,9 +19,15 @@ interface Interview {
   time: string;
 }
 
+interface Stats {
+  autoAppliedJobs: number;
+  successRate: number;
+  upcomingInterviews: number;
+}
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard')
-  const [stats, setStats] = useState({
+  const [stats, setStats] = useState<Stats>({
     autoAppliedJobs: 0,
     successRate: 0,
     upcomingInterviews: 0
@@ -43,13 +48,6 @@ export default function Dashboard() {
       .catch(error => console.error('Error fetching stats:', error));
   }, []);
 
-  const userProfile = {
-    name: "John Doe",
-    role: "Frontend Developer",
-    email: "john.doe@example.com",
-    skills: ["React", "TypeScript", "CSS", "Node.js"],
-    experience: "5 years"
-  }
   const navItems = [
     { id: 'dashboard', icon: Home, label: 'Dashboard' },
     { id: 'chat', icon: MessageSquare, label: 'Chat' },
