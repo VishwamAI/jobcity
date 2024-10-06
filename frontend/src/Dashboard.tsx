@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   Briefcase, MessageSquare, Globe, BarChart2,
@@ -11,14 +11,37 @@ import { Button } from "./components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip"
 
+const API_BASE_URL = 'http://localhost:5000/api'; // Update this with the correct backend URL
+
+interface Interview {
+  id: number;
+  company: string;
+  date: string;
+  time: string;
+}
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard')
+  const [stats, setStats] = useState({
+    autoAppliedJobs: 0,
+    successRate: 0,
+    upcomingInterviews: 0
+  })
+  const [interviews, setInterviews] = useState<Interview[]>([])
 
-  const interviews = [
-    { id: 1, company: "TechCorp", date: "2023-06-15", time: "14:00" },
-    { id: 2, company: "InnoSoft", date: "2023-06-17", time: "10:30" },
-    { id: 3, company: "DataDynamics", date: "2023-06-20", time: "15:45" },
-  ]
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/stats`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setStats(data.stats);
+          if (Array.isArray(data.stats.upcomingInterviews)) {
+            setInterviews(data.stats.upcomingInterviews);
+          }
+        }
+      })
+      .catch(error => console.error('Error fetching stats:', error));
+  }, []);
 
   const userProfile = {
     name: "John Doe",
@@ -27,16 +50,15 @@ export default function Dashboard() {
     skills: ["React", "TypeScript", "CSS", "Node.js"],
     experience: "5 years"
   }
-
   const navItems = [
     { id: 'dashboard', icon: Home, label: 'Dashboard' },
     { id: 'chat', icon: MessageSquare, label: 'Chat' },
     { id: 'browser', icon: Globe, label: 'Job Browser' },
-    { id: 'profile', icon: User, label: 'Profile' },
+    { id: 'analytics', icon: BarChart2, label: 'Analytics' },
   ]
 
   return (
-    <div className="min-h-screen bg-[#F0F4FF] flex">
+    <div className="flex h-screen bg-gray-100">
       <nav className="bg-white shadow-sm p-4 flex flex-col items-center space-y-4 w-16">
         <Briefcase className="h-8 w-8 text-[#6366F1] mb-4" />
         <TooltipProvider>
@@ -60,57 +82,44 @@ export default function Dashboard() {
           ))}
         </TooltipProvider>
       </nav>
-
-      <main className="flex-1 p-6">
-        <div className="max-w-4xl mx-auto">
+      <main className="flex-1 p-8 overflow-auto">
+        <div className="max-w-6xl mx-auto">
           {activeTab === 'dashboard' && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+              transition={{ duration: 0.5 }}
             >
-              <Card className="mb-6 bg-white">
-                <CardHeader>
-                  <CardTitle className="text-[#6366F1]">Application Statistics</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <Card className="bg-white">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600">
-                          Auto-Applied Jobs
-                        </CardTitle>
-                        <Zap className="h-4 w-4 text-[#6366F1]" />
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold text-[#6366F1]">28</div>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-white">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600">
-                          Success Rate
-                        </CardTitle>
-                        <BarChart2 className="h-4 w-4 text-[#6366F1]" />
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold text-[#6366F1]">68%</div>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-white">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600">
-                          Upcoming Interviews
-                        </CardTitle>
-                        <Calendar className="h-4 w-4 text-[#6366F1]" />
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold text-[#6366F1]">{interviews.length}</div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CardContent>
-              </Card>
+              <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <Card className="bg-white">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium text-gray-600">Auto-Applied Jobs</CardTitle>
+                    <Zap className="h-4 w-4 text-[#6366F1]" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-[#6366F1]">{stats.autoAppliedJobs}</div>
+                  </CardContent>
+                </Card>
+                <Card className="bg-white">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium text-gray-600">Success Rate</CardTitle>
+                    <BarChart2 className="h-4 w-4 text-[#6366F1]" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-[#6366F1]">{stats.successRate}%</div>
+                  </CardContent>
+                </Card>
+                <Card className="bg-white">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium text-gray-600">Upcoming Interviews</CardTitle>
+                    <Calendar className="h-4 w-4 text-[#6366F1]" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-[#6366F1]">{stats.upcomingInterviews}</div>
+                  </CardContent>
+                </Card>
+              </div>
               <Card className="bg-white">
                 <CardHeader>
                   <CardTitle className="text-[#6366F1]">Upcoming Interviews</CardTitle>
@@ -132,93 +141,7 @@ export default function Dashboard() {
               </Card>
             </motion.div>
           )}
-
-          {activeTab === 'chat' && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card className="bg-white">
-                <CardHeader>
-                  <CardTitle className="text-[#6366F1]">Chat</CardTitle>
-                  <CardDescription className="text-gray-600">Chat with our AI assistant about job opportunities</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[400px] flex items-center justify-center border-2 border-dashed border-[#6366F1] rounded-lg">
-                    <p className="text-gray-500">Chat interface goes here</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-
-          {activeTab === 'browser' && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card className="bg-white">
-                <CardHeader>
-                  <CardTitle className="text-[#6366F1]">Job Browser</CardTitle>
-                  <CardDescription className="text-gray-600">Browse and search for job opportunities</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[400px] flex items-center justify-center border-2 border-dashed border-[#6366F1] rounded-lg">
-                    <p className="text-gray-500">Job browser interface goes here</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-
-          {activeTab === 'profile' && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card className="bg-white">
-                <CardHeader>
-                  <CardTitle className="text-[#6366F1]">Your Profile</CardTitle>
-                  <CardDescription className="text-gray-600">Manage your personal and professional information</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col md:flex-row gap-6">
-                    <div className="flex flex-col items-center">
-                      <Avatar className="h-24 w-24 mb-4">
-                        <AvatarImage src="/placeholder-avatar.jpg" />
-                        <AvatarFallback>{userProfile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                      </Avatar>
-                      <Button variant="outline" className="border-[#6366F1] text-[#6366F1] hover:bg-[#6366F1] hover:text-white">Edit Profile</Button>
-                    </div>
-                    <div className="flex-1 space-y-4">
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800">{userProfile.name}</h3>
-                        <p className="text-sm text-gray-600">{userProfile.role}</p>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-semibold mb-2 text-gray-700">Contact Information</h4>
-                        <p className="text-sm text-gray-600">{userProfile.email}</p>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-semibold mb-2 text-gray-700">Skills</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {userProfile.skills.map((skill, index) => (
-                            <span key={index} className="bg-[#6366F1]/10 text-[#6366F1] text-xs px-2 py-1 rounded-full">
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-semibold mb-2 text-gray-700">Experience</h4>
-                        <p className="text-sm text-gray-600">{userProfile.experience}</p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
+          {/* Add other tab content here */}
         </div>
       </main>
     </div>
