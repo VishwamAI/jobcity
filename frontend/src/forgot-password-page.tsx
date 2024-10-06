@@ -1,6 +1,5 @@
 import React from 'react';
 import { Briefcase, Mail, ArrowRight } from 'lucide-react';
-import AuthPage from './auth-page';
 export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center p-4">
@@ -12,9 +11,9 @@ export default function ForgotPasswordPage() {
               <Briefcase className="h-10 w-10 mr-3" />
               <span className="text-3xl font-bold">Job-City</span>
             </div>
-            <h2 className="text-4xl font-bold mb-4">Password Recovery</h2>
+            <h2 className="text-3xl font-bold text-indigo-100 mb-2">Forgot Your Password?</h2>
             <p className="text-indigo-200 mb-6">
-              Don't worry, we've got you covered. Let's get you back on track to finding your dream career.
+              Don&apos;t worry, we&apos;ve got you covered. Let&apos;s get you back on track to finding your dream career.
             </p>
           </div>
           <div>
@@ -29,7 +28,7 @@ export default function ForgotPasswordPage() {
             Forgot your password?
           </h3>
           <p className="text-gray-600 mb-6">
-            Enter your email address and we'll send you instructions to reset your password.
+            Enter your email address and we&apos;ll send you instructions to reset your password.
           </p>
           <form className="space-y-4">
             <div>

@@ -1,9 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Briefcase, Mail, Lock, User, ArrowRight, Github, Linkedin } from 'lucide-react'
-import ForgotPasswordPage from './forgot-password-page';
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
   const toggleForm = () => setIsLogin(!isLogin)

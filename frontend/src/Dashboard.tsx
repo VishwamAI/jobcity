@@ -1,15 +1,15 @@
 "use client"
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Briefcase, MessageSquare, Globe, BarChart2, 
+import {
+  Briefcase, MessageSquare, Globe, BarChart2,
   Zap, Calendar, User, Home
 } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card"
+import { Button } from "./components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip"
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -53,7 +53,7 @@ export default function Dashboard() {
                   <item.icon className="h-5 w-5" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="right">
+              <TooltipContent>
                 <p>{item.label}</p>
               </TooltipContent>
             </Tooltip>
@@ -185,7 +185,7 @@ export default function Dashboard() {
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="flex flex-col items-center">
                       <Avatar className="h-24 w-24 mb-4">
-                        <AvatarImage src="/placeholder-avatar.jpg" alt={userProfile.name} />
+                        <AvatarImage src="/placeholder-avatar.jpg" />
                         <AvatarFallback>{userProfile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <Button variant="outline" className="border-[#6366F1] text-[#6366F1] hover:bg-[#6366F1] hover:text-white">Edit Profile</Button>
