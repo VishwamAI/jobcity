@@ -3,9 +3,38 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Briefcase, Mail, Lock, User, ArrowRight, Github, Linkedin } from 'lucide-react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
+
   const toggleForm = () => setIsLogin(!isLogin)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/api/auth/login', {
+        email,
+        password
+      })
+
+      if (response.data.status === 'success') {
+        navigate('/dashboard')
+      } else {
+        setError('Login failed. Please check your credentials.')
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.')
+      console.error('Login error:', error)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center p-4">
@@ -38,7 +67,8 @@ export default function AuthPage() {
           <h3 className="text-2xl font-bold text-gray-800 mb-6">
             {isLogin ? 'Log in to your account' : 'Create your account'}
           </h3>
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && <p className="text-red-500 mb-4">{error}</p>}
             {!isLogin && (
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
@@ -64,6 +94,8 @@ export default function AuthPage() {
                   name="email"
                   type="email"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="you@example.com"
                 />
@@ -78,6 +110,8 @@ export default function AuthPage() {
                   name="password"
                   type="password"
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="••••••••"
                 />
