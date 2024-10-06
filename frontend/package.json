@@ -92,7 +92,7 @@
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^9.3.0",
     "react-refresh": "^0.14.2",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "resolve-url-loader": "^5.0.0",
     "semver": "^7.6.0",
     "serialize-javascript": "^6.0.2",
