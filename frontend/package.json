@@ -83,7 +83,7 @@
     "dequal": "^2.0.3",
     "eslint": "^9.12.0",
     "eslint-plugin-react": "^7.33.2",
-    "express": "^2.5.11",
+    "express": "^4.21.0",
     "has-flag": "^5.0.1",
     "nth-check": "^2.1.1",
     "postcss": "^8.4.33",
