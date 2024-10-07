@@ -1,9 +1,5 @@
 import * as React from "react"
-import { Progress as ChakraProgress, ProgressProps as ChakraProgressProps } from "@chakra-ui/react"
-
-export interface ProgressProps extends ChakraProgressProps {
-  // Add any additional props here if needed
-}
+import { Progress as ChakraProgress, ProgressProps } from "@chakra-ui/react"
 
 const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
   (props, ref) => {
@@ -19,3 +15,4 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
 Progress.displayName = "Progress"
 
 export { Progress }
+export type { ProgressProps }
