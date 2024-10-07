@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect, HTMLAttributes } from 'react'
-import { motion } from 'framer-motion'
-import { MessageSquare, Globe, BarChart2, Home, LucideIcon } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card"
-import { Button } from "./components/ui/button"
-import { Tooltip } from "./components/ui/tooltip"
-import { Progress } from "./components/ui/progress"
-import { Badge } from "./components/ui/badge"
-import ErrorBoundary from './components/ErrorBoundary'
+import React, { useState, useEffect, HTMLAttributes } from "react";
+import { motion } from "framer-motion";
+import { MessageSquare, Globe, BarChart2, Home, LucideIcon } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
+import { Button } from "./components/ui/button";
+import { Tooltip } from "./components/ui/tooltip";
+import { Progress } from "./components/ui/progress";
+import { Badge } from "./components/ui/badge";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // TODO: Move this to an environment variable
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = "http://localhost:5000/api";
 
 interface Stats {
   applications_sent: number;
@@ -29,11 +29,11 @@ const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
   const [stats, setStats] = useState<Stats>({
     applications_sent: 0,
     interviews_scheduled: 0,
-    offers_received: 0
+    offers_received: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -45,17 +45,17 @@ const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        if (data.status === 'success') {
+        if (data.status === "success") {
           setStats(data.stats);
         } else {
-          throw new Error('Data fetch was not successful');
+          throw new Error("Data fetch was not successful");
         }
       } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error fetching stats:', errorMessage);
+        const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+        if (process.env.NODE_ENV === "development") {
+          console.error("Error fetching stats:", errorMessage);
         }
-        setError('Failed to load dashboard data. Please try again later.');
+        setError("Failed to load dashboard data. Please try again later.");
       } finally {
         setIsLoading(false);
       }
@@ -64,19 +64,19 @@ const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
   }, []);
 
   const navItems: NavItem[] = [
-    { id: 'dashboard', icon: Home, label: 'Dashboard' },
-    { id: 'chat', icon: MessageSquare, label: 'Chat' },
-    { id: 'browser', icon: Globe, label: 'Job Browser' },
-    { id: 'analytics', icon: BarChart2, label: 'Analytics' },
+    { id: "dashboard", icon: Home, label: "Dashboard" },
+    { id: "chat", icon: MessageSquare, label: "Chat" },
+    { id: "browser", icon: Globe, label: "Job Browser" },
+    { id: "analytics", icon: BarChart2, label: "Analytics" },
   ];
 
   const renderStatCard = (title: string, value: number) => (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="text-xl">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-4xl font-bold">{value}</p>
+        <p className="text-5xl font-extrabold">{value}</p>
       </CardContent>
     </Card>
   );
@@ -105,13 +105,13 @@ const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
         </nav>
         <main className="flex-1 p-8 overflow-auto">
           <div className="max-w-6xl mx-auto">
-            {activeTab === 'dashboard' && (
+            {activeTab === "dashboard" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+                <h1 className="text-4xl font-extrabold mb-8">Dashboard</h1>
                 {isLoading ? (
                   <div className="text-center py-8">
                     <p className="text-gray-600 text-xl">Loading dashboard data...</p>
@@ -136,7 +136,12 @@ const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
                         <CardTitle>Application Progress</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <Progress value={Math.round((stats.interviews_scheduled / stats.applications_sent) * 100)} className="w-full" />
+                        <Progress
+                          value={Math.round(
+                            (stats.interviews_scheduled / stats.applications_sent) * 100
+                          )}
+                          className="w-full"
+                        />
                         <p className="mt-2 text-sm text-gray-600">
                           {stats.interviews_scheduled} out of {stats.applications_sent} applications have progressed to interviews
                         </p>
