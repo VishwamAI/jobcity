@@ -33,6 +33,12 @@ jobs:
         run: npm audit --audit-level=high
         continue-on-error: true
 
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
       - name: Build
         run: npm run build --production
 

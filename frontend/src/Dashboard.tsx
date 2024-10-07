@@ -1,19 +1,17 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, HTMLAttributes } from 'react'
 import { motion } from 'framer-motion'
-import {
-  Briefcase, MessageSquare, Globe, BarChart2,
-  Zap, Calendar, Home
-} from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card"
+import { MessageSquare, Globe, BarChart2, Home, LucideIcon } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card"
 import { Button } from "./components/ui/button"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip"
+import { Tooltip } from "./components/ui/tooltip"
 import { Progress } from "./components/ui/progress"
 import { Badge } from "./components/ui/badge"
 import ErrorBoundary from './components/ErrorBoundary'
 
-const API_BASE_URL = 'http://localhost:5000/api'; // Update this with the correct backend URL
+// TODO: Move this to an environment variable
+const API_BASE_URL = 'http://localhost:5000/api';
 
 interface Stats {
   applications_sent: number;
@@ -21,7 +19,13 @@ interface Stats {
   offers_received: number;
 }
 
-export default function Dashboard() {
+interface NavItem {
+  id: string;
+  icon: LucideIcon;
+  label: string;
+}
+
+const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
   const [stats, setStats] = useState<Stats>({
     applications_sent: 0,
     interviews_scheduled: 0,
@@ -32,56 +36,69 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
-    setIsLoading(true)
-    setError(null)
-    fetch(`${API_BASE_URL}/stats`)
-      .then(response => {
+    const fetchStats = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await fetch(`${API_BASE_URL}/stats`);
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json()
-      })
-      .then(data => {
+        const data = await response.json();
         if (data.status === 'success') {
           setStats(data.stats);
         } else {
-          throw new Error('Data fetch was not successful')
+          throw new Error('Data fetch was not successful');
         }
-      })
-      .catch(error => {
-        console.error('Error fetching stats:', error);
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error fetching stats:', errorMessage);
+        }
         setError('Failed to load dashboard data. Please try again later.');
-      })
-      .finally(() => {
+      } finally {
         setIsLoading(false);
-      });
+      }
+    };
+    fetchStats();
   }, []);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { id: 'dashboard', icon: Home, label: 'Dashboard' },
     { id: 'chat', icon: MessageSquare, label: 'Chat' },
     { id: 'browser', icon: Globe, label: 'Job Browser' },
     { id: 'analytics', icon: BarChart2, label: 'Analytics' },
-  ]
+  ];
 
-  console.log('Stats:', stats);
-  console.log('Is Loading:', isLoading);
-  console.log('Error:', error);
+  const renderStatCard = (title: string, value: number) => (
+    <Card>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-4xl font-bold">{value}</p>
+      </CardContent>
+    </Card>
+  );
+
+  const handleRetry = () => {
+    window.location.reload();
+  };
 
   return (
     <ErrorBoundary>
       <div className="flex h-screen bg-gray-100">
         <nav className="w-16 bg-white border-r border-gray-200">
           {navItems.map((item) => (
-            <Tooltip key={item.id} label={item.label}>
+            <Tooltip key={item.id} content={item.label}>
               <Button
                 variant={activeTab === item.id ? "default" : "ghost"}
                 size="icon"
                 onClick={() => setActiveTab(item.id)}
                 aria-label={item.label}
-                className={activeTab === item.id ? "bg-[#6366F1] text-white" : "text-gray-600 hover:text-[#6366F1]"}
+                className={`w-full h-16 ${activeTab === item.id ? "bg-[#6366F1] text-white" : "text-gray-600 hover:text-[#6366F1]"}`}
               >
-                <item.icon className="h-5 w-5" />
+                <item.icon className="h-6 w-6" />
               </Button>
             </Tooltip>
           ))}
@@ -103,34 +120,16 @@ export default function Dashboard() {
                 ) : error ? (
                   <div className="text-center text-red-500 py-8">
                     <p className="text-xl">{error}</p>
+                    <Button onClick={handleRetry} className="mt-4">
+                      Retry
+                    </Button>
                   </div>
                 ) : (
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Total Applications</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-4xl font-bold">{stats.applications_sent}</p>
-                        </CardContent>
-                      </Card>
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Interviews Scheduled</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-4xl font-bold">{stats.interviews_scheduled}</p>
-                        </CardContent>
-                      </Card>
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Offers Received</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-4xl font-bold">{stats.offers_received}</p>
-                        </CardContent>
-                      </Card>
+                      {renderStatCard("Total Applications", stats.applications_sent)}
+                      {renderStatCard("Interviews Scheduled", stats.interviews_scheduled)}
+                      {renderStatCard("Offers Received", stats.offers_received)}
                     </div>
                     <Card className="mb-6">
                       <CardHeader>
@@ -164,10 +163,12 @@ export default function Dashboard() {
                 )}
               </motion.div>
             )}
-            {/* Add other tab content here */}
+            {/* TODO: Add other tab content here */}
           </div>
         </main>
       </div>
     </ErrorBoundary>
-  )
-}
+  );
+};
+
+export default Dashboard;
