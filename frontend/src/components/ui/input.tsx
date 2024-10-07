@@ -1,11 +1,7 @@
 import * as React from "react"
 import { Input as ChakraInput, InputProps as ChakraInputProps } from "@chakra-ui/react"
 
-export interface InputProps extends ChakraInputProps {
-  // Add any additional props here if needed
-}
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = React.forwardRef<HTMLInputElement, ChakraInputProps>(
   (props, ref) => {
     return (
       <ChakraInput
@@ -19,3 +15,4 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input"
 
 export { Input }
+export type { ChakraInputProps as InputProps }
