@@ -3,19 +3,19 @@
 // This is also needed
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Briefcase, MessageSquare, Globe, BarChart2, 
+import {
+  Briefcase, MessageSquare, Globe, BarChart2,
   Zap, Calendar, User, Home, Settings, HelpCircle, LogOut,
   Search, ChevronLeft, ChevronRight, RotateCcw, CheckCircle, Clock, XCircle,
   Edit, GraduationCap, Award
 } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card"
+import { Button } from "./components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip"
+import { Progress } from "./components/ui/progress"
+import { Badge } from "./components/ui/badge"
+import { Input } from "./components/ui/input"
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -100,18 +100,17 @@ export default function Dashboard() {
         <TooltipProvider>
           {navItems.map((item) => (
             <Tooltip key={item.id}>
-              <TooltipTrigger asChild>
+              <TooltipTrigger>
                 <Button
                   variant={activeTab === item.id ? "default" : "ghost"}
                   size="icon"
                   onClick={() => setActiveTab(item.id)}
-                  aria-label={item.label}
-                  className={activeTab === item.id ? "bg-[#6366F1] text-white" : "text-gray-600 hover:text-[#6366F1]"}
+                  className="relative flex items-center justify-center rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <item.icon className="h-5 w-5" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="right">
+              <TooltipContent>
                 <p>{item.label}</p>
               </TooltipContent>
             </Tooltip>
@@ -304,7 +303,7 @@ export default function Dashboard() {
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="flex flex-col items-center">
                       <Avatar className="h-24 w-24 mb-4">
-                        <AvatarImage src="/placeholder-avatar.jpg" alt={userProfile.name} />
+                        <AvatarImage src="/placeholder-avatar.jpg" />
                         <AvatarFallback>{userProfile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <h3 className="text-lg font-semibold text-gray-800">{userProfile.name}</h3>
