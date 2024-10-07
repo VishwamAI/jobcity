@@ -16,8 +16,8 @@ const TooltipProvider = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>
 }
 
-const TooltipTrigger = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement> & { asChild?: boolean }>(
-  ({ children, asChild, ...props }, ref) => {
+const TooltipTrigger = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+  ({ children, ...props }, ref) => {
     const childArray = React.Children.toArray(children);
     if (childArray.length === 0) {
       return null;

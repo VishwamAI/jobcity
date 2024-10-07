@@ -1,9 +1,5 @@
 import * as React from "react"
-import { Badge as ChakraBadge, BadgeProps as ChakraBadgeProps } from "@chakra-ui/react"
-
-export interface BadgeProps extends ChakraBadgeProps {
-  // Add any additional props here if needed
-}
+import { Badge as ChakraBadge, BadgeProps } from "@chakra-ui/react"
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
   (props, ref) => {
@@ -19,3 +15,4 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
 Badge.displayName = "Badge"
 
 export { Badge }
+export type { BadgeProps }
