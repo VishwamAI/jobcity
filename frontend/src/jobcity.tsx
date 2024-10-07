@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Briefcase, Code, Brain, Rocket, Smartphone, Search, ChevronDown, Menu, X } from 'lucide-react'
 

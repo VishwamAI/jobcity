@@ -4,7 +4,16 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "es2015",
+      "es2016",
+      "es2017",
+      "es2018",
+      "es2019",
+      "es2020",
+      "es2021",
+      "scripthost",
+      "webworker"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,10 +27,25 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "baseUrl": "src"
+    "jsx": "react-jsx",
+    "baseUrl": "src",
+    "types": [
+      "jest",
+      "@testing-library/jest-dom",
+      "node",
+      "react",
+      "react-dom"
+    ],
+    "typeRoots": ["./node_modules/@types", "./src/types", "./src"],
+    "paths": {
+      "*": ["*", "src/*"]
+    }
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/global.d.ts"
+  ],
+  "files": ["src/global.d.ts"]
 }

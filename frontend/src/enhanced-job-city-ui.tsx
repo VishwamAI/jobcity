@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Briefcase, Code, Brain, Rocket, Smartphone, Search, ChevronDown, Menu, X } from 'lucide-react'
+import { Briefcase, Code, Brain, Rocket, Smartphone, ChevronDown, Menu, X } from 'lucide-react'
 
 interface FeatureCardProps {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;

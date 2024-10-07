@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, HTMLAttributes } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { MessageSquare, Globe, BarChart2, Home, LucideIcon } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card"
@@ -25,7 +25,7 @@ interface NavItem {
   label: string;
 }
 
-const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
+const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<Stats>({
     applications_sent: 0,
     interviews_scheduled: 0,
@@ -40,7 +40,7 @@ const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await fetch(`${API_BASE_URL}/stats`);
+        const response = await globalThis.fetch(`${API_BASE_URL}/stats`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -52,8 +52,8 @@ const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
         }
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error fetching stats:', errorMessage);
+        if (typeof globalThis !== 'undefined') {
+          globalThis.console.error('Error fetching stats:', errorMessage);
         }
         setError('Failed to load dashboard data. Please try again later.');
       } finally {
@@ -82,7 +82,9 @@ const Dashboard: React.FC<HTMLAttributes<HTMLDivElement>> = () => {
   );
 
   const handleRetry = () => {
-    window.location.reload();
+    if (typeof globalThis !== 'undefined') {
+      globalThis.location.reload();
+    }
   };
 
   return (
