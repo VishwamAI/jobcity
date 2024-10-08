@@ -313,7 +313,7 @@ export default function LandingPage() {
                 <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
                 <div className="relative pl-8 md:pl-16 text-center">
                   <h3 className="text-lg font-semibold text-indigo-600 mb-1 ml-[10px] ">
-                    2023
+                    2024
                   </h3>
                   <h4 className="text-xl font-bold text-gray-900 mb-2 ml-[84px]">
                     MVP Launch
@@ -330,7 +330,7 @@ export default function LandingPage() {
                 <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
                 <div className="relative pr-8 md:pr-16 text-center">
                   <h3 className="text-lg font-semibold text-indigo-600 mb-1 mr-[10px]">
-                    2024
+                    2025
                   </h3>
                   <h4 className="text-xl font-bold text-gray-900 mb-2 mr-[108px]">
                     AI Enhancement
@@ -350,7 +350,7 @@ export default function LandingPage() {
                 <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
                 <div className="relative pl-8 md:pl-16 text-center">
                   <h3 className="text-lg font-semibold text-indigo-600 mb-1 ml-[10px] ">
-                    2025
+                    2026
                   </h3>
                   <h4 className="text-xl font-bold text-gray-900 mb-2 ml-[125px]">
                     Global Expansion
