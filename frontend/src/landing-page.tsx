@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Briefcase,
@@ -86,6 +86,30 @@ const ResearchArea: React.FC<ResearchAreaProps> = ({
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  useEffect(() => {
+    document.documentElement.classList.add("smooth-scroll");
+    return () => {
+      document.documentElement.classList.remove("smooth-scroll");
+    };
+  }, []);
+
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    targetId: string
+  ) => {
+    e.preventDefault();
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      const yOffset = -80;
+      const y =
+        targetElement.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+    setIsMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
       <header className="bg-white shadow-sm sticky top-0 z-10">
@@ -98,30 +122,35 @@ export default function LandingPage() {
             <div className="hidden md:flex space-x-8 items-center">
               <a
                 href="#features"
+                onClick={(e) => handleNavClick(e, "features")}
                 className="text-gray-600 hover:text-indigo-600 transition duration-150"
               >
                 Features
               </a>
               <a
                 href="#research"
+                onClick={(e) => handleNavClick(e, "research")}
                 className="text-gray-600 hover:text-indigo-600 transition duration-150"
               >
                 Research
               </a>
               <a
                 href="#development"
+                onClick={(e) => handleNavClick(e, "development")}
                 className="text-gray-600 hover:text-indigo-600 transition duration-150"
               >
                 Development
               </a>
               <a
                 href="#about-us"
+                onClick={(e) => handleNavClick(e, "about-us")}
                 className="text-gray-600 hover:text-indigo-600 transition duration-150"
               >
                 About Us
               </a>
               <a
                 href="#contact-us"
+                onClick={(e) => handleNavClick(e, "contact-us")}
                 className="text-gray-600 hover:text-indigo-600 transition duration-150"
               >
                 Contact
@@ -151,30 +180,35 @@ export default function LandingPage() {
             <div className="md:hidden mt-4 bg-white rounded-lg shadow-lg">
               <a
                 href="#features"
+                onClick={(e) => handleNavClick(e, "features")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
               >
                 Features
               </a>
               <a
                 href="#research"
+                onClick={(e) => handleNavClick(e, "research")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
               >
                 Research
               </a>
               <a
                 href="#development"
+                onClick={(e) => handleNavClick(e, "development")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
               >
                 Development
               </a>
               <a
                 href="#"
+                onClick={(e) => handleNavClick(e, "about-us")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
               >
                 About Us
               </a>
               <a
                 href="#"
+                onClick={(e) => handleNavClick(e, "contact-us")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
               >
                 Contact
