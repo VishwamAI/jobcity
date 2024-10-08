@@ -1,14 +1,16 @@
 {
   "name": "frontend",
   "version": "0.1.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "private": true,
   "dependencies": {
     "@chakra-ui/accordion": "^2.3.1",
     "@chakra-ui/react": "^2.10.1",
     "@chakra-ui/utils": "^2.2.1",
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "@emotion/utils": "^1.4.1",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
@@ -25,13 +27,9 @@
     "web-vitals": "^3.5.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts --openssl-legacy-provider build",
-    "test": "jest --config=jest.config.js",
-    "test:ci": "jest --config=jest.config.js --ci --runInBand --reporters=default --reporters=jest-junit",
-    "test:e2e": "cypress run --headless",
-    "test:component": "cypress run --component",
-    "test:all": "npm run test:ci && npm run test:e2e && npm run test:component",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "type-check": "tsc --noEmit"
@@ -67,7 +65,7 @@
     "@babel/preset-react": "^7.23.3",
     "@eslint/js": "^8.56.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
-    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.0.3",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/dom": "^9.3.4",
@@ -87,6 +85,7 @@
     "color-name": "^2.0.0",
     "cookie": "^0.7.1",
     "css-select": "^5.1.0",
+    "customize-cra": "^1.0.0",
     "cypress": "^13.6.3",
     "dequal": "^2.0.3",
     "eslint": "^8.56.0",
@@ -100,6 +99,8 @@
     "postcss-loader": "^8.0.0",
     "postcss-normalize": "^10.0.1",
     "postcss-preset-env": "^9.3.0",
+    "react-app-rewired": "^2.2.1",
+    "react-refresh": "^0.14.2",
     "react-scripts": "^5.0.1",
     "resolve-url-loader": "^5.0.0",
     "semver": "^7.6.0",

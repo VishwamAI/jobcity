@@ -1,47 +1,18 @@
 "use client"
 
-import React, { useState, ReactNode } from 'react'
-import { motion } from 'framer-motion'
+import React, { useState } from 'react'
 import {
-  Briefcase, MessageSquare, Globe, BarChart2,
-  Zap, Calendar, User, Home, Settings, HelpCircle, LogOut,
-  Search, ChevronLeft, ChevronRight, RotateCcw, Edit
+  Briefcase, User, Settings, HelpCircle, LogOut,
+  Home, MessageSquare, Globe, CheckCircle, Clock, XCircle
 } from 'lucide-react'
+import { Button } from "./components/ui/button"
+import { Tooltip, TooltipProvider } from "./components/ui/tooltip"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card"
-import { Button, ButtonProps } from "./components/ui/button"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip"
-import { Input } from "./components/ui/input"
-
-// Add type definitions
-interface Interview {
-  id: number;
-  company: string;
-  date: string;
-  time: string;
-}
-
-interface NavItem {
-  id: string;
-  icon: React.ElementType;
-  label: string;
-}
-
-interface ExtendedButtonProps extends ButtonProps {
-  children: ReactNode;
-}
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState<string>('dashboard')
-  const [isEditing, setIsEditing] = useState<boolean>(false)
-  const [url, setUrl] = useState<string>('https://job-city.com/auto-apply')
+  const [activeTab, setActiveTab] = useState('dashboard')
 
-  const interviews: Interview[] = [
-    { id: 1, company: "TechCorp", date: "2023-06-15", time: "14:00" },
-    { id: 2, company: "InnoSoft", date: "2023-06-17", time: "10:30" },
-    { id: 3, company: "DataDynamics", date: "2023-06-20", time: "15:45" },
-  ]
-
-  const navItems: NavItem[] = [
+  const navItems = [
     { id: 'dashboard', icon: Home, label: 'Dashboard' },
     { id: 'chat', icon: MessageSquare, label: 'Chat' },
     { id: 'browser', icon: Globe, label: 'Job Browser' },
@@ -51,184 +22,147 @@ export default function Dashboard() {
     { id: 'logout', icon: LogOut, label: 'Logout' },
   ]
 
-const ButtonWrapper: React.FC<ExtendedButtonProps> = ({ children, ...props }) => (
-  <Button {...props}>{children}</Button>
-)
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'applied':
+        return <CheckCircle className="h-5 w-5 text-green-500" />;
+      case 'processing':
+        return <Clock className="h-5 w-5 text-yellow-500" />;
+      case 'rejected':
+        return <XCircle className="h-5 w-5 text-red-500" />;
+      case 'pending':
+        return <Clock className="h-5 w-5 text-blue-500" />;
+      default:
+        return null;
+    }
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'applied':
+        return 'Applied';
+      case 'processing':
+        return 'Processing';
+      case 'rejected':
+        return 'Rejected';
+      case 'pending':
+        return 'Pending';
+      default:
+        return '';
+    }
+  }
+
+  const recentApplications = [
+    { company: 'TechCorp', position: 'Software Engineer', status: 'Applied', date: '2024-03-01' },
+    { company: 'DataInc', position: 'Data Analyst', status: 'Pending', date: '2024-02-28' },
+    { company: 'WebSolutions', position: 'Frontend Developer', status: 'Rejected', date: '2024-02-25' },
+  ]
+
+  const applicationStats = {
+    total: 10,
+    applied: 5,
+    pending: 3,
+    rejected: 2
+  }
+
+  const todoList = [
+    'Update resume',
+    'Prepare for TechCorp interview',
+    'Follow up on DataInc application',
+    'Research WebSolutions company culture'
+  ]
+
   return (
     <div className="min-h-screen bg-[#F0F4FF] flex">
       <nav className="bg-white shadow-sm p-4 flex flex-col items-center space-y-4 w-16">
         <Briefcase className="h-8 w-8 text-[#6366F1] mb-4" />
         <TooltipProvider>
           {navItems.map((item) => (
-            <Tooltip key={item.id}>
-              <TooltipTrigger>
-                <ButtonWrapper
-                  variant={activeTab === item.id ? "default" : "ghost"}
-                  size="icon"
-                  onClick={() => setActiveTab(item.id)}
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span className="sr-only">{item.label}</span>
-                </ButtonWrapper>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{item.label}</p>
-              </TooltipContent>
+            <Tooltip key={item.id} label={item.label}>
+              <Button
+                variant={activeTab === item.id ? "default" : "ghost"}
+                size="icon"
+                onClick={() => setActiveTab(item.id)}
+                aria-label={item.label}
+                className={activeTab === item.id ? "bg-[#6366F1] text-white" : "text-gray-600 hover:text-[#6366F1]"}
+              >
+                <item.icon className="h-5 w-5" />
+              </Button>
             </Tooltip>
           ))}
         </TooltipProvider>
       </nav>
-
-      <main className="flex-1 p-6 overflow-auto">
-        <div className="max-w-4xl mx-auto">
-          {activeTab === 'dashboard' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <Card className="mb-6 bg-white">
-                <CardHeader>
-                  <CardTitle className="text-[#6366F1]">Application Statistics</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <Card className="bg-white">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600">
-                          Auto-Applied Jobs
-                        </CardTitle>
-                        <Zap className="h-4 w-4 text-[#6366F1]" />
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold text-[#6366F1]">28</div>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-white">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600">
-                          Success Rate
-                        </CardTitle>
-                        <BarChart2 className="h-4 w-4 text-[#6366F1]" />
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold text-[#6366F1]">68%</div>
-                      </CardContent>
-                    </Card>
-                    <Card className="bg-white">
-                      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-gray-600">
-                          Upcoming Interviews
-                        </CardTitle>
-                        <Calendar className="h-4 w-4 text-[#6366F1]" />
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold text-[#6366F1]">{interviews.length}</div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="bg-white">
-                <CardHeader>
-                  <CardTitle className="text-[#6366F1]">Upcoming Interviews</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {interviews.map((interview) => (
-                      <Card key={interview.id} className="bg-white">
-                        <CardHeader>
-                          <CardTitle className="text-gray-800">{interview.company}</CardTitle>
-                          <CardDescription className="text-gray-600">
-                            {new Date(`${interview.date}T${interview.time}`).toLocaleString()}
-                          </CardDescription>
-                        </CardHeader>
-                      </Card>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-
-          {activeTab === 'chat' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card className="bg-white">
-                <CardHeader>
-                  <CardTitle className="text-[#6366F1]">Chat</CardTitle>
-                  <CardDescription className="text-gray-600">Chat with our AI assistant about job opportunities</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[400px] flex items-center justify-center border-2 border-dashed border-[#6366F1] rounded-lg">
-                    <p className="text-gray-500">Chat interface goes here</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-
-          {activeTab === 'browser' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <Card className="bg-white">
-                <CardHeader>
-                  <CardTitle className="text-[#6366F1]">Job Browser</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center space-x-2 mb-4">
-                    <ButtonWrapper variant="ghost" size="icon">
-                      <ChevronLeft className="h-4 w-4" />
-                    </ButtonWrapper>
-                    <ButtonWrapper variant="ghost" size="icon">
-                      <ChevronRight className="h-4 w-4" />
-                    </ButtonWrapper>
-                    <ButtonWrapper variant="ghost" size="icon">
-                      <RotateCcw className="h-4 w-4" />
-                    </ButtonWrapper>
-                    <div className="flex-grow relative">
-                      <Input
-                        type="text"
-                        placeholder="Search jobs..."
-                        value={url}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
-                        className="w-full pr-8"
-                      />
-                      <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+      <main className="flex-1 p-8 overflow-y-auto">
+        <h1 className="text-3xl font-bold mb-8">Job Application Dashboard</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Recent Applications Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Applications</CardTitle>
+              <CardDescription>Your latest job applications</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-4">
+                {recentApplications.map((app, index) => (
+                  <li key={index} className="flex items-center justify-between">
+                    <div>
+                      <p className="font-semibold">{app.company}</p>
+                      <p className="text-sm text-gray-500">{app.position}</p>
                     </div>
-                  </div>
-                  {/* ... (existing job listings) */}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
+                    <div className="flex items-center">
+                      {getStatusIcon(app.status.toLowerCase())}
+                      <span className={`ml-2 text-sm ${getStatusText(app.status.toLowerCase())}`}>{app.status}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
 
-          {activeTab === 'profile' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <Card className="bg-white">
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-[#6366F1]">Your Profile</CardTitle>
-                  <ButtonWrapper
-                    variant="outline"
-                    onClick={() => setIsEditing(!isEditing)}
-                  >
-                    {isEditing ? 'Save' : 'Edit'} <Edit className="ml-2 h-4 w-4" />
-                  </ButtonWrapper>
-                </CardHeader>
-                <CardContent>
-                  {/* ... (existing profile content) */}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
+          {/* Application Statistics Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Application Statistics</CardTitle>
+              <CardDescription>Overview of your job applications</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm font-semibold mb-1">Total Applications</p>
+                  <div style={{ width: `${(applicationStats.applied / applicationStats.total) * 100}%`, height: '8px', backgroundColor: '#6366F1' }} className="rounded-full" />
+                  <p className="text-sm text-gray-500 mt-1">{applicationStats.applied} of {applicationStats.total}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold mb-1">Pending</p>
+                  <div style={{ width: `${(applicationStats.pending / applicationStats.total) * 100}%`, height: '8px', backgroundColor: '#6366F1' }} className="rounded-full" />
+                  <p className="text-sm text-gray-500 mt-1">{applicationStats.pending} of {applicationStats.total}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold mb-1">Rejected</p>
+                  <div style={{ width: `${(applicationStats.rejected / applicationStats.total) * 100}%`, height: '8px', backgroundColor: '#6366F1' }} className="rounded-full" />
+                  <p className="text-sm text-gray-500 mt-1">{applicationStats.rejected} of {applicationStats.total}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* To-Do List Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>To-Do List</CardTitle>
+              <CardDescription>Tasks to complete</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {todoList.map((task, index) => (
+                  <li key={index} className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-sm">{task}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
