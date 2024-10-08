@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Home, MessageSquare, Briefcase, User, BarChart2, Activity, Calendar, CheckCircle } from 'lucide-react';
+import { Home, MessageSquare, Briefcase, User, BarChart2, Activity, Calendar, CheckCircle, Zap } from 'lucide-react';
 import {
   Box, Flex, IconButton, Tooltip, useMediaQuery, Heading, Text, SimpleGrid, Progress,
-  List, ListItem, ListIcon, Button, Input, Checkbox, CheckboxProps, TooltipProps
+  List, ListItem, ListIcon, Button, Input, Checkbox, CheckboxProps, TooltipProps,
+  VStack, HStack, Icon, Grid
 } from '@chakra-ui/react';
 
 // Add Todo and NavItem interfaces
@@ -47,71 +48,64 @@ const Dashboard: React.FC = () => {
         return (
           <Box>
             <Heading as="h1" size="xl" mb={6}>Welcome back, User!</Heading>
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-              {/* Job Application Stats */}
+            <Grid templateColumns="repeat(2, 1fr)" gap={8} mb={8}>
+              {/* Application Statistics */}
               <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-                <Heading as="h2" size="md" mb={4}>Job Application Stats</Heading>
-                <List spacing={3}>
-                  <ListItem>
-                    <Flex justify="space-between">
-                      <Text>Applications Sent</Text>
-                      <Text fontWeight="bold">28</Text>
-                    </Flex>
-                  </ListItem>
-                  <ListItem>
-                    <Flex justify="space-between">
-                      <Text>Interviews Scheduled</Text>
-                      <Text fontWeight="bold">3</Text>
-                    </Flex>
-                  </ListItem>
-                  <ListItem>
-                    <Flex justify="space-between">
-                      <Text>Offers Received</Text>
-                      <Text fontWeight="bold">1</Text>
-                    </Flex>
-                  </ListItem>
-                </List>
-                <Text mt={4} mb={2}>Application Success Rate</Text>
-                <Progress value={68} colorScheme="green" borderRadius="full" />
-                <Text mt={2} textAlign="right" fontWeight="bold" color="green.500">68%</Text>
+                <Heading as="h2" size="md" mb={6} color="purple.500">Application Statistics</Heading>
+                <SimpleGrid columns={3} spacing={6}>
+                  <VStack align="start" spacing={2}>
+                    <Icon as={Zap} color="purple.500" boxSize={10} />
+                    <Text fontSize="sm" color="gray.500">Auto-Applied Jobs</Text>
+                    <Text fontSize="4xl" fontWeight="bold" color="purple.500">28</Text>
+                  </VStack>
+                  <VStack align="start" spacing={2}>
+                    <Icon as={BarChart2} color="purple.500" boxSize={10} />
+                    <Text fontSize="sm" color="gray.500">Success Rate</Text>
+                    <Text fontSize="4xl" fontWeight="bold" color="purple.500">68%</Text>
+                  </VStack>
+                  <VStack align="start" spacing={2}>
+                    <Icon as={Calendar} color="purple.500" boxSize={10} />
+                    <Text fontSize="sm" color="gray.500">Upcoming Interviews</Text>
+                    <Text fontSize="4xl" fontWeight="bold" color="purple.500">3</Text>
+                  </VStack>
+                </SimpleGrid>
               </Box>
               {/* Upcoming Interviews */}
               <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-                <Heading as="h2" size="md" mb={4}>Upcoming Interviews</Heading>
-                <List spacing={3}>
-                  <ListItem>
-                    <ListIcon as={Calendar} color="green.500" />
-                    <Text as="span" fontWeight="bold">TechCorp</Text> - Software Engineer (May 15, 2023)
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={Calendar} color="green.500" />
-                    <Text as="span" fontWeight="bold">InnoSoft</Text> - Full Stack Developer (May 18, 2023)
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={Calendar} color="green.500" />
-                    <Text as="span" fontWeight="bold">DataDynamics</Text> - Data Scientist (May 22, 2023)
-                  </ListItem>
-                </List>
-              </Box>
-              {/* Todo List */}
-              <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
-                <Heading as="h2" size="md" mb={4}>Todo List</Heading>
-                <List spacing={3}>
-                  {todos.map((todo: Todo) => (
-                    <ListItem key={todo.id}>
-                      <Checkbox
-                        isChecked={todo.completed}
-                        onChange={() => toggleTodo(todo.id)}
-                        colorScheme="green"
-                      >
-                        <Text as={todo.completed ? 's' : 'span'}>{todo.text}</Text>
-                      </Checkbox>
-                    </ListItem>
+                <Heading as="h2" size="md" mb={6} color="purple.500">Upcoming Interviews</Heading>
+                <VStack align="stretch" spacing={4}>
+                  {[
+                    { company: 'TechCorp', date: '15/06/2023', time: '14:00:00' },
+                    { company: 'InnoSoft', date: '17/06/2023', time: '10:30:00' },
+                    { company: 'DataDynamics', date: '20/06/2023', time: '15:45:00' },
+                  ].map((interview, index) => (
+                    <Box key={index} bg="white" p={4} borderRadius="md" boxShadow="sm">
+                      <Text fontWeight="bold" fontSize="lg">{interview.company}</Text>
+                      <Text fontSize="sm" color="gray.500">{`${interview.date}, ${interview.time}`}</Text>
+                    </Box>
                   ))}
-                </List>
-                <Button mt={4} colorScheme="blue" size="sm">Add Todo</Button>
+                </VStack>
               </Box>
-            </SimpleGrid>
+            </Grid>
+            {/* Todo List */}
+            <Box bg="white" p={6} borderRadius="lg" boxShadow="md">
+              <Heading as="h2" size="md" mb={6} color="purple.500">Todo List</Heading>
+              <VStack align="stretch" spacing={3}>
+                {todos.map((todo: Todo) => (
+                  <HStack key={todo.id} spacing={4}>
+                    <Checkbox
+                      isChecked={todo.completed}
+                      onChange={() => toggleTodo(todo.id)}
+                      colorScheme="purple"
+                      size="lg"
+                    >
+                      <Text as={todo.completed ? 's' : 'span'} fontSize="md">{todo.text}</Text>
+                    </Checkbox>
+                  </HStack>
+                ))}
+              </VStack>
+              <Button mt={6} colorScheme="purple" size="sm">Add Todo</Button>
+            </Box>
           </Box>
         );
       case 'chat':
@@ -126,7 +120,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <Flex direction={isMobile ? 'column' : 'row'} h="100vh" bg="gray.50">
+    <Flex direction={isMobile ? 'column' : 'row'} h="100vh" bg="gray.100">
       <Flex
         as="nav"
         direction={isMobile ? 'row' : 'column'}
@@ -144,7 +138,7 @@ const Dashboard: React.FC = () => {
               icon={<item.icon />}
               onClick={() => setActiveTab(item.id)}
               variant={activeTab === item.id ? 'solid' : 'ghost'}
-              colorScheme={activeTab === item.id ? 'blue' : 'gray'}
+              colorScheme={activeTab === item.id ? 'purple' : 'gray'}
               size="lg"
               mb={isMobile ? 0 : 4}
             />
