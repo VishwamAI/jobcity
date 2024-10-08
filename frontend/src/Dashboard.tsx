@@ -1,19 +1,16 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import {
-  Briefcase, MessageSquare, Globe, BarChart2,
-  Zap, Calendar, Home
-} from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card"
-import { Button } from "./components/ui/button"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./components/ui/tooltip"
-import { Progress } from "./components/ui/progress"
-import { Badge } from "./components/ui/badge"
-import ErrorBoundary from './components/ErrorBoundary'
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { MessageSquare, Globe, BarChart2, Home } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
+import { Button } from "./components/ui/button";
+import { Tooltip } from "./components/ui/tooltip";
+import { Progress } from "./components/ui/progress";
+import { Badge } from "./components/ui/badge";
+import ErrorBoundary from "./components/ErrorBoundary";
 
-const API_BASE_URL = 'http://localhost:5000/api'; // Update this with the correct backend URL
+const API_BASE_URL = "http://localhost:5000/api"; // Update this with the correct backend URL
 
 interface Stats {
   applications_sent: number;
@@ -25,32 +22,32 @@ export default function Dashboard() {
   const [stats, setStats] = useState<Stats>({
     applications_sent: 0,
     interviews_scheduled: 0,
-    offers_received: 0
+    offers_received: 0,
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   useEffect(() => {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
     fetch(`${API_BASE_URL}/stats`)
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          throw new Error("Network response was not ok");
         }
-        return response.json()
+        return response.json();
       })
-      .then(data => {
-        if (data.status === 'success') {
+      .then((data) => {
+        if (data.status === "success") {
           setStats(data.stats);
         } else {
-          throw new Error('Data fetch was not successful')
+          throw new Error("Data fetch was not successful");
         }
       })
-      .catch(error => {
-        console.error('Error fetching stats:', error);
-        setError('Failed to load dashboard data. Please try again later.');
+      .catch((error) => {
+        console.error("Error fetching stats:", error);
+        setError("Failed to load dashboard data. Please try again later.");
       })
       .finally(() => {
         setIsLoading(false);
@@ -58,15 +55,15 @@ export default function Dashboard() {
   }, []);
 
   const navItems = [
-    { id: 'dashboard', icon: Home, label: 'Dashboard' },
-    { id: 'chat', icon: MessageSquare, label: 'Chat' },
-    { id: 'browser', icon: Globe, label: 'Job Browser' },
-    { id: 'analytics', icon: BarChart2, label: 'Analytics' },
-  ]
+    { id: "dashboard", icon: Home, label: "Dashboard" },
+    { id: "chat", icon: MessageSquare, label: "Chat" },
+    { id: "browser", icon: Globe, label: "Job Browser" },
+    { id: "analytics", icon: BarChart2, label: "Analytics" },
+  ];
 
-  console.log('Stats:', stats);
-  console.log('Is Loading:', isLoading);
-  console.log('Error:', error);
+  console.log("Stats:", stats);
+  console.log("Is Loading:", isLoading);
+  console.log("Error:", error);
 
   return (
     <ErrorBoundary>
@@ -79,7 +76,11 @@ export default function Dashboard() {
                 size="icon"
                 onClick={() => setActiveTab(item.id)}
                 aria-label={item.label}
-                className={activeTab === item.id ? "bg-[#6366F1] text-white" : "text-gray-600 hover:text-[#6366F1]"}
+                className={
+                  activeTab === item.id
+                    ? "bg-[#6366F1] text-white"
+                    : "text-gray-600 hover:text-[#6366F1]"
+                }
               >
                 <item.icon className="h-5 w-5" />
               </Button>
@@ -88,7 +89,7 @@ export default function Dashboard() {
         </nav>
         <main className="flex-1 p-8 overflow-auto">
           <div className="max-w-6xl mx-auto">
-            {activeTab === 'dashboard' && (
+            {activeTab === "dashboard" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -97,7 +98,9 @@ export default function Dashboard() {
                 <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
                 {isLoading ? (
                   <div className="text-center py-8">
-                    <p className="text-gray-600 text-xl">Loading dashboard data...</p>
+                    <p className="text-gray-600 text-xl">
+                      Loading dashboard data...
+                    </p>
                     <div className="mt-4 w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
                   </div>
                 ) : error ? (
@@ -112,7 +115,9 @@ export default function Dashboard() {
                           <CardTitle>Total Applications</CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <p className="text-4xl font-bold">{stats.applications_sent}</p>
+                          <p className="text-4xl font-bold">
+                            {stats.applications_sent}
+                          </p>
                         </CardContent>
                       </Card>
                       <Card>
@@ -120,7 +125,9 @@ export default function Dashboard() {
                           <CardTitle>Interviews Scheduled</CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <p className="text-4xl font-bold">{stats.interviews_scheduled}</p>
+                          <p className="text-4xl font-bold">
+                            {stats.interviews_scheduled}
+                          </p>
                         </CardContent>
                       </Card>
                       <Card>
@@ -128,7 +135,9 @@ export default function Dashboard() {
                           <CardTitle>Offers Received</CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <p className="text-4xl font-bold">{stats.offers_received}</p>
+                          <p className="text-4xl font-bold">
+                            {stats.offers_received}
+                          </p>
                         </CardContent>
                       </Card>
                     </div>
@@ -137,9 +146,18 @@ export default function Dashboard() {
                         <CardTitle>Application Progress</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <Progress value={Math.round((stats.interviews_scheduled / stats.applications_sent) * 100)} className="w-full" />
+                        <Progress
+                          value={Math.round(
+                            (stats.interviews_scheduled /
+                              stats.applications_sent) *
+                              100
+                          )}
+                          className="w-full"
+                        />
                         <p className="mt-2 text-sm text-gray-600">
-                          {stats.interviews_scheduled} out of {stats.applications_sent} applications have progressed to interviews
+                          {stats.interviews_scheduled} out of{" "}
+                          {stats.applications_sent} applications have progressed
+                          to interviews
                         </p>
                       </CardContent>
                     </Card>
@@ -151,11 +169,17 @@ export default function Dashboard() {
                         <ul className="space-y-4">
                           <li className="flex items-center">
                             <Badge className="mr-2">New</Badge>
-                            <span>Applied to Software Engineer position at TechCorp</span>
+                            <span>
+                              Applied to Software Engineer position at TechCorp
+                            </span>
                           </li>
                           <li className="flex items-center">
-                            <Badge variant="secondary" className="mr-2">Update</Badge>
-                            <span>Interview scheduled with InnoSoft for next week</span>
+                            <Badge variant="secondary" className="mr-2">
+                              Update
+                            </Badge>
+                            <span>
+                              Interview scheduled with InnoSoft for next week
+                            </span>
                           </li>
                         </ul>
                       </CardContent>
@@ -169,5 +193,5 @@ export default function Dashboard() {
         </main>
       </div>
     </ErrorBoundary>
-  )
+  );
 }
