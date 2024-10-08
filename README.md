@@ -67,7 +67,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 - **Feder-cr Team**: For their foundational work on the Auto Jobs Applier AIHawk project, which inspired key functionalities in Job-City.
 - **Hacktoberfest Contributors**: For their participation and contributions that enhance the project.
 - **Cognition Team of Devin AI**: For their collaboration and support throughout the development process.
-
+- **OpenAI**: For improving mechanisms we are improve our self with our models and developments 
 ---
 
 ## License
