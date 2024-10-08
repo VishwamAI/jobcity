@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
   Box, Checkbox, Flex, Heading, HStack, Icon,
-  SimpleGrid, Text, VStack, IconButton, Tooltip, useMediaQuery,
+  SimpleGrid, Text, VStack, IconButton, useMediaQuery,
   Spacer
 } from '@chakra-ui/react';
-import { FiHome, FiMessageSquare, FiBriefcase, FiUser, FiMoon, FiLogOut, FiBarChart2, FiCalendar, FiSettings, FiHelpCircle, FiEdit, FiZap } from 'react-icons/fi';
+import { FiHome, FiMessageSquare, FiBriefcase, FiUser, FiSettings, FiHelpCircle, FiLogOut, FiMoon, FiSun, FiBarChart2, FiCalendar, FiEdit, FiZap } from 'react-icons/fi';
 
 interface Todo {
   id: number;
@@ -29,14 +29,15 @@ const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const navItems: NavItem[] = [
-    { id: 'dashboard', icon: FiHome, label: 'Dashboard' },
-    { id: 'chat', icon: FiMessageSquare, label: 'Chat' },
-    { id: 'jobs', icon: FiBriefcase, label: 'Job Browser' },
-    { id: 'profile', icon: FiUser, label: 'Profile' },
-    { id: 'settings', icon: FiSettings, label: 'Settings' },
-    { id: 'help', icon: FiHelpCircle, label: 'Help' },
+    { id: 'dashboard', label: 'Dashboard', icon: FiHome },
+    { id: 'chat', label: 'Chat', icon: FiMessageSquare },
+    { id: 'jobBrowser', label: 'Job Browser', icon: FiBriefcase },
+    { id: 'profile', label: 'Profile', icon: FiUser },
+    { id: 'settings', label: 'Settings', icon: FiSettings },
+    { id: 'help', label: 'Help', icon: FiHelpCircle },
   ];
 
   const toggleTodo = (id: number) => {
@@ -44,44 +45,60 @@ const Dashboard: React.FC = () => {
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     ));
   };
+
   return (
-    <Flex direction="column" h="100vh">
-      <Flex as="nav" bg="gray.800" py={3} px={6} alignItems="center" pl={6}>
-        {navItems.map((item) => (
+    <Flex direction="row" h="100vh">
+      <Flex
+        as="nav"
+        bg="#6B46C1"
+        w="80px"
+        flexDirection="column"
+        py={4}
+        color="white"
+        alignItems="center"
+      >
+        {navItems.map((item, index) => (
           <Flex
             key={item.id}
+            flexDirection="column"
             alignItems="center"
-            px={4}
+            justifyContent="center"
+            w="full"
             py={2}
+            mb={index === navItems.length - 1 ? 0 : 4}
             cursor="pointer"
-            bg={item.id === 'dashboard' ? "blue.600" : "transparent"}
-            color={item.id === 'dashboard' ? "white" : "gray.300"}
+            bg={activeTab === item.id ? "rgba(255,255,255,0.2)" : "transparent"}
+            _hover={{ bg: "rgba(255,255,255,0.1)" }}
             onClick={() => setActiveTab(item.id)}
-            _hover={item.id !== 'dashboard' ? { bg: "gray.700" } : {}}
-            mr={5}
           >
-            <Icon as={item.icon} boxSize={6} mr={3} />
-            <Text fontWeight={item.id === 'dashboard' ? "semibold" : "normal"} fontSize="14px">{item.label}</Text>
+            <Icon as={item.icon} boxSize={7} color="white" />
           </Flex>
         ))}
         <Spacer />
-        <IconButton
-          aria-label="Toggle Dark Mode"
-          icon={<Icon as={FiMoon} boxSize={6} />}
-          onClick={() => {/* Implement dark mode toggle */}}
-          variant="ghost"
-          color="gray.300"
-          _hover={{ bg: "gray.700" }}
-          mr={3}
-        />
-        <IconButton
-          aria-label="Logout"
-          icon={<Icon as={FiLogOut} boxSize={6} />}
-          onClick={() => {/* Implement logout */}}
-          variant="ghost"
-          color="gray.300"
-          _hover={{ bg: "gray.700" }}
-        />
+        <Flex
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          w="full"
+          py={2}
+          mb={4}
+          cursor="pointer"
+          _hover={{ bg: "rgba(255,255,255,0.1)" }}
+        >
+          <Icon as={FiLogOut} boxSize={7} color="white" />
+        </Flex>
+        <Flex
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          w="full"
+          py={2}
+          cursor="pointer"
+          _hover={{ bg: "rgba(255,255,255,0.1)" }}
+          onClick={() => setIsDarkMode(!isDarkMode)}
+        >
+          <Icon as={isDarkMode ? FiSun : FiMoon} boxSize={7} color="white" />
+        </Flex>
       </Flex>
       <Box flex="1" p={8} bg="gray.50" overflowY="auto">
         <SimpleGrid columns={isMobile ? 1 : 2} spacing={8} mb={8}>
