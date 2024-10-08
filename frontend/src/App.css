@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
