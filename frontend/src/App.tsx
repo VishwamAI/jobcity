@@ -8,6 +8,7 @@ import Dashboard from './Dashboard'; // Import the Dashboard component
 import Chat from './Chat';
 import JobBrowser from './JobBrowser';
 import Profile from './Profile';
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/job-browser" element={<JobBrowser />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
+        <ScrollToTopButton />
       </div>
     </Router>
   );
