@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
-import LandingPage from './landing-page';
-import AuthPage from './auth-page';
-import ForgotPasswordPage from './forgot-password-page';
-import Dashboard from './Dashboard'; // Import the Dashboard component
-import Chat from './Chat';
-import JobBrowser from './JobBrowser';
-import Profile from './Profile';
+import LandingPage from '../../pages/home/index';
+import AuthPage from '../../pages/auth/login';
+import ForgotPasswordPage from '../../pages/auth/forgot-password';
+import Dashboard from './components/Dashboard';
+import Chat from './components/Chat';
+import JobBrowser from './components/JobBrowser';
+import Profile from './components/Profile';
 
 function App() {
   return (

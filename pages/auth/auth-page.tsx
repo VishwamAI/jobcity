@@ -1,17 +1,15 @@
-'use client'
-
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Briefcase, Mail, Lock, User, ArrowRight, Github, Linkedin } from 'lucide-react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const toggleForm = () => setIsLogin(!isLogin)
 
@@ -20,13 +18,13 @@ export default function AuthPage() {
     setError('')
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/auth/login', {
+      const response = await axios.post<{ status: string }>('http://127.0.0.1:5000/api/auth/login', {
         email,
         password
       })
 
       if (response.data.status === 'success') {
-        navigate('/dashboard')
+        router.push('/dashboard')
       } else {
         setError('Login failed. Please check your credentials.')
       }
