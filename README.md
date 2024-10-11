@@ -3,6 +3,13 @@
 ## Overview
 
 ![Job-City Logo](https://github.com/user-attachments/assets/28656587-1b8e-4794-94e0-719126f6f80a)
+### Supported Platforms
+| Platform | Type    | Status            |
+|----------|---------|-------------------|
+| Linkedin   | Public  | Complete          |
+| Indeed   | Public | Under Development   |
+| Naukari  | Public  | Under Development |
+| company websites| public| under Devlopment|
 
 **Job-City** is an open-source automated job application platform built with Next.js 14. It provides users with free interactive learning paths across various disciplines, such as aptitude reasoning, coding, AI research, and AI security. The project is structured with a `src` directory for better organization and is styled using Tailwind CSS for a modern look.
 
