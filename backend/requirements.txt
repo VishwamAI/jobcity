@@ -15,3 +15,6 @@ loguru
 httpx
 requests-html
 pyyaml
+reportlab
+inputimeout
+lxml[html_clean]
