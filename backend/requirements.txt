@@ -18,3 +18,5 @@ pyyaml
 reportlab
 inputimeout
 lxml[html_clean]
+fastapi
+scikit-learn
