@@ -10,3 +10,4 @@ tqdm==4.66.5
 urllib3==2.2.3
 selenium==4.18.1
 beautifulsoup4==4.12.3
+pytest==7.4.0
