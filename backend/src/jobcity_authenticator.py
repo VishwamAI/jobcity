@@ -11,8 +11,9 @@ from loguru import logger
 
 class AIHawkAuthenticator:
 
-    def __init__(self, driver=None):
+    def __init__(self, driver=None, is_test_env=False):
         self.driver = driver
+        self.is_test_env = is_test_env
         logger.debug(f"AIHawkAuthenticator initialized with driver: {driver}")
 
     def start(self):
@@ -76,9 +77,9 @@ class AIHawkAuthenticator:
             logger.debug("Clicking submit button...")
             submit_button.click()
 
-            check_interval = 4  # Interval to log the current URL
+            check_interval = 1 if self.is_test_env else 4
             elapsed_time = 0
-            max_wait_time = 60  # Maximum wait time in seconds
+            max_wait_time = 10 if self.is_test_env else 60
 
             logger.debug(f"Starting login completion check (max wait time: {max_wait_time}s)")
             while elapsed_time < max_wait_time:
@@ -116,11 +117,13 @@ class AIHawkAuthenticator:
     def handle_security_check(self):
         try:
             logger.debug("Handling security check...")
-            WebDriverWait(self.driver, 10).until(
+            wait_time = 3 if self.is_test_env else 10
+            WebDriverWait(self.driver, wait_time).until(
                 EC.url_contains('https://www.linkedin.com/checkpoint/challengesV2/')
             )
             logger.warning("Security checkpoint detected. Please complete the challenge.")
-            WebDriverWait(self.driver, 300).until(
+            wait_time = 10 if self.is_test_env else 300
+            WebDriverWait(self.driver, wait_time).until(
                 EC.url_contains('https://www.linkedin.com/feed/')
             )
             logger.info("Security check completed")

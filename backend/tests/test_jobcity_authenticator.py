@@ -11,7 +11,7 @@ def mock_driver():
 
 @pytest.fixture
 def authenticator(mock_driver):
-    return AIHawkAuthenticator(mock_driver)
+    return AIHawkAuthenticator(mock_driver, is_test_env=True)
 
 def test_login_success(authenticator, mock_driver):
     # Mock successful login
@@ -40,7 +40,7 @@ def test_login_success(authenticator, mock_driver):
         call("https://www.linkedin.com/login"),
         call("https://www.linkedin.com/feed")
     ], any_order=False)
-    assert mock_driver.find_element.call_count >= 3  # Username, password, and submit button, plus potential additional calls
+    assert mock_driver.find_element.call_count >= 3
     mock_driver.find_element.assert_any_call(By.ID, "username")
     mock_driver.find_element.assert_any_call(By.ID, "password")
     mock_driver.find_element.assert_any_call(By.CSS_SELECTOR, "button[type='submit']")
@@ -48,10 +48,9 @@ def test_login_success(authenticator, mock_driver):
     mock_password_field.send_keys.assert_called_once_with("password123")
     mock_submit_button.click.assert_called_once()
 
-    # Verify login behavior through other means
     assert mock_driver.current_url == "https://www.linkedin.com/feed/"
 
-@pytest.mark.timeout(30)  # Increase timeout to 30 seconds
+@pytest.mark.timeout(10)  # Reduce timeout to 10 seconds
 def test_login_failure(authenticator, mock_driver):
     print("Starting test_login_failure")
     # Mock failed login
