@@ -249,7 +249,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <a
-                href="#"
+                href="/auth"
                 className="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-indigo-700 transition duration-300"
               >
                 Get Started
