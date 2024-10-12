@@ -1,6 +1,11 @@
 import logging
 import getpass
-from src.indeed_bot_facade import IndeedBotFacade
+from src.core.indeed_job_agent import IndeedJobAgent
+from src.core.job_data_model import JobDataModel
+from src.core.nlp_engine import NLPEngine
+from src.core.resume_customizer import ResumeCustomizer
+from src.core.cover_letter_generator import CoverLetterGenerator
+from src.core.application_submission_engine import ApplicationSubmissionEngine
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -14,17 +19,30 @@ def main():
     location = "New York, NY"
     max_applications = 5
 
-    # Initialize the IndeedBotFacade
-    bot = IndeedBotFacade(headless=False)  # Set to False for debugging
+    # Initialize components
+    job_data_model = JobDataModel()
+    nlp_engine = NLPEngine()
+    resume_customizer = ResumeCustomizer()
+    cover_letter_generator = CoverLetterGenerator()
+    application_submission_engine = ApplicationSubmissionEngine()
+
+    # Initialize the IndeedJobAgent
+    agent = IndeedJobAgent(
+        job_data_model=job_data_model,
+        nlp_engine=nlp_engine,
+        resume_customizer=resume_customizer,
+        cover_letter_generator=cover_letter_generator,
+        application_submission_engine=application_submission_engine
+    )
 
     try:
         # Run the job application process
-        bot.run_job_application_process(email, password, keywords, location, max_applications)
+        agent.run_job_application_process(email, password, keywords, location, max_applications)
     except Exception as e:
         logger.error(f"An error occurred during the job application process: {str(e)}")
     finally:
         # Ensure the browser is closed
-        bot.close()
+        agent.close()
 
 if __name__ == "__main__":
     main()

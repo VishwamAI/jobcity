@@ -17,7 +17,7 @@ dependencies = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-v --cov=src"
+addopts = "-v"
 
 [tool.coverage.run]
 source = ["src"]
