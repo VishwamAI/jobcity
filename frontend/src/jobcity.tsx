@@ -82,9 +82,19 @@ export default function Component() {
         </nav>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+      >
         {/* Hero Section */}
-        <section className="text-center mb-20">
+        <motion.section
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-20"
+        >
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -113,10 +123,16 @@ export default function Component() {
               Explore Features
             </a>
           </motion.div>
-        </section>
+        </motion.section>
 
         {/* Features Section */}
-        <section id="features" className="mb-20">
+        <motion.section
+          id="features"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-20"
+        >
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Cutting-Edge Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard
@@ -135,10 +151,16 @@ export default function Component() {
               description="Access Job-City's powerful features anytime, anywhere with our responsive mobile application."
             />
           </div>
-        </section>
+        </motion.section>
 
         {/* Research Areas Section */}
-        <section id="research" className="mb-20">
+        <motion.section
+          id="research"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-20"
+        >
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Our Research Focus</h2>
           <div className="space-y-4">
             <ResearchArea
@@ -157,10 +179,16 @@ export default function Component() {
               description="Exploring the use of blockchain technology to create a secure, decentralized system for verifying educational and professional credentials, streamlining the hiring process."
             />
           </div>
-        </section>
+        </motion.section>
 
         {/* Development Roadmap */}
-        <section id="development" className="mb-20">
+        <motion.section
+          id="development"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-20"
+        >
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-10">Development Roadmap</h2>
           <div className="relative">
             <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
@@ -181,10 +209,15 @@ export default function Component() {
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* CTA Section */}
-        <section className="text-center">
+        <motion.section
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready to Transform Your Job Search?</h2>
           <p className="text-xl text-gray-600 mb-8">Join Job-City today and experience the future of career development.</p>
           <a
@@ -193,8 +226,8 @@ export default function Component() {
           >
             Get Started Now
           </a>
-        </section>
-      </main>
+        </motion.section>
+      </motion.main>
 
       <footer className="bg-gray-800 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
