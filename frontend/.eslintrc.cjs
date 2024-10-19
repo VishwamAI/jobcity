@@ -1,3 +1,5 @@
+require('core-js/stable/structured-clone');
+
 module.exports = {
   env: {
     browser: true,
