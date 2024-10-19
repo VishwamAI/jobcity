@@ -225,7 +225,12 @@ export default function LandingPage() {
       </header>
 
       <main>
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <motion.section
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
+        >
           <div className="text-center">
             <motion.h1
               initial={{ opacity: 0, y: -20 }}
@@ -256,10 +261,13 @@ export default function LandingPage() {
               </a>
             </motion.div>
           </div>
-        </section>
+        </motion.section>
 
-        <section
+        <motion.section
           id="features"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
@@ -282,10 +290,13 @@ export default function LandingPage() {
               description="Access Job-City on any device with our responsive, mobile-first design for job searching on-the-go."
             />
           </div>
-        </section>
+        </motion.section>
 
-        <section
+        <motion.section
           id="research"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gray-50"
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
@@ -308,32 +319,13 @@ export default function LandingPage() {
               description="Exploring innovative ways to leverage blockchain for secure and efficient hiring processes."
             />
           </div>
-        </section>
+        </motion.section>
 
-        {/* <section id="development" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Development Roadmap</h2>
-          <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
-            <div className="space-y-12">
-              {[
-                { year: '2024', title: 'MVP Launch', description: 'Launch of our Minimum Viable Product with core features.' },
-                { year: '2024', title: 'AI Enhancement', description: 'Major updates to our AI algorithms for improved job matching.' },
-                { year: '2025', title: 'Global Expansion', description: 'Expanding our services to international job markets.' },
-              ].map((item, index) => (
-                <div key={index} className="relative">
-                  <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
-                  <div className={`relative ${index % 2 === 0 ? 'pl-8 md:ml-1/2 md:pl-12' : 'pr-8 md:mr-1/2 md:pr-12'}`}>
-                    <h3 className="text-lg font-semibold text-indigo-600 mb-1">{item.year}</h3>
-                    <h4 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h4>
-                    <p className="text-gray-600">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section> */}
-        <section
+        <motion.section
           id="development"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
@@ -342,7 +334,6 @@ export default function LandingPage() {
           <div className="relative">
             <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-indigo-200"></div>
             <div className="space-y-12">
-              {/* First Milestone (MVP Launch - 2023) */}
               <div className="relative">
                 <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
                 <div className="relative pl-8 md:pl-16 text-center">
@@ -359,7 +350,6 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Second Milestone (AI Enhancement - 2024) */}
               <div className="relative">
                 <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
                 <div className="relative pr-8 md:pr-16 text-center">
@@ -379,7 +369,6 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Third Milestone (Global Expansion - 2025) */}
               <div className="relative">
                 <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
                 <div className="relative pl-8 md:pl-16 text-center">
@@ -397,10 +386,13 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        <section
+        <motion.section
           id="about-us"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="py-20 bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -462,10 +454,13 @@ export default function LandingPage() {
               </motion.div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        <section
+        <motion.section
           id="contact-us"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="py-20 bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -575,9 +570,14 @@ export default function LandingPage() {
               </motion.div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="bg-indigo-700 text-white py-20">
+        <motion.section
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-indigo-700 text-white py-20"
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl font-bold mb-4">
               Ready to revolutionize your job search?
@@ -586,7 +586,7 @@ export default function LandingPage() {
               Join Job-City today and experience the future of recruitment.
             </p>
           </div>
-        </section>
+        </motion.section>
       </main>
 
       <footer className="bg-gray-800 text-white py-12">

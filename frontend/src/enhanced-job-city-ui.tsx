@@ -33,7 +33,12 @@ const ResearchArea: React.FC<ResearchAreaProps> = ({ title, description, icon: I
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white rounded-xl shadow-md overflow-hidden"
+    >
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between w-full p-4 text-left"
@@ -53,7 +58,7 @@ const ResearchArea: React.FC<ResearchAreaProps> = ({ title, description, icon: I
           <p className="text-gray-600">{description}</p>
         </div>
       )}
-    </div>
+    </motion.div>
   )
 }
 
@@ -94,19 +99,55 @@ export default function Component() {
         </nav>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <section className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Welcome to the Future of Job Applications</h1>
-          <p className="text-xl text-gray-600 mb-8">Harnessing AI and Mobile Technology to Revolutionize Your Career Journey</p>
-          <a
-            href="#features"
-            className="bg-indigo-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-indigo-700 transition duration-300"
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+      >
+        <motion.section
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl font-bold text-gray-900 mb-4"
           >
-            Explore Features
-          </a>
-        </section>
+            Welcome to the Future of Job Applications
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-xl text-gray-600 mb-8"
+          >
+            Harnessing AI and Mobile Technology to Revolutionize Your Career Journey
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <a
+              href="#features"
+              className="bg-indigo-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-indigo-700 transition duration-300"
+            >
+              Explore Features
+            </a>
+          </motion.div>
+        </motion.section>
 
-        <section id="features" className="mb-16">
+        <motion.section
+          id="features"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16"
+        >
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Cutting-Edge Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FeatureCard
@@ -125,9 +166,15 @@ export default function Component() {
               description="Access Job-City's powerful features anytime, anywhere with our responsive mobile application."
             />
           </div>
-        </section>
+        </motion.section>
 
-        <section id="research" className="mb-16">
+        <motion.section
+          id="research"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16"
+        >
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Our Research Focus</h2>
           <div className="space-y-4">
             <ResearchArea
@@ -146,9 +193,15 @@ export default function Component() {
               description="Exploring blockchain technology to create a secure, decentralized system for verifying educational and professional credentials."
             />
           </div>
-        </section>
+        </motion.section>
 
-        <section id="development" className="mb-16">
+        <motion.section
+          id="development"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16"
+        >
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Development Roadmap</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
@@ -165,9 +218,14 @@ export default function Component() {
               </div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        <section className="text-center">
+        <motion.section
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready to Transform Your Job Search?</h2>
           <p className="text-xl text-gray-600 mb-8">Join Job-City today and experience the future of career development.</p>
           <a
@@ -176,8 +234,8 @@ export default function Component() {
           >
             Get Started Now
           </a>
-        </section>
-      </main>
+        </motion.section>
+      </motion.main>
 
       <footer className="bg-gray-800 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
