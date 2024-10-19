@@ -385,7 +385,7 @@ export default function LandingPage() {
                 <div className="relative pl-8 md:pl-16 text-center">
                   <h3 className="text-lg font-semibold text-indigo-600 mb-1 ml-[10px] ">
                     2026
-                  </h3>
+                  </h4>
                   <h4 className="text-xl font-bold text-gray-900 mb-2 ml-[125px]">
                     Global Expansion
                   </h4>
