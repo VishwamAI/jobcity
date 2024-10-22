@@ -41,7 +41,7 @@ jobs:
       - name: Install Node.js dependencies
         run: |
           npm ci --verbose
-          npm install @chakra-ui/react@latest @chakra-ui/utils@latest @chakra-ui/system@latest @chakra-ui/accordion@latest --verbose
+          npm install @chakra-ui/react@latest @chakra-ui/utils@latest @chakra-ui/system@latest --verbose
           npm dedupe --verbose
           npm install --verbose
 
