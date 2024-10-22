@@ -11,7 +11,7 @@ We are excited that you want to contribute to Job-City! Your contributions can h
    - Clone your forked repository to your local machine:
 
      ```bash
-     git clone https://github.com/your-username/jobcity.git
+     git clone https://github.com/VishwamAI/jobcity.git
      ```
 
 ### 3. **Create a Branch**
