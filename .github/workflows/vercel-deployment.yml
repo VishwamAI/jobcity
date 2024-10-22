@@ -29,8 +29,9 @@ jobs:
       - name: Install Node.js dependencies
         run: |
           npm ci
-          npm install @chakra-ui/react@latest @chakra-ui/utils@latest
+          npm install @chakra-ui/react@latest @chakra-ui/utils@latest @chakra-ui/system@latest @chakra-ui/accordion@latest
           npm dedupe
+          npm install
 
       # Added step to install missing dependency
       - name: Install react-spinners
