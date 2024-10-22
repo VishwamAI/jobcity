@@ -1,0 +1,39 @@
+Frequently Asked Questions (FAQ)
+1. What is Job-City?
+Job-City is an open-source automated job application platform built with Next.js 14. It allows users to streamline their job search and apply for positions automatically. Additionally, Job-City offers free interactive learning paths in various disciplines, including aptitude reasoning, coding, AI research, and AI security.
+
+2. How does Job-City help users with job applications?
+Job-City automates the job application process by finding relevant jobs and applying on your behalf. Users can set their preferences, and the platform handles the tedious task of applying to job listings across multiple job boards.
+
+3. What technologies are used to build Job-City?
+Job-City is built with Next.js 14 for a powerful, modern web experience. It uses Tailwind CSS for responsive and modern styling. The project is well-organized, with a src directory structure for ease of navigation and better project management.
+
+4. What learning paths does Job-City offer?
+Job-City provides free interactive learning paths across multiple disciplines:
+
+Aptitude reasoning: For sharpening logic and problem-solving skills.
+Coding: Helping users learn programming languages and improve technical skills.
+AI research: Exploring the cutting-edge world of artificial intelligence.
+AI security: Focusing on how to secure AI systems and data.
+5. Can non-coders contribute to Job-City?
+Yes! Non-coders can contribute by:
+
+Improving documentation
+Testing the platform and providing feedback
+Translating content into different languages
+Sharing the project with others or helping to manage project issues
+6. How can I set up Job-City locally?
+Setting up Job-City is easy! Follow the instructions in the README file to clone the repository and run the platform locally using Node.js. If you encounter any issues, feel free to ask questions or report bugs in the issues section.
+
+7. How do I contribute to the project?
+You can contribute by working on open issues, creating new features, fixing bugs, or enhancing the documentation. Check out the Contributing Guide for details on how to get started.
+
+8. How can I report a bug or suggest a feature?
+You can report bugs or suggest new features by opening an issue in the issues section on GitHub. Be as detailed as possible when describing the issue or feature request to help the developers address it quickly.
+
+9. Is Job-City free to use?
+Yes, Job-City is an open-source project, and it’s completely free to use. You can download the code, modify it to suit your needs, and even contribute back to the project.
+
+10. How can I get involved with the community?
+Join the discussions in the Discussions section or follow updates on social media platforms. The community is welcoming to both developers and non-developers who want to support the project!
+
