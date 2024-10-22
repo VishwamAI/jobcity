@@ -43,7 +43,9 @@ jobs:
 
       # Updated to use production mode
       - name: Build
-        run: npm run build --production
+        run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
+          npm run build --production
 
       # Updated to use production mode for all test commands
       - name: Run frontend tests
