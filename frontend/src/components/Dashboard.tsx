@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Box, Checkbox, Flex, Heading, HStack, Icon,
-  SimpleGrid, Text, VStack, IconButton, Tooltip, useMediaQuery,
+  SimpleGrid, Text, VStack, IconButton, useMediaQuery,
   Spacer
 } from '@chakra-ui/react';
 import { FiHome, FiMessageSquare, FiBriefcase, FiUser, FiMoon, FiLogOut, FiBarChart2, FiCalendar, FiSettings, FiHelpCircle, FiEdit, FiZap } from 'react-icons/fi';
@@ -26,7 +26,7 @@ const initialTodos: Todo[] = [
 ];
 
 const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [_, setActiveTab] = useState('dashboard'); // Keeping setActiveTab for future use
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const [todos, setTodos] = useState<Todo[]>(initialTodos);
 
