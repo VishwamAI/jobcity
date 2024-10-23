@@ -81,6 +81,12 @@ In the project directory, you can run:
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
+Add your changes or updates to the changelog. For example, document the changes made, any features added, or bugs fixed. 
+
+- Added changelog management for more structured updates.
+- Implemented a new FAQ section for better user guidance.
+
+
 ## Special Thanks
 
 - **Feder-cr Team**: For their foundational work on the Auto Jobs Applier AIHawk project, which inspired key functionalities in Job-City.
