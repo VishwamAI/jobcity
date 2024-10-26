@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Briefcase, User, Settings, HelpCircle, LogOut,
   Home, MessageSquare, Globe,
@@ -11,6 +12,7 @@ import { Tooltip, TooltipProvider } from "./components/ui/tooltip"
 import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card"
 
 export default function Dashboard() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('dashboard')
   const [darkMode, setDarkMode] = useState(false)
 
@@ -19,12 +21,12 @@ export default function Dashboard() {
   }, [darkMode])
 
   const navItems = [
-    { id: 'dashboard', icon: Home, label: 'Dashboard' },
-    { id: 'chat', icon: MessageSquare, label: 'Chat' },
-    { id: 'browser', icon: Globe, label: 'Job Browser' },
-    { id: 'profile', icon: User, label: 'Profile' },
-    { id: 'settings', icon: Settings, label: 'Settings' },
-    { id: 'help', icon: HelpCircle, label: 'Help' },
+    { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/dashboard' },
+    { id: 'chat', icon: MessageSquare, label: 'Chat', path: '/chat' },
+    { id: 'browser', icon: Globe, label: 'Job Browser', path: '/job-browser' },
+    { id: 'profile', icon: User, label: 'Profile', path: '/profile' },
+    { id: 'settings', icon: Settings, label: 'Settings', path: '/settings' },
+    { id: 'help', icon: HelpCircle, label: 'Help', path: '/help' },
     { id: 'logout', icon: LogOut, label: 'Logout' },
   ]
 
@@ -51,7 +53,15 @@ export default function Dashboard() {
               <Button
                 variant={activeTab === item.id ? "default" : "ghost"}
                 size="icon"
-                onClick={() => setActiveTab(item.id)}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  if (item.id === 'logout') {
+                    // Handle logout logic here
+                    navigate('/auth');
+                  } else if (item.path) {
+                    navigate(item.path);
+                  }
+                }}
                 aria-label={item.label}
                 className={activeTab === item.id ? `${darkMode ? 'bg-purple-700 text-white' : 'bg-[#6366F1] text-white'}` : `${darkMode ? 'text-gray-400 hover:text-purple-400' : 'text-gray-600 hover:text-[#6366F1]'}`}
               >

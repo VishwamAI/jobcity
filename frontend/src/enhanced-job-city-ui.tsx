@@ -2,10 +2,10 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Briefcase, Code, Brain, Rocket, Smartphone, Search, ChevronDown, Menu, X } from 'lucide-react'
+import { Briefcase, Code, Brain, Rocket, Smartphone, Search, ChevronDown, Menu, X, LucideProps } from 'lucide-react'
 
 interface FeatureCardProps {
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<LucideProps>;
   title: string;
   description: string;
 }
@@ -26,7 +26,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, descriptio
 interface ResearchAreaProps {
   title: string;
   description: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon: React.ComponentType<LucideProps>;
 }
 
 const ResearchArea: React.FC<ResearchAreaProps> = ({ title, description, icon: Icon }) => {

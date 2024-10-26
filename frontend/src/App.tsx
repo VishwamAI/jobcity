@@ -9,7 +9,7 @@ import Chat from "./Chat";
 import JobBrowser from "./JobBrowser";
 import Profile from "./Profile";
 import ScrollToTopButton from "./components/ScrollToTopButton";
-import Loader from "components/Loader";
+import Loader from "./components/Loader";
 
 function App() {
   const [isloading, setIsLoading] = useState(true);
@@ -22,7 +22,7 @@ function App() {
   }, []);
   return (
     <Router>
-      <div className="App">
+      <div className="App" data-testid="app-container">
         {isloading ? (
           <Loader />
         ) : (

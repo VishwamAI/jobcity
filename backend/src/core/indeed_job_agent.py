@@ -9,10 +9,14 @@ from src.core.openhands_manager import OpenHandsManager
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 class IndeedJobAgent:
-    def __init__(self):
+    def __init__(self, job_data_model, nlp_engine, resume_customizer, cover_letter_generator, application_submission_engine):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.logger.info(f"{self.__class__.__name__} initialized")
-        self.openhands_manager = self.initialize_openhands_manager()
+        self.job_data_model = job_data_model
+        self.nlp_engine = nlp_engine
+        self.resume_customizer = resume_customizer
+        self.cover_letter_generator = cover_letter_generator
+        self.application_submission_engine = application_submission_engine
         self.ua = UserAgent()
         self.session = HTMLSession()
 
@@ -101,40 +105,94 @@ class IndeedJobAgent:
             self.logger.error(f"Error generating cover letter: {str(e)}")
             return None
 
-# Test the IndeedJobAgent
-if __name__ == "__main__":
-    agent = IndeedJobAgent()
-    jobs = agent.search_jobs("Software Engineer", "New York, NY")
-    if jobs:
-        print(f"Found {len(jobs)} jobs. First job: {jobs[0]}")
-        cover_letter = agent.generate_cover_letter(jobs)
-        if cover_letter:
-            print(f"Generated cover letter: {cover_letter[:100]}...")
-    else:
-        print("No jobs found.")
+    def run_job_application_process(self, email, password, keywords, location, max_applications=10):
+        """
+        Orchestrates the entire job application workflow.
 
-# Test the IndeedJobAgent
-if __name__ == "__main__":
-    agent = IndeedJobAgent()
+        Args:
+            email (str): User's email for job applications
+            password (str): User's password for job applications
+            keywords (str): Job search keywords
+            location (str): Job search location
+            max_applications (int, optional): Maximum number of applications to submit. Defaults to 10.
 
-    # Test job search
-    job_listings = agent.search_jobs("Software Engineer", "New York")
+        Returns:
+            dict: Contains status, counts, and detailed results of the application process
+        """
+        self.logger.info(f"Starting job application process for {email}")
+        results = []
 
-    if job_listings:
-        print(f"Found {len(job_listings)} job listings")
-        # Select a random job listing for testing
-        job_listing = random.choice(job_listings)
-        print(f"Selected job listing: {job_listing}")
+        try:
+            # Store user credentials
+            self.job_data_model.store_credentials(email, password)
 
-        # Test job info extraction
-        job_info = agent.extract_job_info(job_listing)
-        print("Job Info:", job_info)
+            # Search for jobs
+            job_listings = self.search_jobs(keywords, location)
+            if not job_listings:
+                return {
+                    "status": "error",
+                    "message": "No jobs found matching criteria",
+                    "applications_submitted": 0,
+                    "total_jobs_found": 0,
+                    "results": []
+                }
 
-        # Test cover letter generation
-        cover_letter = agent.generate_cover_letter(job_listing)
-        print("Cover Letter:", cover_letter)
+            applications_submitted = 0
+            for job in job_listings[:max_applications]:
+                try:
+                    # Analyze job description
+                    job_analysis = self.nlp_engine.analyze_job_description(job['description'])
 
-        # Test job application
-        agent.apply_to_job(job_listing)
-    else:
-        print("No job listings found.")
+                    # Customize resume
+                    customized_resume = self.resume_customizer.customize(job_analysis)
+
+                    # Generate cover letter
+                    cover_letter = self.cover_letter_generator.generate(job)
+
+                    # Submit application
+                    submission_result = self.application_submission_engine.submit(
+                        job, customized_resume, cover_letter
+                    )
+
+                    applications_submitted += 1
+                    results.append({
+                        "job_id": job['id'],
+                        "status": "success",
+                        "details": submission_result
+                    })
+
+                except Exception as e:
+                    self.logger.error(f"Error processing job {job.get('id', 'unknown')}: {str(e)}")
+                    results.append({
+                        "job_id": job.get('id', 'unknown'),
+                        "status": "error",
+                        "error": str(e)
+                    })
+
+            return {
+                "status": "success",
+                "applications_submitted": applications_submitted,
+                "total_jobs_found": len(job_listings),
+                "results": results
+            }
+
+        except Exception as e:
+            self.logger.error(f"Error in job application process: {str(e)}")
+            return {
+                "status": "error",
+                "message": str(e),
+                "applications_submitted": applications_submitted,
+                "total_jobs_found": len(job_listings) if 'job_listings' in locals() else 0,
+                "results": results
+            }
+    def close(self):
+        """
+        Clean up resources used by the IndeedJobAgent.
+        This method ensures proper cleanup of the HTMLSession when the agent is done.
+        """
+        try:
+            if hasattr(self, 'session'):
+                self.session.close()
+                self.logger.info("Successfully closed HTMLSession")
+        except Exception as e:
+            self.logger.error(f"Error closing HTMLSession: {str(e)}")
