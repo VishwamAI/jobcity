@@ -1,7 +1,7 @@
 import logging
 import os
 from typing import Optional, Dict, Any, List
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from src.core.indeed_job_agent import IndeedJobAgent
@@ -12,23 +12,13 @@ from src.core.cover_letter_generator import CoverLetterGenerator
 from src.core.application_submission_engine import ApplicationSubmissionEngine
 from src.core.database import get_db
 from src.config import settings
+from src.core.api import app
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Initialize FastAPI app
-app = FastAPI(title="JobCity API")
-
-@app.get("/health")
-async def health_check():
-    """Health check endpoint."""
-    return {"status": "healthy"}
-
-@app.get("/")
-async def root():
-    """Root endpoint."""
-    return {"message": "Welcome to JobCity API"}
+# Root endpoint moved to api.py
 
 def main():
     # Configuration from settings

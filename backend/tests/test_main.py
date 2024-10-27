@@ -8,7 +8,8 @@ from sqlalchemy.pool import StaticPool
 
 from src.core.indeed_job_agent import IndeedJobAgent
 from src.core.database import Base, get_db
-from main import app, main
+from src.core.api import app
+from main import main
 
 # Set up test database
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
