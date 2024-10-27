@@ -5,20 +5,37 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import logging
+from src.config import settings
 
 class IndeedAuthenticator:
     def __init__(self, browser: webdriver.Chrome):
         self.browser = browser
         self.logger = logging.getLogger(__name__)
+        self._dev_mode = settings.DEV_MODE
+        self._mock_logged_in = False
 
-    def login(self, email: str, password: str) -> bool:
+    def login(self, email: str = None, password: str = None) -> bool:
         """
         Attempt to log in to Indeed using the provided credentials.
+        In development mode, uses mock credentials and bypasses actual login.
 
-        :param email: User's email address
-        :param password: User's password
+        :param email: User's email address (optional in dev mode)
+        :param password: User's password (optional in dev mode)
         :return: True if login is successful, False otherwise
         """
+        if self._dev_mode:
+            self.logger.info("Development mode: Using mock authentication")
+            self._mock_logged_in = True
+            return True
+
+        # Use provided credentials or fall back to configured ones
+        email = email or settings.INDEED_EMAIL
+        password = password or settings.INDEED_PASSWORD
+
+        if not email or not password:
+            self.logger.error("No credentials provided and none configured")
+            return False
+
         try:
             # Navigate to Indeed login page
             self.browser.get("https://secure.indeed.com/auth")
@@ -55,7 +72,7 @@ class IndeedAuthenticator:
                 self.logger.info("Email input field found and clickable")
                 email_input.clear()
                 email_input.send_keys(email)
-                self.logger.info(f"Entered email: {email}")
+                self.logger.info("Email entered successfully")
 
                 # Wait for the continue button to be enabled
                 continue_button = WebDriverWait(self.browser, 30).until(
@@ -76,7 +93,7 @@ class IndeedAuthenticator:
                 self.logger.info("Password input field found and clickable")
                 password_input.clear()
                 password_input.send_keys(password)
-                self.logger.info("Entered password")
+                self.logger.info("Password entered successfully")
 
                 # Wait for the sign in button to be enabled
                 sign_in_button = WebDriverWait(self.browser, 30).until(
@@ -107,11 +124,15 @@ class IndeedAuthenticator:
     def is_logged_in(self) -> bool:
         """
         Check if the user is currently logged in to Indeed.
+        In development mode, returns mock login state.
 
         :return: True if logged in, False otherwise
         """
+        if self._dev_mode:
+            return self._mock_logged_in
+
         try:
-            # Check for the presence of a logged-in user element (adjust as needed)
+            # Check for the presence of a logged-in user element
             self.browser.find_element(By.CLASS_NAME, "gnav-LoggedInAccountLink")
             return True
         except NoSuchElementException:
@@ -120,9 +141,15 @@ class IndeedAuthenticator:
     def logout(self) -> bool:
         """
         Attempt to log out from Indeed.
+        In development mode, just resets mock login state.
 
         :return: True if logout is successful, False otherwise
         """
+        if self._dev_mode:
+            self._mock_logged_in = False
+            self.logger.info("Development mode: Mock logout successful")
+            return True
+
         try:
             # Navigate to Indeed homepage
             self.browser.get("https://www.indeed.com/")
