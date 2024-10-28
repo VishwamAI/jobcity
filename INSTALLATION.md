@@ -2,7 +2,7 @@
 
 ## Prerequisites
 - Python 3.8+
-- Node.js 16+
+- Node.js 18.0.0+
 - PostgreSQL 12+
 - Chrome/Chromium browser
 - pnpm (for frontend package management)
@@ -101,6 +101,7 @@ TEST_DATA_SIZE=50
 ### 1. Environment Setup
 ```bash
 # Install dependencies using pnpm
+cd frontend
 pnpm install
 
 # Set up environment variables
@@ -111,7 +112,28 @@ cp .env.example .env
 ### 2. Development Server
 ```bash
 # Start development server
-pnpm dev
+pnpm start
+```
+
+### 3. TypeScript and UI Setup
+The frontend uses TypeScript for type safety and Chakra UI for components:
+
+- TypeScript configuration is in `tsconfig.json`
+- Chakra UI theme customization in `src/theme.ts`
+- Custom hooks in `src/hooks/` directory
+- Type definitions in `src/types/` directory
+
+### 4. Project Structure
+```
+frontend/
+├── src/
+│   ├── components/    # Reusable UI components
+│   ├── pages/        # Page components
+│   ├── hooks/        # Custom React hooks
+│   ├── config/       # Configuration files
+│   ├── types/        # TypeScript definitions
+│   └── theme.ts      # Theme configuration
+└── public/           # Static assets
 ```
 
 ## Running the Application
@@ -125,7 +147,7 @@ uvicorn main:app --reload
 ### Frontend
 ```bash
 # Start the frontend development server
-pnpm dev
+pnpm start
 ```
 
 ## Troubleshooting
@@ -138,9 +160,13 @@ pnpm dev
    - Ensure database exists: `createdb jobcity`
 
 2. **Frontend Build Issues**
-   - Clear node_modules: `rm -rf node_modules`
-   - Reinstall dependencies: `pnpm install`
-   - Check for Node.js version compatibility
+   - Clear dependency cache: `pnpm store prune`
+   - Remove node_modules: `rm -rf node_modules`
+   - Clean install dependencies: `pnpm install`
+   - Check Node.js version (18.0.0+ required): `node --version`
+   - Verify TypeScript configuration: `pnpm type-check`
+   - Check for Chakra UI theme issues in `src/theme.ts`
+   - Run ESLint to check for code issues: `pnpm lint`
 
 3. **Backend Import Errors**
    - Ensure virtual environment is activated
