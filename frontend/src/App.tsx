@@ -1,48 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, lazy, FC } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Box, useColorMode } from "@chakra-ui/react";
 import "./App.css";
-import LandingPage from "./landing-page";
-import AuthPage from "./auth-page";
-import ForgotPasswordPage from "./forgot-password-page";
-import Dashboard from "./Dashboard"; // Import the Dashboard component
-import Chat from "./Chat";
-import JobBrowser from "./JobBrowser";
-import Profile from "./Profile";
 import ScrollToTopButton from "./components/ScrollToTopButton";
-import Loader from "components/Loader";
+import Loader from "./components/Loader";
+import { useLoading } from "./hooks/useLoading";
 
-function App() {
-  const [isloading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
+// Lazy load route components
+const LandingPage = lazy(() => import("./pages/landing-page"));
+const AuthPage = lazy(() => import("./pages/auth-page"));
+const ForgotPasswordPage = lazy(() => import("./pages/forgot-password-page"));
+const Dashboard = lazy(() => import("./pages/Dashboard")); // Import the Dashboard component
+const Chat = lazy(() => import("./pages/Chat"));
+const JobBrowser = lazy(() => import("./pages/JobBrowser"));
+const Profile = lazy(() => import("./pages/Profile"));
 
-    return () => clearTimeout(timer);
-  }, []);
+const App: FC = () => {
+  const isLoading = useLoading({ duration: 2500 });
+  const { colorMode } = useColorMode();
+
   return (
     <Router>
-      <div className="App">
-        {isloading ? (
+      <Box className="App" bg={colorMode === 'dark' ? 'gray.800' : 'white'}>
+        {isLoading ? (
           <Loader />
         ) : (
           <>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />{" "}
-              {/* Add the Dashboard route */}
-              <Route path="/chat" element={<Chat />} />
-              <Route path="/job-browser" element={<JobBrowser />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
+            <Suspense fallback={<Loader />}>
+              <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/auth" element={<AuthPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/chat" element={<Chat />} />
+                <Route path="/job-browser" element={<JobBrowser />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </Suspense>
             <ScrollToTopButton />
           </>
         )}
-      </div>
+      </Box>
     </Router>
   );
-}
+};
 
 export default App;

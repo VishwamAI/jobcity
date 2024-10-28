@@ -11,7 +11,7 @@
 | Naukari  | Public  | Under Development |
 | company websites| public| under Devlopment|
 
-**Job-City** is an open-source automated job application platform built with Next.js 14. It provides users with free interactive learning paths across various disciplines, such as aptitude reasoning, coding, AI research, and AI security. The project is structured with a `src` directory for better organization and is styled using Tailwind CSS for a modern look.
+**Job-City** is an open-source automated job application platform built with React 18.3.1. It provides users with free interactive learning paths across various disciplines, such as aptitude reasoning, coding, AI research, and AI security. The project is structured with a modern component-based architecture and is styled using a combination of Chakra UI and Tailwind CSS for a polished, responsive design.
 
 ## Features
 
@@ -25,17 +25,20 @@
 
 ## Tech Stack
 
-- **Next.js 14**: React-based framework for building web applications.
-- **Tailwind CSS**: Utility-first CSS framework for styling.
-- **Framer Motion**: For animations and interactive UI components.
-- **Monaco Editor**: The code editor that powers Visual Studio Code, for in-browser coding tasks.
-- **LLaMA 3.1**: Integrated for AI-powered features.
+- **React 18.3.1**: Modern JavaScript library for building user interfaces
+- **TypeScript**: For type-safe development and better developer experience
+- **Chakra UI**: Component library for building accessible and responsive UIs
+- **Tailwind CSS**: Utility-first CSS framework for styling
+- **Framer Motion**: For animations and interactive UI components
+- **React Router**: For client-side routing and navigation
+- **React Icons**: For comprehensive icon set integration
 
 ## Getting Started
 
 ### Prerequisites
 
-Ensure you have Node.js and npm installed.
+- Node.js (version 18.0.0 or higher)
+- pnpm (recommended package manager)
 
 ### Installation
 
@@ -48,34 +51,61 @@ Ensure you have Node.js and npm installed.
 2. Navigate to the project directory:
 
     ```bash
-    cd job-city
+    cd jobcity/frontend
     ```
 
 3. Install dependencies:
 
     ```bash
-    npm install
+    pnpm install
     ```
 
 4. Run the development server:
 
     ```bash
-    npm run dev
+    pnpm start
     ```
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
+
+### Project Structure
+
+```
+frontend/
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── pages/         # Page components and routes
+│   ├── hooks/         # Custom React hooks
+│   ├── config/        # Configuration files
+│   ├── types/         # TypeScript type definitions
+│   ├── theme.ts       # Theme configuration
+│   ├── App.tsx        # Main application component
+│   └── index.tsx      # Application entry point
+├── public/            # Static assets
+└── package.json       # Project dependencies and scripts
+```
+
+The project follows a modular architecture with clear separation of concerns:
+- `components/`: Houses reusable UI components
+- `pages/`: Contains route-specific page components
+- `hooks/`: Custom React hooks for shared logic
+- `config/`: Configuration files for navigation and settings
+- `types/`: TypeScript interfaces and type definitions
+- `theme.ts`: Chakra UI theme customization
 
 ### Available Scripts
 
 In the project directory, you can run:
 
-- **`npm start`**: Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+- **`pnpm start`**: Runs the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
-- **`npm test`**: Launches the test runner in the interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **`pnpm test`**: Launches the test runner in the interactive watch mode using react-app-rewired. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-- **`npm run build`**: Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app is ready to be deployed! See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **`pnpm build`**: Builds the app for production to the `build` folder using react-app-rewired. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app is ready to be deployed! See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-- **`npm run eject`**: **Note: this is a one-way operation. Once you `eject`, you can’t go back!** If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project. Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own. You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However, we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **`pnpm lint`**: Runs ESLint to check for code style issues in the src directory.
+
+- **`pnpm type-check`**: Runs TypeScript compiler to check for type issues without emitting files.
 
 ### Contributing
 
@@ -100,6 +130,7 @@ Add your changes or updates to the changelog. For example, document the changes 
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [React Documentation](https://reactjs.org/)
+- [Chakra UI Documentation](https://chakra-ui.com/)
+- [TypeScript Documentation](https://www.typescriptlang.org/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/)
