@@ -2,5 +2,19 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "hardhat": "^2.22.8"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "elliptic@<6.5.8": "^6.5.8",
+      "cookie@<0.7.0": "^0.7.0",
+      "@ethersproject/signing-key>elliptic": "^6.5.8",
+      "@ethersproject/hash>elliptic": "^6.5.8",
+      "@ethersproject/abi>elliptic": "^6.5.8",
+      "@sentry/node>cookie": "^0.7.0",
+      "ws@<7.5.10": "^7.5.10"
+    }
   }
 }
