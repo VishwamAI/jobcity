@@ -27,6 +27,7 @@ jobs:
         run: |
           mkdir -p ~/.pnpm-store
           pnpm config set store-dir ~/.pnpm-store
+          pnpm store path
 
       # Node.js setup after pnpm is available
       - name: Use Node.js
@@ -36,12 +37,16 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: './frontend/pnpm-lock.yaml'
 
-      # Initialize pnpm store
+      # Initialize and verify pnpm store
       - name: Initialize pnpm store
-        run: pnpm store status
+        run: |
+          pnpm store status
+          pnpm store verify
 
       - name: Install Node.js dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm store status
 
       - name: Run security audit
         run: pnpm audit
