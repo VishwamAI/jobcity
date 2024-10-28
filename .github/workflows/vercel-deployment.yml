@@ -22,6 +22,12 @@ jobs:
           version: 8
           run_install: false
 
+      # Setup pnpm store
+      - name: Setup pnpm store
+        run: |
+          mkdir -p ~/.pnpm-store
+          pnpm config set store-dir ~/.pnpm-store
+
       # Node.js setup after pnpm is available
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -30,8 +36,9 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: './frontend/pnpm-lock.yaml'
 
-      - name: Clean pnpm cache
-        run: pnpm store prune
+      # Initialize pnpm store
+      - name: Initialize pnpm store
+        run: pnpm store status
 
       - name: Install Node.js dependencies
         run: pnpm install --frozen-lockfile
