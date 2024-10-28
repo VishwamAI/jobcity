@@ -15,19 +15,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Node.js setup
+      # Install pnpm first
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      # Node.js setup after pnpm is available
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
           cache: 'pnpm'
           cache-dependency-path: './frontend/pnpm-lock.yaml'
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
 
       - name: Clean pnpm cache
         run: pnpm store prune
