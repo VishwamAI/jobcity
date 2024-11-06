@@ -1,17 +1,22 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, FC } from 'react';
 import { screen } from '@testing-library/react';
-import { render, waitForElementToBeRemoved } from './test-utils';
+import { render, waitForElementToBeRemoved, RenderOptions } from '@testing-library/react';
 import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
 
+interface LoadingContextType {
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+}
+
 // Create a mock loading context
-const LoadingContext = createContext<{ loading: boolean; setLoading: (loading: boolean) => void }>({
+const LoadingContext = createContext<LoadingContextType>({
   loading: true,
   setLoading: () => {}
 });
 
 // Create a provider component that uses real state
-const TestLoadingProvider = ({ children }: { children: ReactNode }) => {
+const TestLoadingProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   return (
     <LoadingContext.Provider value={{ loading, setLoading }}>
@@ -33,11 +38,18 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+const customRender = (
+  ui: React.ReactElement,
+  options?: Omit<RenderOptions, 'wrapper'> & { wrapper?: FC<{ children: ReactNode }> }
+) => {
+  return render(ui, { ...options });
+};
+
 test('renders landing page', async () => {
-  let setLoadingFn: ((loading: boolean) => void) | null = null;
+  let setLoadingFn: ((loading: boolean) => void) | undefined;
 
   // Create a wrapper that captures the setLoading function
-  const Wrapper = ({ children }: { children: ReactNode }) => {
+  const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
     const [loading, setLoading] = useState(true);
     setLoadingFn = setLoading;
     return (
@@ -48,7 +60,10 @@ test('renders landing page', async () => {
   };
 
   // Render the component with our loading provider
-  render(<App RouterProvider={({ children }) => <>{children}</>} />, { wrapper: Wrapper });
+  customRender(
+    <App RouterProvider={({ children }) => <>{children}</>} />,
+    { wrapper: Wrapper }
+  );
 
   // Verify loading indicator is present initially
   expect(screen.getByRole('progressbar')).toBeInTheDocument();
