@@ -3,26 +3,21 @@ import { screen } from '@testing-library/react';
 import { render, waitForElementToBeRemoved } from './test-utils';
 import { act } from 'react-dom/test-utils';
 import App from './App';
+import * as useLoadingModule from './hooks/useLoading';
 
-// Mock useState to control loading state
-let setLoadingCallback: (value: boolean) => void;
-
-jest.mock('./hooks/useLoading', () => ({
-  useLoading: () => {
-    const [loading, setLoading] = React.useState(true);
-    // Store the setLoading callback for use in tests
-    setLoadingCallback = setLoading;
-    return loading;
-  }
-}));
+// Create a spy on the useLoading hook
+const useLoadingSpy = jest.spyOn(useLoadingModule, 'useLoading');
 
 beforeEach(() => {
+  // Set initial loading state to true
+  useLoadingSpy.mockReturnValue(true);
   jest.useFakeTimers();
   jest.clearAllMocks();
 });
 
 afterEach(() => {
   jest.useRealTimers();
+  useLoadingSpy.mockReset();
 });
 
 test('renders landing page', async () => {
@@ -33,8 +28,8 @@ test('renders landing page', async () => {
 
   // Change loading state after confirming loading indicator exists
   await act(async () => {
-    // Use the stored callback to update loading state
-    setLoadingCallback(false);
+    // Update the mock to return false
+    useLoadingSpy.mockReturnValue(false);
     // Advance timers to trigger any pending updates
     jest.runAllTimers();
   });
