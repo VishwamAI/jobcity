@@ -35,7 +35,16 @@ jobs:
         continue-on-error: true
 
       - name: Install Node.js dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
+
+      - name: Commit updated lockfile
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add pnpm-lock.yaml
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update pnpm lockfile"
+          git push
+        continue-on-error: true
 
       - name: Run security audit
         run: pnpm audit
