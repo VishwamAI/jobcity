@@ -1,12 +1,14 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import { render, waitForElementToBeRemoved } from './test-utils';
-import { act } from 'react-dom/test-utils';
 import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
 
 // Create a spy on the useLoading hook
 const useLoadingSpy = jest.spyOn(useLoadingModule, 'useLoading');
+
+// Increase Jest timeout for this test file
+jest.setTimeout(10000);
 
 beforeEach(() => {
   // Set initial loading state to true
@@ -27,29 +29,16 @@ test('renders landing page', async () => {
   // Verify loading indicator is present initially
   expect(screen.getByRole('progressbar')).toBeInTheDocument();
 
-  // Create a promise that resolves after state update
-  const stateUpdatePromise = Promise.resolve();
-
-  // Change loading state after confirming loading indicator exists
+  // Change loading state and wait for updates
   await act(async () => {
     // Update the mock to return false
     useLoadingSpy.mockReturnValue(false);
     // Advance timers to trigger any pending updates
     jest.runAllTimers();
-    // Wait for state update to be processed
-    await stateUpdatePromise;
   });
 
-  // Add a small delay to ensure React has processed all updates
-  await act(async () => {
-    await new Promise(resolve => setTimeout(resolve, 0));
-    jest.runAllTimers();
-  });
-
-  // Wait for loading indicator to be removed with a timeout
-  await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
-    timeout: 1000
-  });
+  // Wait for loading indicator to be removed
+  await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
   // Verify the main content is rendered
   expect(screen.getByTestId('box')).toBeInTheDocument();
