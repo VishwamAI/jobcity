@@ -2,7 +2,8 @@ import React from 'react';
 import { createContext } from '@chakra-ui/utils/context';
 import { ThemeContext as EmotionThemeContext } from '@emotion/react';
 
-const [ThemeProvider] = createContext({ name: 'ThemeContext' });
+const [ThemeProvider, , ThemeContext] = createContext({ name: 'ThemeContext' });
+const [ColorModeProvider, , ColorModeContext] = createContext({ name: 'ColorModeContext' });
 
 const theme = {
   colors: {
@@ -19,10 +20,28 @@ const theme = {
   }
 };
 
+// Mock color mode hook
+export const useColorMode = () => {
+  return {
+    colorMode: 'light',
+    toggleColorMode: () => {},
+    setColorMode: () => {}
+  };
+};
+
+// Mock theme hook
+export const useTheme = () => {
+  return React.useContext(ThemeContext) || theme;
+};
+
 export const ChakraProvider = ({ children }) => {
   return (
     <EmotionThemeContext.Provider value={theme}>
-      <ThemeProvider value={theme}>{children}</ThemeProvider>
+      <ThemeProvider value={theme}>
+        <ColorModeProvider value={{ colorMode: 'light', setColorMode: () => {} }}>
+          {children}
+        </ColorModeProvider>
+      </ThemeProvider>
     </EmotionThemeContext.Provider>
   );
 };
