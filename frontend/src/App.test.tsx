@@ -21,8 +21,11 @@ afterEach(() => {
 test('renders landing page', async () => {
   render(<App RouterProvider={({ children }) => <>{children}</>} />);
 
-  // Change loading state after initial render
-  act(() => {
+  // Verify loading indicator is present initially
+  expect(screen.getByRole('progressbar')).toBeInTheDocument();
+
+  // Change loading state after confirming loading indicator exists
+  await act(async () => {
     mockLoading = false;
   });
 
