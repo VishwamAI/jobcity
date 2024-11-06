@@ -13,7 +13,7 @@ jobs:
       run:
         working-directory: ./frontend
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Install pnpm first
       - name: Install pnpm
@@ -35,15 +35,22 @@ jobs:
         continue-on-error: true
 
       - name: Install Node.js dependencies
-        run: pnpm install
+        run: |
+          pnpm install
+          # Install required type definitions
+          pnpm add -D @types/testing-library__jest-dom
 
       - name: Commit updated lockfile
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add pnpm-lock.yaml
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update pnpm lockfile"
-          git push
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update pnpm lockfile"
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          fi
         continue-on-error: true
 
       - name: Run security audit
