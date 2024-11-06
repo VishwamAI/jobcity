@@ -4,26 +4,30 @@ import { render, waitForElementToBeRemoved } from './test-utils';
 import { act } from 'react-dom/test-utils';
 import App from './App';
 
-let isLoading = true;
+let mockLoading = true;
 jest.mock('./hooks/useLoading', () => ({
-  useLoading: () => {
-    // Simulate loading state transition
-    setTimeout(() => {
-      isLoading = false;
-    }, 100);
-    return isLoading;
-  }
+  useLoading: () => mockLoading
 }));
 
+beforeEach(() => {
+  mockLoading = true;
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  jest.useRealTimers();
+});
+
 test('renders landing page', async () => {
-  await act(async () => {
-    render(<App RouterProvider={({ children }) => <>{children}</>} />);
+  render(<App RouterProvider={({ children }) => <>{children}</>} />);
+
+  // Change loading state after initial render
+  act(() => {
+    mockLoading = false;
   });
 
   // Wait for loading indicator to be removed
-  await act(async () => {
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
-  });
+  await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
   // Verify the main content is rendered
   expect(screen.getByTestId('box')).toBeInTheDocument();
