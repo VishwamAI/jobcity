@@ -4,20 +4,19 @@ import { render, waitForElementToBeRemoved } from './test-utils';
 import { act } from 'react-dom/test-utils';
 import App from './App';
 
-// Create a mock module with a callback to update loading state
-const mockLoadingModule = {
-  loading: true,
-  setLoading: (value: boolean) => {
-    mockLoadingModule.loading = value;
-  }
-};
+// Mock useState to control loading state
+let setLoadingCallback: (value: boolean) => void;
 
 jest.mock('./hooks/useLoading', () => ({
-  useLoading: () => mockLoadingModule.loading
+  useLoading: () => {
+    const [loading, setLoading] = React.useState(true);
+    // Store the setLoading callback for use in tests
+    setLoadingCallback = setLoading;
+    return loading;
+  }
 }));
 
 beforeEach(() => {
-  mockLoadingModule.loading = true;
   jest.useFakeTimers();
   jest.clearAllMocks();
 });
@@ -34,7 +33,8 @@ test('renders landing page', async () => {
 
   // Change loading state after confirming loading indicator exists
   await act(async () => {
-    mockLoadingModule.setLoading(false);
+    // Use the stored callback to update loading state
+    setLoadingCallback(false);
     // Advance timers to trigger any pending updates
     jest.runAllTimers();
   });
