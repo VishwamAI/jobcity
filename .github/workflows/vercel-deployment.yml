@@ -32,6 +32,7 @@ jobs:
 
       - name: Clean pnpm cache
         run: pnpm store prune
+        continue-on-error: true
 
       - name: Install Node.js dependencies
         run: pnpm install --frozen-lockfile
