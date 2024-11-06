@@ -21,7 +21,7 @@ interface AppContentProps {
 }
 
 const AppContent: FC<AppContentProps> = ({ isLoading, colorMode }) => (
-  <Box className="App" bg={colorMode === 'dark' ? 'gray.800' : 'white'}>
+  <Box className="App" bg={colorMode === 'dark' ? 'gray.800' : 'white'} data-testid="box">
     {isLoading ? (
       <Loader />
     ) : (
