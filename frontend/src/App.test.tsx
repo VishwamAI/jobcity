@@ -4,7 +4,7 @@ import { render } from './test-utils';
 import App from './App';
 
 test('renders learn react link', () => {
-  render(<App />);
+  render(<App RouterProvider={({ children }) => <>{children}</>} />);
   const linkElement = screen.getByText(/learn react/i);
   expect(linkElement).toBeInTheDocument();
 });
