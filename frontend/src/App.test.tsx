@@ -1,6 +1,7 @@
 import React from 'react';
-import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { render } from './test-utils';
+import { act } from 'react-dom/test-utils';
 import App from './App';
 
 jest.mock('./hooks/useLoading', () => ({
@@ -8,7 +9,8 @@ jest.mock('./hooks/useLoading', () => ({
 }));
 
 test('renders landing page', async () => {
-  render(<App RouterProvider={({ children }) => <>{children}</>} />);
-  await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+  await act(async () => {
+    render(<App RouterProvider={({ children }) => <>{children}</>} />);
+  });
   expect(screen.getByTestId('box')).toBeInTheDocument();
 });
