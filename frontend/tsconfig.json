@@ -22,6 +22,9 @@
     "baseUrl": "src"
   },
   "include": [
-    "src"
+    "src",
+    "src/setupTests.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ]
 }

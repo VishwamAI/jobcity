@@ -35,10 +35,7 @@ jobs:
         continue-on-error: true
 
       - name: Install Node.js dependencies
-        run: |
-          pnpm install
-          # Install required type definitions
-          pnpm add -D @types/testing-library__jest-dom
+        run: pnpm install
 
       - name: Commit updated lockfile
         run: |
