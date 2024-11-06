@@ -62,9 +62,7 @@ jobs:
 
       - name: Run frontend tests
         run: |
-          pnpm run test:ci --production
-          pnpm run test:e2e --production
-          pnpm run test:component --production
+          CI=true pnpm run test --production
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
