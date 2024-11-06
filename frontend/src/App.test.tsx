@@ -4,14 +4,22 @@ import { render, waitForElementToBeRemoved } from './test-utils';
 import { act } from 'react-dom/test-utils';
 import App from './App';
 
-let mockLoading = true;
+// Create a mock module with a callback to update loading state
+const mockLoadingModule = {
+  loading: true,
+  setLoading: (value: boolean) => {
+    mockLoadingModule.loading = value;
+  }
+};
+
 jest.mock('./hooks/useLoading', () => ({
-  useLoading: () => mockLoading
+  useLoading: () => mockLoadingModule.loading
 }));
 
 beforeEach(() => {
-  mockLoading = true;
+  mockLoadingModule.loading = true;
   jest.useFakeTimers();
+  jest.clearAllMocks();
 });
 
 afterEach(() => {
@@ -26,7 +34,9 @@ test('renders landing page', async () => {
 
   // Change loading state after confirming loading indicator exists
   await act(async () => {
-    mockLoading = false;
+    mockLoadingModule.setLoading(false);
+    // Advance timers to trigger any pending updates
+    jest.runAllTimers();
   });
 
   // Wait for loading indicator to be removed
