@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, FC } from 'react';
 import { screen } from '@testing-library/react';
 import { render, waitForElementToBeRemoved, RenderOptions } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
 
@@ -42,14 +43,25 @@ const customRender = (
   ui: React.ReactElement,
   options?: Omit<RenderOptions, 'wrapper'> & { wrapper?: FC<{ children: ReactNode }> }
 ) => {
-  return render(ui, { ...options });
+  const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
+    return (
+      <BrowserRouter>
+        {options?.wrapper ? (
+          <options.wrapper>{children}</options.wrapper>
+        ) : (
+          children
+        )}
+      </BrowserRouter>
+    );
+  };
+  return render(ui, { ...options, wrapper: Wrapper });
 };
 
 test('renders landing page', async () => {
   let setLoadingFn: ((loading: boolean) => void) | undefined;
 
   // Create a wrapper that captures the setLoading function
-  const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
+  const LoadingWrapper: FC<{ children: ReactNode }> = ({ children }) => {
     const [loading, setLoading] = useState(true);
     setLoadingFn = setLoading;
     return (
@@ -62,7 +74,7 @@ test('renders landing page', async () => {
   // Render the component with our loading provider
   customRender(
     <App RouterProvider={({ children }) => <>{children}</>} />,
-    { wrapper: Wrapper }
+    { wrapper: LoadingWrapper }
   );
 
   // Verify loading indicator is present initially
