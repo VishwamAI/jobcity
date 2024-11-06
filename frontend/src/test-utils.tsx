@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 interface AllProvidersProps {
   children: ReactNode;
@@ -9,9 +9,9 @@ interface AllProvidersProps {
 
 const AllProviders = ({ children }: AllProvidersProps) => {
   return (
-    <BrowserRouter>
+    <MemoryRouter>
       <ChakraProvider>{children}</ChakraProvider>
-    </BrowserRouter>
+    </MemoryRouter>
   );
 };
 
