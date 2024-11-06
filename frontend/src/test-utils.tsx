@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 
 interface AllProvidersProps {
@@ -10,10 +10,7 @@ interface AllProvidersProps {
 const AllProviders = ({ children }: AllProvidersProps) => {
   return (
     <BrowserRouter>
-      <ChakraProvider>
-        <ColorModeScript />
-        {children}
-      </ChakraProvider>
+      <ChakraProvider>{children}</ChakraProvider>
     </BrowserRouter>
   );
 };

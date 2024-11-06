@@ -6,14 +6,13 @@ module.exports = {
     '/node_modules/(?!axios|@chakra-ui|@emotion)/'
   ],
   moduleNameMapper: {
-    '^@chakra-ui/(.*)$': '<rootDir>/node_modules/@chakra-ui/$1',
+    '^@chakra-ui/react$': '<rootDir>/src/__mocks__/@chakra-ui/react.js',
     '^@chakra-ui/utils/context$': '<rootDir>/src/__mocks__/@chakra-ui/utils/context.js',
-    '^@chakra-ui/utils/(.*)$': '<rootDir>/node_modules/@chakra-ui/utils/dist/cjs/$1',
-    '^@chakra-ui/react/dist/(.*)$': '<rootDir>/node_modules/@chakra-ui/react/dist/$1',
-    '^@chakra-ui/react$': '<rootDir>/node_modules/@chakra-ui/react',
-    '^@chakra-ui/utils$': '<rootDir>/node_modules/@chakra-ui/utils',
-    '^@chakra-ui/system/(.*)$': '<rootDir>/node_modules/@chakra-ui/system/dist/cjs/$1',
-    '^@chakra-ui/system$': '<rootDir>/node_modules/@chakra-ui/system'
+    '^@chakra-ui/(.*)$': '<rootDir>/node_modules/@chakra-ui/$1',
+    '^@emotion/react$': '<rootDir>/src/__mocks__/@emotion/react.js',
+    '^@emotion/styled/base$': '<rootDir>/node_modules/@emotion/styled/base/dist/emotion-styled-base.cjs.js',
+    '^@emotion/(.*)$': '<rootDir>/node_modules/@emotion/$1',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
   },
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts']
