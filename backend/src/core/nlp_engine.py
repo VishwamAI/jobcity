@@ -1,60 +1,44 @@
-import nltk
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
+from typing import List, Dict, Any
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
 class NLPEngine:
     def __init__(self):
-        nltk.download('punkt', quiet=True)
-        nltk.download('stopwords', quiet=True)
-        nltk.download('wordnet', quiet=True)
-        self.stop_words = set(stopwords.words('english'))
-        self.lemmatizer = WordNetLemmatizer()
-        self.vectorizer = TfidfVectorizer()
+        self.vectorizer = TfidfVectorizer(stop_words='english')
 
-    def preprocess_text(self, text):
-        tokens = word_tokenize(text.lower())
-        tokens = [self.lemmatizer.lemmatize(token) for token in tokens if token.isalnum()]
-        tokens = [token for token in tokens if token not in self.stop_words]
-        return ' '.join(tokens)
-
-    def extract_keywords(self, text, num_keywords=10):
-        preprocessed_text = self.preprocess_text(text)
-        tfidf_matrix = self.vectorizer.fit_transform([preprocessed_text])
-        feature_names = self.vectorizer.get_feature_names_out()
-        sorted_items = sorted(zip(feature_names, tfidf_matrix.toarray()[0]), key=lambda x: x[1], reverse=True)
-        return [item[0] for item in sorted_items[:num_keywords]]
-
-    def calculate_similarity(self, text1, text2):
-        preprocessed_text1 = self.preprocess_text(text1)
-        preprocessed_text2 = self.preprocess_text(text2)
-        tfidf_matrix = self.vectorizer.fit_transform([preprocessed_text1, preprocessed_text2])
-        return cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
-
-    def match_profile_with_job(self, job_description, applicant_profile):
-        job_keywords = self.extract_keywords(job_description)
-        profile_keywords = self.extract_keywords(applicant_profile)
-        common_keywords = set(job_keywords) & set(profile_keywords)
-        similarity_score = self.calculate_similarity(job_description, applicant_profile)
+    def analyze_job_description(self, description: str) -> Dict[str, Any]:
+        """Analyze job description to extract key requirements and skills."""
+        # Basic implementation for now
+        words = description.lower().split()
         return {
-            'common_keywords': list(common_keywords),
-            'similarity_score': similarity_score,
-            'match_percentage': (len(common_keywords) / len(job_keywords)) * 100
+            "word_count": len(words),
+            "contains_requirements": "requirements" in words,
+            "contains_qualifications": "qualifications" in words
         }
 
-    def analyze_job_description(self, job_description):
-        preprocessed_text = self.preprocess_text(job_description)
-        keywords = self.extract_keywords(preprocessed_text, num_keywords=20)
-        sentences = nltk.sent_tokenize(job_description)
+    def match_resume(self, job_description: str, resume_text: str) -> float:
+        """Calculate similarity between job description and resume."""
+        if not job_description or not resume_text:
+            return 0.0
 
-        requirements = [sent for sent in sentences if any(keyword in sent.lower() for keyword in ['require', 'qualification', 'skill'])]
-        responsibilities = [sent for sent in sentences if any(keyword in sent.lower() for keyword in ['responsibilit', 'duty', 'task'])]
+        # Create TF-IDF matrix
+        tfidf_matrix = self.vectorizer.fit_transform([job_description, resume_text])
 
-        return {
-            'keywords': keywords,
-            'requirements': requirements,
-            'responsibilities': responsibilities
-        }
+        # Calculate cosine similarity
+        similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0]
+
+        return float(similarity)
+
+    def extract_skills(self, text: str) -> List[str]:
+        """Extract skills from text using basic keyword matching."""
+        # Basic implementation - could be enhanced with ML/NLP
+        common_skills = ["python", "java", "javascript", "sql", "aws", "docker"]
+        found_skills = []
+
+        text_lower = text.lower()
+        for skill in common_skills:
+            if skill in text_lower:
+                found_skills.append(skill)
+
+        return found_skills

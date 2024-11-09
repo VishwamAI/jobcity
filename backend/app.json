@@ -1,0 +1,21 @@
+{
+  "name": "JobCity Backend",
+  "description": "Backend service for JobCity automated job application system",
+  "repository": "https://github.com/VishwamAI/jobcity",
+  "keywords": ["python", "fastapi", "job-applications"],
+  "env": {
+    "DATABASE_URL": {
+      "description": "PostgreSQL database URL",
+      "value": "postgres://user_zktribknii:qTg1pIe3pAgjyJOrePWx@devinapps-backend-prod.cluster-clussqewa0rh.us-west-2.rds.amazonaws.com/db_vqyfvbwjgl?sslmode=require"
+    },
+    "JWT_SECRET": {
+      "description": "Secret key for JWT token generation",
+      "generator": "secret"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}

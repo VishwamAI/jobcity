@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: jobcity-backend
+Version: 0.1.0
+Summary: Backend for JobCity application including the planner feature
+Requires-Python: >=3.8
+Requires-Dist: fastapi<0.69.0,>=0.68.0
+Requires-Dist: pydantic<2.0.0,>=1.8.0
+Requires-Dist: uvicorn<0.16.0,>=0.15.0
+Requires-Dist: pytest<7.0.0,>=6.2.5
+Requires-Dist: httpx<0.24.0,>=0.23.0
