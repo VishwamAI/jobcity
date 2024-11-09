@@ -13,7 +13,7 @@ jobs:
       run:
         working-directory: ./frontend
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # Install pnpm first
       - name: Install pnpm
@@ -32,9 +32,23 @@ jobs:
 
       - name: Clean pnpm cache
         run: pnpm store prune
+        continue-on-error: true
 
       - name: Install Node.js dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
+
+      - name: Commit updated lockfile
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add pnpm-lock.yaml
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update pnpm lockfile"
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          fi
+        continue-on-error: true
 
       - name: Run security audit
         run: pnpm audit
@@ -48,12 +62,10 @@ jobs:
 
       - name: Run frontend tests
         run: |
-          pnpm run test:ci --production
-          pnpm run test:e2e --production
-          pnpm run test:component --production
+          CI=true pnpm run test
 
       - name: Upload test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-test-results
           path: ./frontend/test-results

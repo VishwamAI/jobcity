@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, FC } from "react";
+import React, { Suspense, lazy, FC, PropsWithChildren } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Box, useColorMode } from "@chakra-ui/react";
 import "./App.css";
@@ -15,33 +15,46 @@ const Chat = lazy(() => import("./pages/Chat"));
 const JobBrowser = lazy(() => import("./pages/JobBrowser"));
 const Profile = lazy(() => import("./pages/Profile"));
 
-const App: FC = () => {
+interface AppContentProps {
+  isLoading: boolean;
+  colorMode: string;
+}
+
+const AppContent: FC<AppContentProps> = ({ isLoading, colorMode }) => (
+  <Box className="App" bg={colorMode === 'dark' ? 'gray.800' : 'white'} data-testid="box">
+    {isLoading ? (
+      <Loader />
+    ) : (
+      <>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/job-browser" element={<JobBrowser />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </Suspense>
+        <ScrollToTopButton />
+      </>
+    )}
+  </Box>
+);
+
+interface AppProps {
+  RouterProvider?: FC<PropsWithChildren>;
+}
+
+const App: FC<AppProps> = ({ RouterProvider = Router }) => {
   const isLoading = useLoading({ duration: 2500 });
   const { colorMode } = useColorMode();
 
   return (
-    <Router>
-      <Box className="App" bg={colorMode === 'dark' ? 'gray.800' : 'white'}>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <Suspense fallback={<Loader />}>
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/auth" element={<AuthPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/chat" element={<Chat />} />
-                <Route path="/job-browser" element={<JobBrowser />} />
-                <Route path="/profile" element={<Profile />} />
-              </Routes>
-            </Suspense>
-            <ScrollToTopButton />
-          </>
-        )}
-      </Box>
-    </Router>
+    <RouterProvider>
+      <AppContent isLoading={isLoading} colorMode={colorMode} />
+    </RouterProvider>
   );
 };
 
