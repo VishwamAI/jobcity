@@ -1,9 +1,12 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import sessionmaker, Session, declarative_base
+import os
 
-SQLALCHEMY_DATABASE_URL = "postgresql://user_zktribknii:qTg1pIe3pAgjyJOrePWx@devinapps-backend-prod.cluster-clussqewa0rh.us-west-2.rds.amazonaws.com/db_vqyfvbwjgl?sslmode=require"
+# Use environment variable for database URL with a default for development
+SQLALCHEMY_DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://postgres:postgres@localhost:5432/test_db"
+)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
