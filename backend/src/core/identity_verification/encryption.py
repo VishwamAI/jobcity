@@ -3,6 +3,7 @@ Encryption utilities for secure document storage and handling.
 Uses AES-256 for document encryption and Argon2 for key derivation.
 """
 import os
+from typing import Union
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -132,3 +133,47 @@ class DocumentHasher:
         """
         current_hash = DocumentHasher.hash_document(document_data)
         return secrets.compare_digest(current_hash, stored_hash)
+
+# General-purpose encryption functions for credential management
+def get_encryption_key() -> bytes:
+    """Get or generate encryption key."""
+    key = os.getenv('ENCRYPTION_KEY')
+    if not key:
+        key = Fernet.generate_key()
+        os.environ['ENCRYPTION_KEY'] = key.decode()
+    return key.encode() if isinstance(key, str) else key
+
+def encrypt_data(data: Union[str, bytes]) -> str:
+    """
+    Encrypt data using Fernet symmetric encryption.
+
+    Args:
+        data: String or bytes to encrypt
+
+    Returns:
+        Encrypted data as base64 string
+    """
+    if isinstance(data, str):
+        data = data.encode()
+
+    f = Fernet(get_encryption_key())
+    encrypted_data = f.encrypt(data)
+    return b64encode(encrypted_data).decode()
+
+def decrypt_data(encrypted_data: str) -> str:
+    """
+    Decrypt Fernet-encrypted data.
+
+    Args:
+        encrypted_data: Base64-encoded encrypted string
+
+    Returns:
+        Decrypted string
+    """
+    try:
+        encrypted_bytes = b64decode(encrypted_data.encode())
+        f = Fernet(get_encryption_key())
+        decrypted_data = f.decrypt(encrypted_bytes)
+        return decrypted_data.decode()
+    except Exception as e:
+        raise ValueError(f"Failed to decrypt data: {str(e)}")

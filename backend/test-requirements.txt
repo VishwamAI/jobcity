@@ -1,0 +1,8 @@
+# Test dependencies
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-timeout==2.2.0
+selenium==4.15.2
+loguru==0.7.2
+httpx==0.25.1
