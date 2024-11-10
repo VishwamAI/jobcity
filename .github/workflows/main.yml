@@ -34,13 +34,172 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest-cov flake8
+        # Install alembic ensuring scripts are installed
+        pip install --upgrade --force-reinstall alembic pytest-cov flake8 psycopg2-binary
+        # Add local bin to PATH
+        export PATH="$HOME/.local/bin:$PATH"
+        pip list | grep alembic
+    - name: Verify environment
+      working-directory: ./backend
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+        PYTHONPATH: ${GITHUB_WORKSPACE}/backend
+      run: |
+        python -c "import sys; print('Python path:', sys.path)"
+        python -c "import alembic.config; print('Alembic configuration verified')"
+        python -c "import psycopg2; conn=psycopg2.connect('$DATABASE_URL'); print('Database connection verified')"
+
     - name: Run migrations
       working-directory: ./backend
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+        PYTHONPATH: ${GITHUB_WORKSPACE}/backend
       run: |
-        python -m alembic upgrade head
+        echo "Setting up Python environment..."
+        export PYTHONPATH="${PYTHONPATH}:${PWD}"
+        echo "Current PYTHONPATH: $PYTHONPATH"
+
+        # Initialize Alembic if not already initialized
+        echo "Initializing Alembic..."
+
+        # Create alembic directory structure
+        mkdir -p alembic/versions
+
+        # Create alembic.ini with proper database URL
+        cat > alembic.ini << EOL
+[alembic]
+script_location = alembic
+sqlalchemy.url = $DATABASE_URL
+file_template = %%(year)d_%%(month).2d_%%(day).2d_%%(hour).2d%%(minute).2d-%%(rev)s_%%(slug)s
+
+[loggers]
+keys = root,sqlalchemy,alembic
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = WARN
+handlers = console
+qualname =
+
+[logger_sqlalchemy]
+level = WARN
+handlers =
+qualname = sqlalchemy.engine
+
+[logger_alembic]
+level = INFO
+handlers =
+qualname = alembic
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(levelname)-5.5s [%(name)s] %(message)s
+datefmt = %H:%M:%S
+EOL
+
+        # Create env.py if it doesn't exist
+        if [ ! -f "alembic/env.py" ]; then
+          cat > alembic/env.py << 'EOL'
+from logging.config import fileConfig
+from sqlalchemy import engine_from_config
+from sqlalchemy import pool
+from alembic import context
+import os
+
+config = context.config
+
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
+
+def run_migrations_offline() -> None:
+    url = os.getenv("DATABASE_URL")
+    context.configure(
+        url=url,
+        target_metadata=None,
+        literal_binds=True,
+        dialect_opts={"paramstyle": "named"},
+    )
+    with context.begin_transaction():
+        context.run_migrations()
+
+def run_migrations_online() -> None:
+    configuration = config.get_section(config.config_ini_section)
+    configuration["sqlalchemy.url"] = os.getenv("DATABASE_URL")
+    connectable = engine_from_config(
+        configuration,
+        prefix="sqlalchemy.",
+        poolclass=pool.NullPool,
+    )
+    with connectable.connect() as connection:
+        context.configure(
+            connection=connection,
+            target_metadata=None
+        )
+        with context.begin_transaction():
+            context.run_migrations()
+
+if context.is_offline_mode():
+    run_migrations_offline()
+else:
+    run_migrations_online()
+EOL
+        fi
+
+        # Create and run migration script
+        echo "Creating migration script..."
+        cat > run_migrations.py << 'EOL'
+import os
+import sys
+import logging
+from alembic import command
+from alembic.config import Config
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('alembic')
+
+def run_migrations():
+    try:
+        logger.info("Starting database migration")
+        logger.info(f"Current directory: {os.getcwd()}")
+        logger.info(f"Directory contents: {os.listdir('.')}")
+
+        # Load config from file
+        config = Config("alembic.ini")
+
+        # Set database URL
+        config.set_main_option("sqlalchemy.url", os.environ["DATABASE_URL"])
+
+        # Create initial migration if none exists
+        versions_dir = os.path.join('alembic', 'versions')
+        if not os.listdir(versions_dir):
+            logger.info("Creating initial migration...")
+            command.revision(config, message="Initial migration", autogenerate=True)
+
+        # Run the migration
+        command.upgrade(config, "head")
+
+        logger.info("Database migration completed successfully")
+    except Exception as e:
+        logger.error(f"Migration failed: {str(e)}", exc_info=True)
+        sys.exit(1)
+
+if __name__ == "__main__":
+    run_migrations()
+EOL
+
+        echo "Running migrations with Python script..."
+        python run_migrations.py
     - name: Run tests with coverage
       working-directory: ./backend
       env:
