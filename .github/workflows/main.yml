@@ -46,19 +46,37 @@ jobs:
         # Install system dependencies
         sudo apt-get update
         sudo apt-get install -y tesseract-ocr
-        # Install core dependencies first
-        pip install 'sqlalchemy>=1.4.0,<2.0.0'
-        pip install 'alembic>=1.12.0,<2.0.0'
-        pip install 'psycopg2-binary>=2.9.0,<3.0.0'
+        # Install core dependencies first with explicit paths
+        python -m pip install --upgrade 'sqlalchemy>=1.4.0,<2.0.0'
+        python -m pip install --upgrade --force-reinstall 'alembic>=1.12.0,<2.0.0'
+        python -m pip install --upgrade 'psycopg2-binary>=2.9.0,<3.0.0'
         # Install requirements
-        pip install -r requirements.txt
+        python -m pip install -r requirements.txt
         # Install test dependencies
-        pip install pytest-cov flake8 httpx pytesseract pycountry PyYAML selenium pytest-mock loguru reportlab inputimeout
-        # Add local bin to PATH
+        python -m pip install pytest-cov flake8 httpx pytesseract pycountry PyYAML selenium pytest-mock loguru reportlab inputimeout
+        # Add local bin to PATH and verify installations
         export PATH="$HOME/.local/bin:$PATH"
-        # Verify installations
+        # Verify installations and paths
         python -m pip list
-        python -c "import alembic; print(f'Alembic version: {alembic.__version__}')"
+        # Verify Alembic installation and module accessibility
+        python << 'EOF'
+import sys
+import os
+import importlib.util
+print("Python version:", sys.version)
+print("Python executable:", sys.executable)
+print("PYTHONPATH:", os.getenv("PYTHONPATH"))
+try:
+    import alembic
+    import alembic.__main__
+    print("Alembic version:", alembic.__version__)
+    print("Alembic location:", alembic.__file__)
+    print("Alembic __main__ location:", alembic.__main__.__file__)
+    print("Alembic successfully imported")
+except ImportError as e:
+    print("Error importing Alembic:", e)
+    exit(1)
+EOF
 
     - name: Setup backend test environment
       working-directory: ./backend
@@ -116,12 +134,9 @@ jobs:
         PYTHONPATH: ${GITHUB_WORKSPACE}/backend
       run: |
         echo "Setting up Python environment..."
-        export PYTHONPATH="${PYTHONPATH}:${PWD}"
+        # Ensure backend directory is in Python path
+        export PYTHONPATH="${GITHUB_WORKSPACE}/backend:${PWD}:${PYTHONPATH}"
         echo "Current PYTHONPATH: $PYTHONPATH"
-
-        # Ensure alembic CLI is in PATH
-        python -m pip install --upgrade alembic
-        export PATH="$HOME/.local/bin:$PATH"
 
         # Create Alembic directory structure
         mkdir -p migrations/versions
@@ -249,11 +264,71 @@ except Exception as e:
     exit(1)
 EOF
 
+        # Set up environment variables for both migration commands
+        export PYTHONPATH="${GITHUB_WORKSPACE}/backend:${PWD}:${PYTHONPATH}"
+        export PYTHONUNBUFFERED=1
+        export PYTHONDONTWRITEBYTECODE=1
+
         echo "Running initial migration..."
-        python -m alembic revision --autogenerate -m "Initial migration"
+        python << "EOF"
+import os
+import sys
+import traceback
+
+print("Current environment:")
+print(f"PYTHONPATH: {os.getenv('PYTHONPATH')}")
+print(f"Working directory: {os.getcwd()}")
+print(f"Python executable: {sys.executable}")
+print(f"Python version: {sys.version}")
+print(f"Sys.path: {sys.path}")
+
+try:
+    import alembic.config
+    print(f"Alembic location: {alembic.config.__file__}")
+    alembicArgs = [
+        '--raiseerr',
+        'revision',
+        '--autogenerate',
+        '-m', 'Initial migration'
+    ]
+    print(f"Running Alembic with args: {alembicArgs}")
+    alembic.config.main(argv=alembicArgs)
+except Exception as e:
+    print(f"Error during migration: {str(e)}")
+    print("Traceback:")
+    traceback.print_exc()
+    sys.exit(1)
+EOF
 
         echo "Running migration upgrade..."
-        python -m alembic upgrade head
+        python << "EOF"
+import os
+import sys
+import traceback
+
+print("Current environment:")
+print(f"PYTHONPATH: {os.getenv('PYTHONPATH')}")
+print(f"Working directory: {os.getcwd()}")
+print(f"Python executable: {sys.executable}")
+print(f"Python version: {sys.version}")
+print(f"Sys.path: {sys.path}")
+
+try:
+    import alembic.config
+    print(f"Alembic location: {alembic.config.__file__}")
+    alembicArgs = [
+        '--raiseerr',
+        'upgrade',
+        'head'
+    ]
+    print(f"Running Alembic with args: {alembicArgs}")
+    alembic.config.main(argv=alembicArgs)
+except Exception as e:
+    print(f"Error during migration: {str(e)}")
+    print("Traceback:")
+    traceback.print_exc()
+    sys.exit(1)
+EOF
 
     - name: Run tests with coverage
       working-directory: ./backend
