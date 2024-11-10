@@ -128,9 +128,13 @@ jobs:
 
         # Initialize Alembic if not already initialized
         if [ ! -f alembic.ini ]; then
-          alembic init migrations
+          python -m alembic init migrations
           # Update alembic.ini with correct database URL
           sed -i "s|sqlalchemy.url = .*|sqlalchemy.url = ${DATABASE_URL}|" alembic.ini
+          # Debug output
+          echo "Alembic initialization completed"
+          echo "Contents of alembic.ini:"
+          cat alembic.ini
         fi
 
         # Update env.py to use environment variable for database URL
@@ -207,11 +211,49 @@ jobs:
             run_migrations_online()
         EOL
 
-        # Create initial migration
-        alembic revision --autogenerate -m "Initial migration"
+        # Debug output before migrations
+        echo "Verifying migrations setup..."
+        ls -la migrations/
+        echo "Verifying migrations/versions directory..."
+        ls -la migrations/versions/
+        echo "Current working directory: $(pwd)"
 
-        # Run migrations
-        alembic upgrade head
+        # Verify Python environment
+        echo "Verifying Python environment..."
+        python << 'EOF'
+import sys
+import os
+import site
+
+print("Python version:", sys.version)
+print("Python executable:", sys.executable)
+print("PYTHONPATH:", os.getenv("PYTHONPATH"))
+print("Site packages:", site.getsitepackages())
+print("Working directory:", os.getcwd())
+print("Environment variables:")
+for key in ["DATABASE_URL", "PYTHONPATH"]:
+    print(f"  {key}:", os.getenv(key))
+EOF
+
+        # Verify database connection and environment
+        echo "Verifying database connection..."
+        python << 'EOF'
+import os
+import psycopg2
+try:
+    conn = psycopg2.connect(os.getenv("DATABASE_URL"))
+    print("Database connection successful")
+    conn.close()
+except Exception as e:
+    print(f"Database connection error: {e}")
+    exit(1)
+EOF
+
+        echo "Running initial migration..."
+        python -m alembic revision --autogenerate -m "Initial migration"
+
+        echo "Running migration upgrade..."
+        python -m alembic upgrade head
 
     - name: Run tests with coverage
       working-directory: ./backend
