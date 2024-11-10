@@ -149,19 +149,29 @@ jobs:
         import logging
         from alembic.config import Config
         from alembic import command
+        from pathlib import Path
 
         logging.basicConfig(level=logging.INFO)
         logger = logging.getLogger(__name__)
 
         try:
-            # Create alembic config
-            config = Config()
-            config.set_main_option('script_location', 'migrations')
-            config.set_main_option('sqlalchemy.url', os.environ['DATABASE_URL'])
+            # Create alembic.ini
+            config_path = Path('alembic.ini')
+            if not config_path.exists():
+                logger.info("Creating alembic.ini...")
+                config = Config()
+                config.set_main_option('script_location', 'migrations')
+                config.set_main_option('sqlalchemy.url', os.environ['DATABASE_URL'])
+                config.set_main_option('file_template', '%%(year)d_%%(month).2d_%%(day).2d_%%(hour).2d_%%(minute).2d_%%(second).2d_%%(rev)s_%%(slug)s')
+                with open(config_path, 'w') as f:
+                    config.write(f)
+            else:
+                config = Config(config_path)
 
             # Initialize migrations if needed
-            if not os.path.exists('migrations/versions'):
-                os.makedirs('migrations/versions')
+            migrations_dir = Path('migrations/versions')
+            if not migrations_dir.exists():
+                migrations_dir.mkdir(parents=True, exist_ok=True)
                 logger.info("Creating initial migration...")
                 command.revision(config, message="Initial migration", autogenerate=True)
 
