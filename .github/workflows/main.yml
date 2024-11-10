@@ -136,6 +136,8 @@ EOF
         echo "Setting up Python environment..."
         # Ensure backend directory is in Python path
         export PYTHONPATH="${GITHUB_WORKSPACE}/backend:${PWD}:${PYTHONPATH}"
+        export PYTHONUNBUFFERED=1
+        export PYTHONDONTWRITEBYTECODE=1
         echo "Current PYTHONPATH: $PYTHONPATH"
 
         # Create Alembic directory structure
@@ -232,42 +234,6 @@ EOF
         echo "Verifying migrations/versions directory..."
         ls -la migrations/versions/
         echo "Current working directory: $(pwd)"
-
-        # Verify Python environment
-        echo "Verifying Python environment..."
-        python << 'EOF'
-import sys
-import os
-import site
-
-print("Python version:", sys.version)
-print("Python executable:", sys.executable)
-print("PYTHONPATH:", os.getenv("PYTHONPATH"))
-print("Site packages:", site.getsitepackages())
-print("Working directory:", os.getcwd())
-print("Environment variables:")
-for key in ["DATABASE_URL", "PYTHONPATH"]:
-    print(f"  {key}:", os.getenv(key))
-EOF
-
-        # Verify database connection and environment
-        echo "Verifying database connection..."
-        python << 'EOF'
-import os
-import psycopg2
-try:
-    conn = psycopg2.connect(os.getenv("DATABASE_URL"))
-    print("Database connection successful")
-    conn.close()
-except Exception as e:
-    print(f"Database connection error: {e}")
-    exit(1)
-EOF
-
-        # Set up environment variables for both migration commands
-        export PYTHONPATH="${GITHUB_WORKSPACE}/backend:${PWD}:${PYTHONPATH}"
-        export PYTHONUNBUFFERED=1
-        export PYTHONDONTWRITEBYTECODE=1
 
         echo "Running initial migration..."
         python -m alembic revision --autogenerate -m "Initial migration"
