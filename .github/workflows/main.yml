@@ -38,7 +38,7 @@ jobs:
         sudo apt-get install -y tesseract-ocr
         pip install -r requirements.txt
         # Install test dependencies
-        pip install --upgrade --force-reinstall alembic pytest-cov flake8 psycopg2-binary httpx pytesseract pycountry PyYAML selenium pytest-mock loguru
+        pip install --upgrade --force-reinstall alembic pytest-cov flake8 psycopg2-binary httpx pytesseract pycountry PyYAML selenium pytest-mock loguru reportlab inputimeout
         # Add local bin to PATH
         export PATH="$HOME/.local/bin:$PATH"
         pip list | grep alembic
