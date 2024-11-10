@@ -29,10 +29,10 @@
     "web-vitals": "^3.5.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject",
+    "start": "pnpm start",
+    "build": "pnpm build",
+    "test": "pnpm test",
+    "eject": "pnpm eject",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "type-check": "tsc --noEmit"
   },

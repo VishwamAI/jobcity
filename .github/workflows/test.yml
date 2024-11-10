@@ -24,7 +24,26 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         
-    - name: Run tests
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'pnpm'
+
+    - name: Install pnpm
+      run: npm install -g pnpm
+
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        pnpm install
+
+    - name: Run frontend tests
+      run: |
+        cd frontend
+        pnpm test
+
+    - name: Run backend tests
       working-directory: ./backend
       env:
         TESTING: true
