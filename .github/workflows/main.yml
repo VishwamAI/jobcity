@@ -60,31 +60,31 @@ jobs:
         python -m pip list
         # Verify Alembic installation and module accessibility
         python << 'EOF'
-import sys
-import os
-import subprocess
-import importlib.util
+          import sys
+          import os
+          import subprocess
+          import importlib.util
 
-print("Python version:", sys.version)
-print("Python executable:", sys.executable)
-print("PYTHONPATH:", os.getenv("PYTHONPATH"))
+          print("Python version:", sys.version)
+          print("Python executable:", sys.executable)
+          print("PYTHONPATH:", os.getenv("PYTHONPATH"))
 
-try:
-    import alembic
-    print("Alembic version:", alembic.__version__)
-    print("Alembic location:", alembic.__file__)
+          try:
+              import alembic
+              print("Alembic version:", alembic.__version__)
+              print("Alembic location:", alembic.__file__)
 
-    # Test if we can run alembic as a module
-    result = subprocess.run([sys.executable, '-m', 'alembic', '--version'],
-                          capture_output=True, text=True)
-    print("Alembic module test output:", result.stdout)
-    if result.returncode != 0:
-        print("Alembic module test error:", result.stderr)
-        sys.exit(1)
-    print("Alembic module test successful")
-except Exception as e:
-    print("Error:", str(e))
-    sys.exit(1)
+              # Test if we can run alembic as a module
+              result = subprocess.run([sys.executable, '-m', 'alembic', '--version'],
+                                    capture_output=True, text=True)
+              print("Alembic module test output:", result.stdout)
+              if result.returncode != 0:
+                  print("Alembic module test error:", result.stderr)
+                  sys.exit(1)
+              print("Alembic module test successful")
+          except Exception as e:
+              print("Error:", str(e))
+              sys.exit(1)
 EOF
 
     - name: Setup backend test environment
@@ -165,76 +165,76 @@ EOF
 
         # Update env.py to use environment variable for database URL
         cat > migrations/env.py << 'EOL'
-        from logging.config import fileConfig
-        from sqlalchemy import engine_from_config, pool, MetaData, Table, Column, Integer, String, ForeignKey, TIMESTAMP, text
-        from alembic import context
-        import os
+          from logging.config import fileConfig
+          from sqlalchemy import engine_from_config, pool, MetaData, Table, Column, Integer, String, ForeignKey, TIMESTAMP, text
+          from alembic import context
+          import os
 
-        config = context.config
+          config = context.config
 
-        if config.config_file_name is not None:
-            fileConfig(config.config_file_name)
+          if config.config_file_name is not None:
+              fileConfig(config.config_file_name)
 
-        def get_url():
-            return os.getenv("DATABASE_URL")
+          def get_url():
+              return os.getenv("DATABASE_URL")
 
-        # Create MetaData object
-        metadata = MetaData()
+          # Create MetaData object
+          metadata = MetaData()
 
-        # Define tables
-        users = Table('users', metadata,
-            Column('id', Integer, primary_key=True),
-            Column('username', String(255), nullable=False),
-            Column('email', String(255), unique=True, nullable=False),
-            Column('created_at', TIMESTAMP, server_default=text('CURRENT_TIMESTAMP'))
-        )
+          # Define tables
+          users = Table('users', metadata,
+              Column('id', Integer, primary_key=True),
+              Column('username', String(255), nullable=False),
+              Column('email', String(255), unique=True, nullable=False),
+              Column('created_at', TIMESTAMP, server_default=text('CURRENT_TIMESTAMP'))
+          )
 
-        verified_documents = Table('verified_documents', metadata,
-            Column('id', Integer, primary_key=True),
-            Column('user_id', Integer, ForeignKey('users.id')),
-            Column('document_type', String(50), nullable=False),
-            Column('document_number', String(255)),
-            Column('status', String(50), server_default='PENDING'),
-            Column('verification_date', TIMESTAMP),
-            Column('expiry_date', TIMESTAMP),
-            Column('created_at', TIMESTAMP, server_default=text('CURRENT_TIMESTAMP'))
-        )
+          verified_documents = Table('verified_documents', metadata,
+              Column('id', Integer, primary_key=True),
+              Column('user_id', Integer, ForeignKey('users.id')),
+              Column('document_type', String(50), nullable=False),
+              Column('document_number', String(255)),
+              Column('status', String(50), server_default='PENDING'),
+              Column('verification_date', TIMESTAMP),
+              Column('expiry_date', TIMESTAMP),
+              Column('created_at', TIMESTAMP, server_default=text('CURRENT_TIMESTAMP'))
+          )
 
-        target_metadata = metadata
+          target_metadata = metadata
 
-        def run_migrations_offline() -> None:
-            url = get_url()
-            context.configure(
-                url=url,
-                target_metadata=target_metadata,
-                literal_binds=True,
-                dialect_opts={"paramstyle": "named"},
-            )
-            with context.begin_transaction():
-                context.run_migrations()
+          def run_migrations_offline() -> None:
+              url = get_url()
+              context.configure(
+                  url=url,
+                  target_metadata=target_metadata,
+                  literal_binds=True,
+                  dialect_opts={"paramstyle": "named"},
+              )
+              with context.begin_transaction():
+                  context.run_migrations()
 
-        def run_migrations_online() -> None:
-            configuration = config.get_section(config.config_ini_section)
-            if configuration is None:
-                configuration = {}
-            configuration["sqlalchemy.url"] = get_url()
-            connectable = engine_from_config(
-                configuration,
-                prefix="sqlalchemy.",
-                poolclass=pool.NullPool,
-            )
-            with connectable.connect() as connection:
-                context.configure(
-                    connection=connection,
-                    target_metadata=target_metadata
-                )
-                with context.begin_transaction():
-                    context.run_migrations()
+          def run_migrations_online() -> None:
+              configuration = config.get_section(config.config_ini_section)
+              if configuration is None:
+                  configuration = {}
+              configuration["sqlalchemy.url"] = get_url()
+              connectable = engine_from_config(
+                  configuration,
+                  prefix="sqlalchemy.",
+                  poolclass=pool.NullPool,
+              )
+              with connectable.connect() as connection:
+                  context.configure(
+                      connection=connection,
+                      target_metadata=target_metadata
+                  )
+                  with context.begin_transaction():
+                      context.run_migrations()
 
-        if context.is_offline_mode():
-            run_migrations_offline()
-        else:
-            run_migrations_online()
+          if context.is_offline_mode():
+              run_migrations_offline()
+          else:
+              run_migrations_online()
         EOL
 
         # Debug output before migrations
