@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
   push:
@@ -24,11 +24,21 @@ jobs:
           --health-retries 5
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.12'
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
     - name: Install dependencies
       working-directory: ./backend
       run: |
@@ -42,6 +52,17 @@ jobs:
         # Add local bin to PATH
         export PATH="$HOME/.local/bin:$PATH"
         pip list | grep alembic
+
+    - name: Setup backend test environment
+      working-directory: ./backend
+      run: |
+        echo "DEV_MODE=true" > .env
+        echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test_db" >> .env
+        echo "API_HOST=0.0.0.0" >> .env
+        echo "API_PORT=8000" >> .env
+        echo "INDEED_EMAIL=test@example.com" >> .env
+        echo "INDEED_PASSWORD=testpass123" >> .env
+
     - name: Verify environment
       working-directory: ./backend
       env:
@@ -186,21 +207,32 @@ jobs:
 
         # Run the migration script
         python run_migrations.py
+
     - name: Run tests with coverage
       working-directory: ./backend
       env:
         DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
       run: |
-        pytest --cov=src tests/ --cov-report=xml
+        pytest tests/ -v --cov=src --cov-report=xml --junitxml=test-results/results.xml
+
     - name: Run flake8
       working-directory: ./backend
       run: |
         flake8 src tests --max-line-length=100
 
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: backend-test-results
+        path: |
+          backend/coverage.xml
+          backend/test-results/results.xml
+
   frontend-tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: pnpm/action-setup@v2
       with:
         version: 8
@@ -215,4 +247,10 @@ jobs:
       run: pnpm install
     - name: Run tests
       working-directory: ./frontend
-      run: pnpm test
+      run: CI=true pnpm test
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: frontend-test-results
+        path: frontend/test-results
