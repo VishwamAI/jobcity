@@ -270,65 +270,10 @@ EOF
         export PYTHONDONTWRITEBYTECODE=1
 
         echo "Running initial migration..."
-        python << "EOF"
-import os
-import sys
-import traceback
-
-print("Current environment:")
-print(f"PYTHONPATH: {os.getenv('PYTHONPATH')}")
-print(f"Working directory: {os.getcwd()}")
-print(f"Python executable: {sys.executable}")
-print(f"Python version: {sys.version}")
-print(f"Sys.path: {sys.path}")
-
-try:
-    import alembic.config
-    print(f"Alembic location: {alembic.config.__file__}")
-    alembicArgs = [
-        '--raiseerr',
-        'revision',
-        '--autogenerate',
-        '-m', 'Initial migration'
-    ]
-    print(f"Running Alembic with args: {alembicArgs}")
-    alembic.config.main(argv=alembicArgs)
-except Exception as e:
-    print(f"Error during migration: {str(e)}")
-    print("Traceback:")
-    traceback.print_exc()
-    sys.exit(1)
-EOF
+        python -m alembic revision --autogenerate -m "Initial migration"
 
         echo "Running migration upgrade..."
-        python << "EOF"
-import os
-import sys
-import traceback
-
-print("Current environment:")
-print(f"PYTHONPATH: {os.getenv('PYTHONPATH')}")
-print(f"Working directory: {os.getcwd()}")
-print(f"Python executable: {sys.executable}")
-print(f"Python version: {sys.version}")
-print(f"Sys.path: {sys.path}")
-
-try:
-    import alembic.config
-    print(f"Alembic location: {alembic.config.__file__}")
-    alembicArgs = [
-        '--raiseerr',
-        'upgrade',
-        'head'
-    ]
-    print(f"Running Alembic with args: {alembicArgs}")
-    alembic.config.main(argv=alembicArgs)
-except Exception as e:
-    print(f"Error during migration: {str(e)}")
-    print("Traceback:")
-    traceback.print_exc()
-    sys.exit(1)
-EOF
+        python -m alembic upgrade head
 
     - name: Run tests with coverage
       working-directory: ./backend
