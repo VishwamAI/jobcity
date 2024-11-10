@@ -62,20 +62,29 @@ jobs:
         python << 'EOF'
 import sys
 import os
+import subprocess
 import importlib.util
+
 print("Python version:", sys.version)
 print("Python executable:", sys.executable)
 print("PYTHONPATH:", os.getenv("PYTHONPATH"))
+
 try:
     import alembic
-    import alembic.__main__
     print("Alembic version:", alembic.__version__)
     print("Alembic location:", alembic.__file__)
-    print("Alembic __main__ location:", alembic.__main__.__file__)
-    print("Alembic successfully imported")
-except ImportError as e:
-    print("Error importing Alembic:", e)
-    exit(1)
+
+    # Test if we can run alembic as a module
+    result = subprocess.run([sys.executable, '-m', 'alembic', '--version'],
+                          capture_output=True, text=True)
+    print("Alembic module test output:", result.stdout)
+    if result.returncode != 0:
+        print("Alembic module test error:", result.stderr)
+        sys.exit(1)
+    print("Alembic module test successful")
+except Exception as e:
+    print("Error:", str(e))
+    sys.exit(1)
 EOF
 
     - name: Setup backend test environment
