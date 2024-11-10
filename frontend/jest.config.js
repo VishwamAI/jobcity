@@ -14,6 +14,20 @@ const customJestConfig = {
     '^@chakra-ui/react$': '<rootDir>/src/__mocks__/@chakra-ui/react.js',
     '^@chakra-ui/utils/context$': '<rootDir>/src/__mocks__/@chakra-ui/utils/context.js',
     '^@emotion/react$': '<rootDir>/src/__mocks__/@emotion/react.js'
+  },
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', {
+      tsconfig: 'tsconfig.jest.json'
+    }]
+  },
+  testMatch: [
+    "**/__tests__/**/*.ts?(x)",
+    "**/?(*.)+(spec|test).ts?(x)"
+  ],
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.jest.json'
+    }
   }
 }
 
