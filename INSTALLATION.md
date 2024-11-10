@@ -4,7 +4,6 @@
 - Python 3.8+
 - Node.js 18.0.0+
 - PostgreSQL 12+
-- Chrome/Chromium browser
 - pnpm (for frontend package management)
 
 ## Backend Setup
