@@ -177,45 +177,45 @@ export default function LandingPage() {
             </div>
           </div>
           {isMenuOpen && (
-            <div className="md:hidden mt-4 bg-white rounded-lg shadow-lg">
+            <div className="md:hidden mt-4 bg-white rounded-lg ">
               <a
                 href="#features"
                 onClick={(e) => handleNavClick(e, "features")}
-                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
+                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 Features
               </a>
               <a
                 href="#research"
                 onClick={(e) => handleNavClick(e, "research")}
-                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
+                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 Research
               </a>
               <a
                 href="#development"
                 onClick={(e) => handleNavClick(e, "development")}
-                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
+                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 Development
               </a>
               <a
                 href="#"
                 onClick={(e) => handleNavClick(e, "about-us")}
-                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
+                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 About Us
               </a>
               <a
                 href="#"
                 onClick={(e) => handleNavClick(e, "contact-us")}
-                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
+                className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 Contact
               </a>
               <button
                 onClick={() => alert("Login functionality to be implemented")}
-                className="block w-full text-left py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150"
+                className="block w-full  py-2 px-4  hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-center bg-indigo-600 text-white font-semibold text-lg tracking-wide rounded-lg cursor-pointer "
               >
                 Login
               </button>
@@ -236,15 +236,16 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4"
+              className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-3"
             >
-              Welcome to <span className="text-indigo-600">Job-City</span>
+              Welcome to <span className="text-indigo-600 ">Job-City</span>
+           
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-xl text-gray-600 mb-8"
+              className="text-lg md:text-xl text-gray-600 mb-8 font-semibold"
             >
               Revolutionizing job search with AI and blockchain technology
             </motion.p>
