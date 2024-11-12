@@ -18,6 +18,23 @@ module.exports = override(
         '^.+\\.(ts|tsx)$': 'ts-jest',
         '^.+\\.(js|jsx)$': 'babel-jest'
       };
+      // Add Jest configuration
+      config.jest = {
+        ...config.jest,
+        testEnvironment: 'jsdom',
+        testEnvironmentOptions: {
+          url: 'http://localhost',
+          features: {
+            FetchAPI: true,
+            ProcessExternalResources: true,
+            SkipExternalResources: false
+          }
+        },
+        setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+        moduleNameMapper: {
+          '^@/(.*)$': '<rootDir>/src/$1'
+        }
+      };
     }
 
     return config;
