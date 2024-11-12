@@ -3,8 +3,14 @@ import type { ThemeConfig } from '@chakra-ui/react';
 import { EmotionCache } from '@emotion/cache';
 import type { StyleSheet } from '@emotion/sheet';
 
-const mockChakra = jest.createMockFromModule('@chakra-ui/react') as any;
-const actualChakra = jest.requireActual('@chakra-ui/react');
+// Create a minimal mock implementation
+const ChakraProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <>{children}</>;
+};
+
+const extendTheme = (config: Partial<ThemeConfig>) => {
+  return { ...config };
+};
 
 // Mock withEmotionCache function
 const withEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => {
@@ -13,7 +19,7 @@ const withEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => {
     isSpeedy: false,
     ctr: 0,
     tags: [],
-    container: document.head,
+    container: null as any, // avoid document reference in test environment
     nonce: undefined,
     key: 'mock-key',
     insert: jest.fn(),
@@ -37,19 +43,15 @@ const withEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => {
   return fn(mockCache);
 };
 
-const ChakraProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return <>{children}</>;
-};
+// Export only what we need
+export const useColorMode = jest.fn(() => ({ colorMode: 'light', toggleColorMode: jest.fn() }));
+export const useMediaQuery = jest.fn(() => [true]);
+export { ChakraProvider, extendTheme, withEmotionCache };
 
-const extendTheme = (config: Partial<ThemeConfig>) => {
-  return { ...config };
-};
-
-const exports = {
-  ...actualChakra,
-  ChakraProvider,
-  extendTheme,
-  withEmotionCache,
-};
-
-export default exports;
+// Re-export other components as needed
+export const Box = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const Flex = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const Text = ({ children, ...props }: any) => <span {...props}>{children}</span>;
+export const Button = ({ children, ...props }: any) => <button {...props}>{children}</button>;
+export const IconButton = ({ children, ...props }: any) => <button {...props}>{children}</button>;
+export const useDisclosure = () => ({ isOpen: false, onOpen: jest.fn(), onClose: jest.fn() });
