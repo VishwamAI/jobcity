@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode, FC, P
 import { screen } from '@testing-library/react';
 import { render, waitForElementToBeRemoved, RenderOptions } from '@testing-library/react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
 import theme from './theme';
@@ -34,24 +34,18 @@ const customRender = (
   ui: React.ReactElement,
   options?: Omit<RenderOptions, 'wrapper'> & { wrapper?: FC<{ children: ReactNode }> }
 ) => {
-  const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
-    return (
-      <BrowserRouter>
-        <ChakraProvider theme={theme}>
-          {options?.wrapper ? (
-            <options.wrapper>{children}</options.wrapper>
-          ) : (
-            children
-          )}
-        </ChakraProvider>
-      </BrowserRouter>
-    );
-  };
+  const Wrapper: FC<{ children: ReactNode }> = ({ children }) => (
+    <>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <ChakraProvider theme={theme}>
+        {options?.wrapper ? <options.wrapper>{children}</options.wrapper> : children}
+      </ChakraProvider>
+    </>
+  );
   return render(ui, { ...options, wrapper: Wrapper });
 };
 
 test('renders landing page', async () => {
-  // Create a proper router wrapper that includes Routes
   const TestRouterProvider: FC<PropsWithChildren> = ({ children }) => (
     <BrowserRouter>
       <Routes>
@@ -60,17 +54,9 @@ test('renders landing page', async () => {
     </BrowserRouter>
   );
 
-  // Render the component with the proper router provider
-  customRender(
-    <App RouterProvider={TestRouterProvider} />
-  );
+  customRender(<App RouterProvider={TestRouterProvider} />);
 
-  // Verify loading indicator is present initially
   expect(screen.getByRole('progressbar')).toBeInTheDocument();
-
-  // Wait for loading indicator to be removed
   await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
-
-  // Verify the main content is rendered
   expect(screen.getByTestId('box')).toBeInTheDocument();
 });
