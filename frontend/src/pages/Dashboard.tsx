@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/react';
 import {
   FiHome, FiMessageSquare, FiBriefcase, FiUser, FiMoon, FiLogOut,
-  FiBarChart2, FiCalendar, FiSettings, FiHelpCircle, FiEdit, FiZap
+  FiBarChart2, FiCalendar, FiSettings, FiHelpCircle, FiEdit, FiZap, FiMenu
 } from 'react-icons/fi';
-import { Card, CardHeader, CardContent, CardTitle } from '../components/ui/Card';
+import { Card, CardHeader, CardContent, CardTitle } from '../components/ui/card';
 
 interface Todo {
   id: number;
@@ -39,7 +39,6 @@ const initialTodos: Todo[] = [
 ];
 
 const Dashboard: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMobile] = useMediaQuery("(max-width: 768px)");
   const [isWide, setIsWide] = useState(true);
@@ -61,75 +60,81 @@ const Dashboard: React.FC = () => {
     ));
   };
 
-
-
-
   const toggleWidth = () => {
-      setIsWide(!isWide);
+    setIsWide(!isWide);
   };
+
   return (
-
-
-
-
-
-
-    <div className='flex  w-full min-h-screen '>
-      <Flex as="nav" py={2} alignItems="center" className={`${isWide ? 'w-64' : 'w-20'} flex flex-col w-20 shadow-2xl border-r-2 `}>
-      <button
-                onClick={toggleWidth}
-                className={` text-black rounded transition-all duration-600`}
+    <div className='flex w-full min-h-screen'>
+      <Flex
+        as="nav"
+        direction="column"
+        bg="white"
+        py={4}
+        px={2}
+        h="100vh"
+        position="sticky"
+        top={0}
+        className={`${isWide ? 'w-64' : 'w-20'} shadow-lg transition-all duration-300 ease-in-out`}
+      >
+        <IconButton
+          aria-label="Toggle Sidebar"
+          icon={<Icon as={FiMenu} boxSize={6} />}
+          onClick={toggleWidth}
+          variant="ghost"
+          color="gray.600"
+          alignSelf={isWide ? "flex-end" : "center"}
+          mb={6}
+          _hover={{ bg: "gray.100" }}
+        />
+        <VStack spacing={4} align="stretch">
+          {navItems.map((item) => (
+            <Flex
+              key={item.id}
+              alignItems="center"
+              p={3}
+              cursor="pointer"
+              borderRadius="md"
+              bg={activeTab === item.id ? "brand.50" : "transparent"}
+              color={activeTab === item.id ? "brand.500" : "gray.600"}
+              _hover={{ bg: "gray.100", color: "brand.500" }}
+              onClick={() => setActiveTab(item.id)}
+              transition="all 0.2s"
             >
-
-            </button>
-        {navItems.map((item) => (
-          <Flex
-            key={item.id}
-            alignItems="center"
-            onClick={() => setActiveTab(item.id)}
-            _hover={item.id !== 'dashboard' ? { bg: "gray.700", } : {bg:"gray.700"}}
-            className=' hover:rounded-md hover:text-white mt-3'
-            cursor={"pointer"}
-
-          >
-               
-            <div className='flex justify-between m-2  items-center  '>
-
-        
-            <div>  <Icon as={item.icon} boxSize={6}  /></div>
-              {/* <p className={``}>{item.label}</p> */}
-            </div>
-          </Flex>
-        ))}
-
-        <IconButton
-          aria-label="Toggle Dark Mode"
-          icon={<Icon as={FiMoon} boxSize={6} />}
-          onClick={() => { }}
-          variant="ghost"
-          color="gray.800"
-          _hover={{ bg: "gray.700" }}
-          className='mt-2 hover:text-white'
-
-        />
-
-
-
-        <IconButton
-          aria-label="Logout"
-          icon={<Icon as={FiLogOut} boxSize={6} />}
-          onClick={() => { }}
-          variant="ghost"
-          color="gray.800"
-          _hover={{ bg: "gray.700" }}
-          className='mt-2 hover:text-white'
-        />
+              <Icon as={item.icon} boxSize={6} />
+              {isWide && (
+                <Text ml={4} fontWeight="medium">
+                  {item.label}
+                </Text>
+              )}
+            </Flex>
+          ))}
+        </VStack>
         <Spacer />
-
+        <VStack spacing={4} mt={8} align="stretch">
+          <IconButton
+            aria-label="Toggle Dark Mode"
+            icon={<Icon as={FiMoon} boxSize={6} />}
+            onClick={() => {}}
+            variant="ghost"
+            color="gray.600"
+            _hover={{ bg: "gray.100", color: "brand.500" }}
+            alignSelf={isWide ? "flex-start" : "center"}
+          />
+          <IconButton
+            aria-label="Logout"
+            icon={<Icon as={FiLogOut} boxSize={6} />}
+            onClick={() => {}}
+            variant="ghost"
+            color="gray.600"
+            _hover={{ bg: "gray.100", color: "brand.500" }}
+            alignSelf={isWide ? "flex-start" : "center"}
+          />
+        </VStack>
       </Flex>
-      <div className='flex  flex-col w-full min-h-screen bg-yellow-600 '>
-        <Box flex="1" p={8} bg="gray.50" overflowY="auto">
-          <SimpleGrid columns={isMobile ? 1 : 3} spacing={6} mb={8}>
+      <Box flex="1">
+        <Box p={8} bg="gray.50" minH="100vh">
+          <SimpleGrid columns={isMobile ? 1 : 2} spacing={8} mb={8}>
             <Card>
               <CardHeader>
                 <CardTitle>Application Statistics</CardTitle>
@@ -211,11 +216,8 @@ const Dashboard: React.FC = () => {
             </VStack>
           </Box>
         </Box>
-      </div>
-
+      </Box>
     </div>
-
-
   );
 };
 
