@@ -13,27 +13,34 @@ const extendTheme = (config: Partial<ThemeConfig>) => {
 };
 
 const withEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => {
-  // Create a proper StyleSheet class instance mock
-  class MockStyleSheet implements StyleSheet {
-    isSpeedy = false;
-    ctr = 0;
-    tags: any[] = [];
-    container: any = null;
-    nonce?: string = undefined;
-    key = 'mock-key';
-    prepend = false;
-    before: any = null;
-    insertionPoint: any = null;
-    private _alreadyInsertedOrderInsensitiveRule = false;
-
-    insert = jest.fn();
-    flush = jest.fn();
-    hydrate = jest.fn();
-    _insertTag = jest.fn();
-  }
+  // Create a proper StyleSheet mock implementation
+  const mockSheet: StyleSheet = {
+    isSpeedy: false,
+    ctr: 0,
+    tags: [],
+    container: null as any,
+    nonce: '',  // Required property with default value
+    key: 'mock-key',
+    insert: jest.fn(),
+    flush: jest.fn(),
+    hydrate: jest.fn(),
+    prepend: false,
+    before: null as any,
+    insertionPoint: null as any,
+    _alreadyInsertedOrderInsensitiveRule: false,
+    _insertTag: jest.fn(),
+    speedy: function(bool: boolean) { this.isSpeedy = bool; },
+    getIds: jest.fn(() => []),
+    hasNameForId: jest.fn(() => false),
+    insertRules: jest.fn(),
+    clearNames: jest.fn(),
+    clearRules: jest.fn(),
+    clearTag: jest.fn(),
+    toString: jest.fn(() => '')
+  };
 
   const mockCache: EmotionCache = {
-    sheet: new MockStyleSheet(),
+    sheet: mockSheet,
     inserted: {},
     registered: {},
     key: 'mock-key',
