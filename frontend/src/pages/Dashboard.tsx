@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import {
-  Box, Checkbox,
+  Box,
+  Checkbox,
   Flex,
-  Heading, HStack,
+  Heading,
+  HStack,
   Icon,
   SimpleGrid,
   Text,
   VStack,
-  IconButton, useMediaQuery,
+  IconButton,
+  useMediaQuery,
   Spacer
 } from '@chakra-ui/react';
 import {
   FiHome, FiMessageSquare, FiBriefcase, FiUser, FiMoon, FiLogOut,
-  FiBarChart2, FiCalendar,
-  FiSettings, FiHelpCircle,
-  FiEdit, FiZap
+  FiBarChart2, FiCalendar, FiSettings, FiHelpCircle, FiEdit, FiZap
 } from 'react-icons/fi';
+import { Card, CardHeader, CardContent, CardTitle } from '../components/ui/Card';
 
 interface Todo {
   id: number;
@@ -127,33 +129,37 @@ const Dashboard: React.FC = () => {
       </Flex>
       <div className='flex  flex-col w-full min-h-screen bg-yellow-600 '>
         <Box flex="1" p={8} bg="gray.50" overflowY="auto">
-          <SimpleGrid columns={isMobile ? 1 : 2} spacing={8} mb={8}>
-            <Box bg="white" p={6} borderRadius="lg" boxShadow="md" _hover={{ boxShadow: "lg" }}>
-              <Heading as="h3" size="md" mb={6} color="purple.500">Application Statistics</Heading>
-              <SimpleGrid columns={[1, 2, 3]} spacing={6}>
-                <VStack align="start" spacing={2}>
-                  <HStack spacing={3}>
-                    <Icon as={FiZap} boxSize={6} color="purple.500" />
-                    <Text fontSize="2xl" fontWeight="bold" color="purple.500">28</Text>
+          <SimpleGrid columns={isMobile ? 1 : 3} spacing={6} mb={8}>
+            <Card>
+              <CardHeader>
+                <CardTitle>Application Statistics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SimpleGrid columns={1} spacing={6}>
+                  <HStack spacing={4}>
+                    <Icon as={FiZap} boxSize={6} color="brand.500" />
+                    <VStack align="start" spacing={1}>
+                      <Text fontSize="2xl" fontWeight="bold" color="brand.500">28</Text>
+                      <Text fontSize="sm" color="gray.600">Auto-Applied Jobs</Text>
+                    </VStack>
                   </HStack>
-                  <Text fontSize="sm" color="gray.600">Auto-Applied Jobs</Text>
-                </VStack>
-                <VStack align="start" spacing={2}>
-                  <HStack spacing={3}>
-                    <Icon as={FiBarChart2} boxSize={6} color="purple.500" />
-                    <Text fontSize="2xl" fontWeight="bold" color="purple.500">68%</Text>
+                  <HStack spacing={4}>
+                    <Icon as={FiBarChart2} boxSize={6} color="brand.500" />
+                    <VStack align="start" spacing={1}>
+                      <Text fontSize="2xl" fontWeight="bold" color="brand.500">68%</Text>
+                      <Text fontSize="sm" color="gray.600">Success Rate</Text>
+                    </VStack>
                   </HStack>
-                  <Text fontSize="sm" color="gray.600">Success Rate</Text>
-                </VStack>
-                <VStack align="start" spacing={2}>
-                  <HStack spacing={3}>
-                    <Icon as={FiCalendar} boxSize={6} color="purple.500" />
-                    <Text fontSize="2xl" fontWeight="bold" color="purple.500">3</Text>
+                  <HStack spacing={4}>
+                    <Icon as={FiCalendar} boxSize={6} color="brand.500" />
+                    <VStack align="start" spacing={1}>
+                      <Text fontSize="2xl" fontWeight="bold" color="brand.500">3</Text>
+                      <Text fontSize="sm" color="gray.600">Upcoming Interviews</Text>
+                    </VStack>
                   </HStack>
-                  <Text fontSize="sm" color="gray.600">Upcoming Interviews</Text>
-                </VStack>
-              </SimpleGrid>
-            </Box>
+                </SimpleGrid>
+              </CardContent>
+            </Card>
             <Box bg="white" p={6} borderRadius="lg" boxShadow="md" _hover={{ boxShadow: "lg" }}>
               <Heading as="h3" size="md" mb={4} color="purple.500">Upcoming Interviews</Heading>
               <VStack align="stretch" spacing={4}>
