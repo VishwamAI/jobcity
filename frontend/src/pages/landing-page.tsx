@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Briefcase,
   Code,
@@ -37,8 +38,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
     whileHover={{ scale: 1.05 }}
     className="bg-white rounded-xl shadow-lg overflow-hidden"
   >
-    <div className="p-6">
-      <Icon className="h-10 w-10 text-indigo-600 mb-3" />
+    <div className="p-6 flex flex-col justify-center items-center">
+      <Icon className="h-9 w-9 text-indigo-600 mb-3" />
       <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
       <p className="text-gray-600">{description}</p>
     </div>
@@ -111,50 +112,51 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100">
+    
+    <div className="  min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 ">
       <header className="bg-white shadow-sm sticky top-0 z-10">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <Briefcase className="h-8 w-8 text-indigo-600 mr-3" />
-              <span className="text-2xl font-bold text-gray-900">Job-City</span>
+              <Briefcase className="h-8 w-8 text-indigo-600 mr-3 cursor-pointer" />
+              <span className="text-2xl font-bold text-gray-900 tracking-tight cursor-pointer">Job-City</span>
             </div>
             <div className="hidden md:flex space-x-8 items-center">
-              <a
-                href="#features"
+              <Link
+                to="/features"
                 onClick={(e) => handleNavClick(e, "features")}
-                className="text-gray-600 hover:text-indigo-600 transition duration-150"
+                className="text-gray-600 hover:text-indigo-600 transition duration-150 font-semibold"
               >
                 Features
-              </a>
-              <a
-                href="#research"
+              </Link>
+              <Link
+                to="/research"
                 onClick={(e) => handleNavClick(e, "research")}
-                className="text-gray-600 hover:text-indigo-600 transition duration-150"
+                className="text-gray-600 hover:text-indigo-600 transition duration-150 font-semibold"
               >
                 Research
-              </a>
-              <a
-                href="#development"
+              </Link>
+              <Link
+                to="/development"
                 onClick={(e) => handleNavClick(e, "development")}
-                className="text-gray-600 hover:text-indigo-600 transition duration-150"
+                className="text-gray-600 hover:text-indigo-600 transition duration-150 font-semibold"
               >
                 Development
-              </a>
-              <a
-                href="#about-us"
+              </Link>
+              <Link
+                to="/about-us"
                 onClick={(e) => handleNavClick(e, "about-us")}
-                className="text-gray-600 hover:text-indigo-600 transition duration-150"
+                className="text-gray-600 hover:text-indigo-600 transition duration-150 font-semibold"
               >
                 About Us
-              </a>
-              <a
-                href="#contact-us"
+              </Link>
+              <Link
+                to="/contact-us"
                 onClick={(e) => handleNavClick(e, "contact-us")}
-                className="text-gray-600 hover:text-indigo-600 transition duration-150"
+                className="text-gray-600 hover:text-indigo-600 transition duration-150 font-semibold"
               >
                 Contact
-              </a>
+              </Link>
               <button
                 onClick={() => (window.location.href = "/auth")}
                 className="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-indigo-700 transition duration-300 ml-4"
@@ -177,45 +179,45 @@ export default function LandingPage() {
             </div>
           </div>
           {isMenuOpen && (
-            <div className="md:hidden mt-4 bg-white rounded-lg ">
-              <a
-                href="#features"
+            <div className="md:hidden mt-4 bg-white rounded-lg  ">
+              <Link
+                to="/features"
                 onClick={(e) => handleNavClick(e, "features")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 Features
-              </a>
-              <a
-                href="#research"
+              </Link>
+              <Link
+                to="/research"
                 onClick={(e) => handleNavClick(e, "research")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 Research
-              </a>
-              <a
-                href="#development"
+              </Link>
+              <Link
+                to="/development"
                 onClick={(e) => handleNavClick(e, "development")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 Development
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/Aboutus"
                 onClick={(e) => handleNavClick(e, "about-us")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 About Us
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="Contact"
                 onClick={(e) => handleNavClick(e, "contact-us")}
                 className="block py-2 px-4 text-gray-600 hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-lg font-semibold"
               >
                 Contact
-              </a>
+              </Link>
               <button
                 onClick={() => alert("Login functionality to be implemented")}
-                className="block w-full  py-2 px-4  hover:text-indigo-600 hover:bg-gray-100 transition duration-150 text-center bg-indigo-600 text-white font-semibold text-lg tracking-wide rounded-lg cursor-pointer "
+                className="block w-full  py-2 px-4  hover:bg-blue-600 transition duration-150 text-center bg-blue-700 text-white font-semibold text-lg tracking-wide rounded-lg cursor-pointer "
               >
                 Login
               </button>
@@ -224,7 +226,7 @@ export default function LandingPage() {
         </nav>
       </header>
 
-      <main>
+      <main >
         <motion.section
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -236,7 +238,7 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-3"
+              className="text-3xl sm:text-3xl md:text-6xl font-extrabold text-gray-900 mb-3"
             >
               Welcome to <span className="text-indigo-600 ">Job-City</span>
            
@@ -254,12 +256,12 @@ export default function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <a
-                href="/auth"
+              <Link
+                to="/auth"
                 className="bg-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-indigo-700 transition duration-300"
               >
                 Get Started
-              </a>
+              </Link>
             </motion.div>
           </div>
         </motion.section>
@@ -269,12 +271,12 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20"
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
             Our Features
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 cursor-pointer">
             <FeatureCard
               icon={Search}
               title="AI-Powered Job Matching"
@@ -286,7 +288,7 @@ export default function LandingPage() {
               description="Secure and transparent verification of credentials and work history using blockchain technology."
             />
             <FeatureCard
-              icon={Smartphone}
+              icon={Smartphone} 
               title="Mobile-First Approach"
               description="Access Job-City on any device with our responsive, mobile-first design for job searching on-the-go."
             />
@@ -338,26 +340,40 @@ export default function LandingPage() {
               <div className="relative">
                 <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
                 <div className="relative pl-8 md:pl-16 text-center">
-                  <h3 className="text-lg font-semibold text-indigo-600 mb-1 ml-[10px] ">
+                  <h3 className="text-lg font-semibold text-indigo-600   md:ml-[10px] ml-[20px] pt-3 ">
                     2024
                   </h3>
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 ml-[84px]">
+                  <h4 className="text-xl font-bold text-gray-900 mb-1  ml-[100px] ">
                     MVP Launch
                   </h4>
-                  <p className="text-gray-600 ml-[184px]">
+                 
+                  <p className="text-gray-600 ml-[184px] hidden md:block ">
                     Launch of our Minimum Viable <br />
+                   
                     <span className="mr-7">Product with core features.</span>
                   </p>
+
+
+
+                    <p className="text-gray-600 block md:hidden  ml-40 ">
+                    Launch of our Minimum 
+                   
+                    
+                  </p>
+                  <p className="block md:hidden  ml-32"> Viable Product with </p>
+                  <p className="block md:hidden  ml-24">core features </p>
+
+                  
                 </div>
               </div>
 
               <div className="relative">
                 <div className="absolute left-1/2 transform -translate-x-1/2 -mt-3 w-6 h-6 rounded-full bg-indigo-600 border-4 border-white"></div>
                 <div className="relative pr-8 md:pr-16 text-center">
-                  <h3 className="text-lg font-semibold text-indigo-600 mb-1 mr-[10px]">
+                  <h3 className="text-lg font-semibold text-indigo-600 mb-1 md:mr-[10px] mr-4 pt-2">
                     2025
                   </h3>
-                  <h4 className="text-xl font-bold text-gray-900 mb-2 mr-[108px]">
+                  <h4 className="text-xl font-bold text-gray-900 mb-2 mr-[135px] md:[108px]">
                     AI Enhancement
                   </h4>
                   <p className="text-gray-600 mr-[205px]">
@@ -446,7 +462,7 @@ export default function LandingPage() {
                     alt="Team collaboration"
                     className="rounded-lg shadow-lg"
                   />
-                  <div className="absolute -bottom-6 -right-6 bg-indigo-600 text-white p-4 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
+                  <div className="absolute -bottom-6 -right-6 bg-indigo-600 text-white p-4 rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 cursor-pointer">
                     <p className="font-semibold flex gap-2 text-center">
                       Empowering Careers <ArrowRight />
                     </p>
@@ -480,10 +496,10 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <div className="bg-white rounded-lg shadow-lg p-8">
-                  <h3 className="text-2xl font-semibold mb-6 text-indigo-700">
+                  <h3 className="text-3xl font-semibold mb-6 text-indigo-700 tracking-tight">
                     Get in Touch
                   </h3>
-                  <p className="text-gray-600 mb-8">
+                  <p className="text-gray-600 font-semibold mb-8">
                     Have questions or feedback? We would love to hear from you.
                     Reach out to us using the contact information below or fill
                     out the form, and we will get back to you as soon as
@@ -557,8 +573,9 @@ export default function LandingPage() {
                       name="message"
                       rows={4}
                       placeholder="What do you wanna talk about..."
-                      className="w-full px-4 py-2 border border-indigo-200 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300"
+                      className="w-full px-4 py-2 border border-indigo-200 h-60 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300"
                       required
+
                     ></textarea>
                   </div>
                   <button
@@ -604,36 +621,36 @@ export default function LandingPage() {
               <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-2">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/"
                     className="text-gray-400 hover:text-white transition duration-150"
                   >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#features"
+                  <Link
+                    to="/features"
                     className="text-gray-400 hover:text-white transition duration-150"
                   >
                     Features
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#research"
+                  <Link
+                    to="/research"
                     className="text-gray-400 hover:text-white transition duration-150"
                   >
                     Research
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#development"
+                  <Link
+                    to="/development"
                     className="text-gray-400 hover:text-white transition duration-150"
                   >
                     Development
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -647,15 +664,15 @@ export default function LandingPage() {
           <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
             <span className="flex items-center gap-2">
               <span>Follow us on</span>
-              <a href="https://github.com/">
+              <Link to="https://github.com/">
                 <FaGithub />
-              </a>
-              <a href="https://discord.gg/">
+              </Link>
+              <Link to="https://discord.gg/">
                 <FaDiscord />
-              </a>
-              <a href="#">
+              </Link>
+              <Link to="/">
                 <FaXTwitter />
-              </a>
+              </Link>
               <span style={{ marginLeft: "auto" }}>
                 &copy; 2024 VishwamAI. All rights reserved.
               </span>
