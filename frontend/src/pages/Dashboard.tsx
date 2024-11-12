@@ -172,43 +172,43 @@ const Dashboard: React.FC = () => {
       {/* Main Content */}
       <Box
         flex="1"
-        ml={{ base: 0, md: isWide ? '240px' : '70px' }}
-        p={{ base: 4, md: 6 }}
+        ml={{ base: 0, md: isWide ? '280px' : '80px' }}
+        p={{ base: 4, md: 8 }}
         bg="gray.50"
         minH="100vh"
       >
-        <VStack spacing={6} align="stretch" maxW="1200px" mx="auto">
+        <VStack spacing={8} align="stretch" maxW="1200px" mx="auto">
           {/* Application Statistics */}
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-2">
               <CardTitle>Application Statistics</CardTitle>
             </CardHeader>
             <CardContent>
-              <HStack spacing={8} align="stretch" flexWrap={{ base: 'wrap', md: 'nowrap' }}>
-                <Box flex="1" minW={{ base: 'full', md: '0' }} p={10} borderRadius="xl" bg="white" boxShadow="lg" border="1px" borderColor="gray.100" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
-                  <HStack spacing={8}>
-                    <Icon as={FiCheckCircle} boxSize={10} color="#6366F1" aria-hidden="true" />
-                    <VStack align="start" spacing={2}>
-                      <Text fontSize="4xl" fontWeight="bold" color="#6366F1">28</Text>
-                      <Text fontSize="md" color="gray.600" fontWeight="medium">Auto-Applied Jobs</Text>
+              <HStack spacing={6} align="stretch" flexWrap={{ base: 'wrap', md: 'nowrap' }}>
+                <Box flex="1" minW={{ base: 'full', md: '0' }} p={6} borderRadius="xl" bg="white" boxShadow="sm" border="1px" borderColor="gray.200" _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }} transition="all 0.2s">
+                  <HStack spacing={6}>
+                    <Icon as={FiCheckCircle} boxSize={8} color="#6366F1" aria-hidden="true" />
+                    <VStack align="start" spacing={1}>
+                      <Text fontSize="3xl" fontWeight="bold" color="#6366F1">28</Text>
+                      <Text fontSize="sm" color="gray.600">Auto-Applied Jobs</Text>
                     </VStack>
                   </HStack>
                 </Box>
-                <Box flex="1" minW={{ base: 'full', md: '0' }} p={10} borderRadius="xl" bg="white" boxShadow="lg" border="1px" borderColor="gray.100" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
-                  <HStack spacing={8}>
-                    <Icon as={FiTrendingUp} boxSize={10} color="#6366F1" aria-hidden="true" />
-                    <VStack align="start" spacing={2}>
-                      <Text fontSize="4xl" fontWeight="bold" color="#6366F1">68%</Text>
-                      <Text fontSize="md" color="gray.600" fontWeight="medium">Success Rate</Text>
+                <Box flex="1" minW={{ base: 'full', md: '0' }} p={6} borderRadius="xl" bg="white" boxShadow="sm" border="1px" borderColor="gray.200" _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }} transition="all 0.2s">
+                  <HStack spacing={6}>
+                    <Icon as={FiTrendingUp} boxSize={8} color="#6366F1" aria-hidden="true" />
+                    <VStack align="start" spacing={1}>
+                      <Text fontSize="3xl" fontWeight="bold" color="#6366F1">68%</Text>
+                      <Text fontSize="sm" color="gray.600">Success Rate</Text>
                     </VStack>
                   </HStack>
                 </Box>
-                <Box flex="1" minW={{ base: 'full', md: '0' }} p={10} borderRadius="xl" bg="white" boxShadow="lg" border="1px" borderColor="gray.100" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
-                  <HStack spacing={8}>
-                    <Icon as={FiCalendar} boxSize={10} color="#6366F1" aria-hidden="true" />
-                    <VStack align="start" spacing={2}>
-                      <Text fontSize="4xl" fontWeight="bold" color="#6366F1">12</Text>
-                      <Text fontSize="md" color="gray.600" fontWeight="medium">Upcoming Interviews</Text>
+                <Box flex="1" minW={{ base: 'full', md: '0' }} p={6} borderRadius="xl" bg="white" boxShadow="sm" border="1px" borderColor="gray.200" _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }} transition="all 0.2s">
+                  <HStack spacing={6}>
+                    <Icon as={FiCalendar} boxSize={8} color="#6366F1" aria-hidden="true" />
+                    <VStack align="start" spacing={1}>
+                      <Text fontSize="3xl" fontWeight="bold" color="#6366F1">12</Text>
+                      <Text fontSize="sm" color="gray.600">Upcoming Interviews</Text>
                     </VStack>
                   </HStack>
                 </Box>
@@ -218,33 +218,33 @@ const Dashboard: React.FC = () => {
 
           {/* Upcoming Interviews */}
           <Card>
-            <CardHeader>
+            <CardHeader className="pb-2">
               <CardTitle>Upcoming Interviews</CardTitle>
             </CardHeader>
             <CardContent>
-              <VStack align="stretch" spacing={6}>
-                <Box p={8} bg="white" borderRadius="xl" borderWidth="1px" borderColor="gray.100" boxShadow="lg" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
+              <VStack align="stretch" spacing={4}>
+                <Box p={6} bg="white" borderRadius="xl" borderWidth="1px" borderColor="gray.200" boxShadow="sm" _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }} transition="all 0.2s">
                   <HStack justify="space-between" align="center">
-                    <VStack align="start" spacing={4}>
-                      <Text fontWeight="bold" fontSize="xl" color="gray.800">TechCorp Solutions</Text>
-                      <Text fontSize="md" color="gray.600" fontWeight="medium">Frontend Developer</Text>
-                      <Badge bg="#6366F1" color="white" mt={2} borderRadius="full" px={6} py={2} fontSize="sm" fontWeight="semibold">
+                    <VStack align="start" spacing={2}>
+                      <Text fontWeight="bold" fontSize="lg" color="gray.800">TechCorp Solutions</Text>
+                      <Text fontSize="sm" color="gray.600">Frontend Developer</Text>
+                      <Badge bg="#6366F1" color="white" mt={2} borderRadius="full" px={4} py={1} fontSize="xs">
                         TOMORROW, 10:00 AM
                       </Badge>
                     </VStack>
-                    <Icon as={FiCalendar} color="#6366F1" boxSize={8} aria-hidden="true" />
+                    <Icon as={FiCalendar} color="#6366F1" boxSize={6} aria-hidden="true" />
                   </HStack>
                 </Box>
-                <Box p={8} bg="white" borderRadius="xl" borderWidth="1px" borderColor="gray.100" boxShadow="lg" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
+                <Box p={6} bg="white" borderRadius="xl" borderWidth="1px" borderColor="gray.200" boxShadow="sm" _hover={{ transform: 'translateY(-2px)', boxShadow: 'md' }} transition="all 0.2s">
                   <HStack justify="space-between" align="center">
-                    <VStack align="start" spacing={4}>
-                      <Text fontWeight="bold" fontSize="xl" color="gray.800">DataInc Analytics</Text>
-                      <Text fontSize="md" color="gray.600" fontWeight="medium">Full Stack Developer</Text>
-                      <Badge bg="#6366F1" color="white" mt={2} borderRadius="full" px={6} py={2} fontSize="sm" fontWeight="semibold">
+                    <VStack align="start" spacing={2}>
+                      <Text fontWeight="bold" fontSize="lg" color="gray.800">DataInc Analytics</Text>
+                      <Text fontSize="sm" color="gray.600">Full Stack Developer</Text>
+                      <Badge bg="#6366F1" color="white" mt={2} borderRadius="full" px={4} py={1} fontSize="xs">
                         FEB 15, 2:30 PM
                       </Badge>
                     </VStack>
-                    <Icon as={FiCalendar} color="#6366F1" boxSize={8} aria-hidden="true" />
+                    <Icon as={FiCalendar} color="#6366F1" boxSize={6} aria-hidden="true" />
                   </HStack>
                 </Box>
               </VStack>
