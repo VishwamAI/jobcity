@@ -17,22 +17,22 @@ export const Card: React.FC<CardProps> = ({ children, ...props }) => (
   </Box>
 );
 
-interface CardHeaderProps {
+interface CardHeaderProps extends BoxProps {
   children: React.ReactNode;
 }
 
-export const CardHeader: React.FC<CardHeaderProps> = ({ children }) => (
-  <Box mb={4}>
+export const CardHeader: React.FC<CardHeaderProps> = ({ children, ...props }) => (
+  <Box mb={4} {...props}>
     {children}
   </Box>
 );
 
-interface CardContentProps {
+interface CardContentProps extends BoxProps {
   children: React.ReactNode;
 }
 
-export const CardContent: React.FC<CardContentProps> = ({ children }) => (
-  <Box>
+export const CardContent: React.FC<CardContentProps> = ({ children, ...props }) => (
+  <Box {...props}>
     {children}
   </Box>
 );
