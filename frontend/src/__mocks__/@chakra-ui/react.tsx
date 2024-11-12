@@ -49,9 +49,35 @@ export const useMediaQuery = jest.fn(() => [true]);
 export { ChakraProvider, extendTheme, withEmotionCache };
 
 // Re-export other components as needed
-export const Box = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const Box = ({ children, ...props }: any) => <div data-testid="box" {...props}>{children}</div>;
 export const Flex = ({ children, ...props }: any) => <div {...props}>{children}</div>;
 export const Text = ({ children, ...props }: any) => <span {...props}>{children}</span>;
 export const Button = ({ children, ...props }: any) => <button {...props}>{children}</button>;
 export const IconButton = ({ children, ...props }: any) => <button {...props}>{children}</button>;
 export const useDisclosure = () => ({ isOpen: false, onOpen: jest.fn(), onClose: jest.fn() });
+
+// Add loading-related components
+export const CircularProgress = (props: any) => <div role="progressbar" {...props} />;
+export const CircularProgressLabel = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const Spinner = (props: any) => <div role="progressbar" {...props} />;
+export const Progress = (props: any) => <div role="progressbar" {...props} />;
+
+// Add layout components
+export const Container = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const Stack = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const VStack = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const HStack = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const Grid = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const GridItem = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+
+// Add navigation components
+export const Link = ({ children, ...props }: any) => <a {...props}>{children}</a>;
+export const Breadcrumb = ({ children, ...props }: any) => <nav {...props}>{children}</nav>;
+export const BreadcrumbItem = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const BreadcrumbLink = ({ children, ...props }: any) => <a {...props}>{children}</a>;
+
+// Add feedback components
+export const Alert = ({ children, ...props }: any) => <div role="alert" {...props}>{children}</div>;
+export const AlertIcon = (props: any) => <span {...props} />;
+export const AlertTitle = ({ children, ...props }: any) => <div {...props}>{children}</div>;
+export const AlertDescription = ({ children, ...props }: any) => <div {...props}>{children}</div>;
