@@ -5,7 +5,6 @@ import {
   HStack,
   Icon,
   IconButton,
-  SimpleGrid,
   Text,
   useMediaQuery,
   VStack,
@@ -49,14 +48,14 @@ const Dashboard: React.FC = () => {
     <Box display="flex" width="full" minHeight="100vh" flexDir={{ base: 'column', md: 'row' }}>
       <Flex
         as="aside"
-        w={{ base: 'full', md: isWide ? '240px' : '80px' }}
+        w={{ base: 'full', md: isWide ? '220px' : '70px' }}
         h={{ base: '64px', md: '100vh' }}
         direction={{ base: 'row', md: 'column' }}
-        bg="white"
+        bg="gray.800"
         p={{ base: 2, md: 4 }}
         borderRight={{ base: 'none', md: '1px' }}
         borderBottom={{ base: '1px', md: 'none' }}
-        borderColor="gray.200"
+        borderColor="gray.700"
         transition="all 0.2s"
         position={{ base: 'sticky', md: 'fixed' }}
         top="0"
@@ -65,16 +64,15 @@ const Dashboard: React.FC = () => {
         <Flex
           display={{ base: 'none', md: 'flex' }}
           align="center"
-          mb={8}
+          mb={6}
           justify="flex-start"
         >
           <IconButton
             aria-label="Toggle Sidebar"
-            icon={<Icon as={FiMenu} />}
+            icon={<Icon as={FiMenu} color="gray.300" />}
             onClick={toggleWidth}
             variant="ghost"
-            color="gray.600"
-            _hover={{ bg: 'gray.100' }}
+            _hover={{ bg: 'gray.700' }}
           />
         </Flex>
 
@@ -84,31 +82,31 @@ const Dashboard: React.FC = () => {
           justify="space-between"
           align={{ base: 'center', md: 'stretch' }}
         >
-          <HStack
+          <VStack
             spacing={{ base: 4, md: 2 }}
             align={{ base: 'center', md: 'stretch' }}
             flex="1"
+            w="full"
           >
             {navItems.map((item) => (
               <Flex
                 key={item.id}
-                p={{ base: 2, md: 3 }}
+                p={3}
                 cursor="pointer"
                 borderRadius="md"
-                bg={activeTab === item.id ? "brand.50" : "transparent"}
-                color={activeTab === item.id ? "brand.500" : "gray.600"}
+                bg={activeTab === item.id ? "gray.700" : "transparent"}
+                color={activeTab === item.id ? "white" : "gray.300"}
                 onClick={() => setActiveTab(item.id)}
-                _hover={{ bg: activeTab === item.id ? "brand.50" : "gray.100" }}
+                _hover={{ bg: "gray.700", color: "white" }}
                 align="center"
-                direction={{ base: 'column', md: 'row' }}
-                flex={{ base: '1', md: 'initial' }}
+                justify={isWide ? "flex-start" : "center"}
+                w="full"
               >
-                <Icon as={item.icon} boxSize={{ base: 5, md: 6 }} />
+                <Icon as={item.icon} boxSize={5} />
                 {(isWide || isMobile) && (
                   <Text
-                    fontSize="xs"
-                    mt={{ base: 1, md: 0 }}
-                    ml={{ base: 0, md: 3 }}
+                    fontSize="sm"
+                    ml={3}
                     display={{ base: 'block', md: isWide ? 'block' : 'none' }}
                   >
                     {item.label}
@@ -116,25 +114,35 @@ const Dashboard: React.FC = () => {
                 )}
               </Flex>
             ))}
-          </HStack>
+          </VStack>
 
           <VStack
             spacing={2}
             mt={{ base: 0, md: 'auto' }}
-            mb={{ base: 0, md: 8 }}
+            mb={{ base: 0, md: 4 }}
             display={{ base: 'none', md: 'flex' }}
+            w="full"
           >
             {bottomNavItems.map((item) => (
-              <IconButton
+              <Flex
                 key={item.id}
-                aria-label={item.label}
-                icon={<Icon as={item.icon} boxSize={6} />}
+                p={3}
+                cursor="pointer"
+                borderRadius="md"
+                color="gray.300"
                 onClick={() => setActiveTab(item.id)}
-                variant="ghost"
-                color="gray.600"
-                _hover={{ bg: 'gray.100' }}
+                _hover={{ bg: "gray.700", color: "white" }}
+                align="center"
+                justify={isWide ? "flex-start" : "center"}
                 w="full"
-              />
+              >
+                <Icon as={item.icon} boxSize={5} />
+                {isWide && (
+                  <Text fontSize="sm" ml={3}>
+                    {item.label}
+                  </Text>
+                )}
+              </Flex>
             ))}
           </VStack>
         </Flex>
@@ -142,44 +150,40 @@ const Dashboard: React.FC = () => {
 
       <Box
         flex="1"
-        ml={{ base: 0, md: isWide ? '240px' : '80px' }}
-        p={{ base: 4, md: 8 }}
+        ml={{ base: 0, md: isWide ? '220px' : '70px' }}
+        p={{ base: 4, md: 6 }}
         bg="gray.50"
         minH="100vh"
       >
-        <SimpleGrid
-          columns={{ base: 1, md: 2, lg: 3 }}
-          spacing={{ base: 4, md: 6 }}
-          mb={{ base: 4, md: 6 }}
-        >
+        <VStack spacing={6} align="stretch" maxW="800px" mx="auto">
           <Card>
             <CardHeader>
               <CardTitle>Application Statistics</CardTitle>
             </CardHeader>
             <CardContent>
-              <SimpleGrid columns={1} spacing={{ base: 4, md: 6 }}>
+              <VStack spacing={6} align="stretch">
                 <HStack spacing={4}>
-                  <Icon as={FiBarChart2} boxSize={{ base: 5, md: 6 }} color="brand.500" />
+                  <Icon as={FiBarChart2} boxSize={6} color="brand.500" />
                   <VStack align="start" spacing={1}>
-                    <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color="brand.500">28</Text>
+                    <Text fontSize="2xl" fontWeight="bold" color="brand.500">28</Text>
                     <Text fontSize="sm" color="gray.600">Auto-Applied Jobs</Text>
                   </VStack>
                 </HStack>
                 <HStack spacing={4}>
-                  <Icon as={FiBarChart2} boxSize={{ base: 5, md: 6 }} color="brand.500" />
+                  <Icon as={FiBarChart2} boxSize={6} color="brand.500" />
                   <VStack align="start" spacing={1}>
-                    <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color="brand.500">68%</Text>
+                    <Text fontSize="2xl" fontWeight="bold" color="brand.500">68%</Text>
                     <Text fontSize="sm" color="gray.600">Success Rate</Text>
                   </VStack>
                 </HStack>
                 <HStack spacing={4}>
-                  <Icon as={FiCalendar} boxSize={{ base: 5, md: 6 }} color="brand.500" />
+                  <Icon as={FiCalendar} boxSize={6} color="brand.500" />
                   <VStack align="start" spacing={1}>
-                    <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color="brand.500">12</Text>
+                    <Text fontSize="2xl" fontWeight="bold" color="brand.500">12</Text>
                     <Text fontSize="sm" color="gray.600">Upcoming Interviews</Text>
                   </VStack>
                 </HStack>
-              </SimpleGrid>
+              </VStack>
             </CardContent>
           </Card>
 
@@ -188,7 +192,7 @@ const Dashboard: React.FC = () => {
               <CardTitle>Upcoming Interviews</CardTitle>
             </CardHeader>
             <CardContent>
-              <VStack align="stretch" spacing={{ base: 3, md: 4 }}>
+              <VStack align="stretch" spacing={4}>
                 <HStack justify="space-between">
                   <VStack align="start" spacing={1}>
                     <Text fontWeight="semibold">TechCorp Solutions</Text>
@@ -206,7 +210,7 @@ const Dashboard: React.FC = () => {
               </VStack>
             </CardContent>
           </Card>
-        </SimpleGrid>
+        </VStack>
       </Box>
     </Box>
   );
