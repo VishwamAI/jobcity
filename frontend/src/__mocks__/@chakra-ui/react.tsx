@@ -4,15 +4,18 @@ import type { ThemeConfig } from '@chakra-ui/react';
 const mockChakra = jest.createMockFromModule('@chakra-ui/react') as any;
 const actualChakra = jest.requireActual('@chakra-ui/react');
 
-mockChakra.ChakraProvider = ({ children }: { children: React.ReactNode }) => {
+const ChakraProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <>{children}</>;
 };
 
-mockChakra.extendTheme = (config: Partial<ThemeConfig>) => {
+const extendTheme = (config: Partial<ThemeConfig>) => {
   return { ...config };
 };
 
-module.exports = {
+const exports = {
   ...actualChakra,
-  ...mockChakra,
+  ChakraProvider,
+  extendTheme,
 };
+
+export default exports;

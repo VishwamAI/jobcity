@@ -1,6 +1,12 @@
+import { EmotionCache } from '@emotion/cache';
+
 const actualEmotion = jest.requireActual('@emotion/react');
 
-module.exports = {
+type WithEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => React.ReactNode;
+
+const mockEmotion = {
   ...actualEmotion,
-  withEmotionCache: (fn: any) => fn,
+  withEmotionCache: ((fn: any) => fn) as WithEmotionCache,
 };
+
+export default mockEmotion;
