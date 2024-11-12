@@ -1,31 +1,29 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
-import { ChakraProvider } from '@chakra-ui/react';
+import { render as rtlRender, RenderOptions, screen, fireEvent, waitFor } from '@testing-library/react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import { MemoryRouter } from 'react-router-dom';
+import theme from './theme';
 
 interface AllProvidersProps {
   children: ReactNode;
 }
-
-const AllProviders = ({ children }: AllProvidersProps) => {
-  return (
-    <ChakraProvider>
-      {children}
-    </ChakraProvider>
-  );
-};
 
 const customRender = (
   ui: ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>
 ) => {
   const Wrapper = ({ children }: AllProvidersProps) => (
-    <AllProviders>
-      <MemoryRouter>{children}</MemoryRouter>
-    </AllProviders>
+    <>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <ChakraProvider theme={theme}>
+        <MemoryRouter>
+          {children}
+        </MemoryRouter>
+      </ChakraProvider>
+    </>
   );
-  return render(ui, { wrapper: Wrapper, ...options });
+  return rtlRender(ui, { wrapper: Wrapper, ...options });
 };
 
-export * from '@testing-library/react';
-export { customRender as render };
+// Export only what we need
+export { customRender as render, screen, fireEvent, waitFor };
