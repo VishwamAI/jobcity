@@ -1,16 +1,17 @@
 import React, { Suspense, lazy, FC, PropsWithChildren } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Box, useColorMode } from "@chakra-ui/react";
+import { Box, useColorMode, ChakraProvider } from "@chakra-ui/react";
 import "./App.css";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import Loader from "./components/Loader";
 import { useLoading } from "./hooks/useLoading";
+import theme from "./theme";
 
 // Lazy load route components
 const LandingPage = lazy(() => import("./pages/landing-page"));
 const AuthPage = lazy(() => import("./pages/auth-page"));
 const ForgotPasswordPage = lazy(() => import("./pages/forgot-password-page"));
-const Dashboard = lazy(() => import("./pages/Dashboard")); // Import the Dashboard component
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Chat = lazy(() => import("./pages/Chat"));
 const JobBrowser = lazy(() => import("./pages/JobBrowser"));
 const Profile = lazy(() => import("./pages/Profile"));
@@ -52,9 +53,11 @@ const App: FC<AppProps> = ({ RouterProvider = Router }) => {
   const { colorMode } = useColorMode();
 
   return (
-    <RouterProvider>
-      <AppContent isLoading={isLoading} colorMode={colorMode} />
-    </RouterProvider>
+    <ChakraProvider theme={theme}>
+      <RouterProvider>
+        <AppContent isLoading={isLoading} colorMode={colorMode} />
+      </RouterProvider>
+    </ChakraProvider>
   );
 };
 
