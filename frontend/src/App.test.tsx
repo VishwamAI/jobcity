@@ -49,7 +49,8 @@ jest.mock('./components/Loader', () => ({
 }));
 
 // Mock useLoading hook
-jest.spyOn(useLoadingModule, 'useLoading').mockReturnValue(false);
+const mockUseLoading = jest.spyOn(useLoadingModule, 'useLoading');
+mockUseLoading.mockReturnValue(false);
 
 // Setup test environment
 jest.setTimeout(10000);
@@ -75,11 +76,11 @@ beforeEach(() => {
 });
 
 describe('App Component', () => {
-  test('renders dashboard page', async () => {
-    const TestRouter: FC<PropsWithChildren> = ({ children }) => (
-      <BrowserRouter>{children}</BrowserRouter>
-    );
+  const TestRouter: FC<PropsWithChildren> = ({ children }) => (
+    <BrowserRouter>{children}</BrowserRouter>
+  );
 
+  it('renders dashboard page', async () => {
     render(<App RouterProvider={TestRouter} />);
 
     expect(screen.getByText(/Application Statistics/i)).toBeInTheDocument();
