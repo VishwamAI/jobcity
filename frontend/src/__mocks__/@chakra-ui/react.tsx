@@ -22,7 +22,12 @@ const withEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => {
     key: 'mock-key',
     insert: jest.fn(),
     flush: jest.fn(),
-    hydrate: jest.fn()
+    hydrate: jest.fn(),
+    prepend: false,
+    before: null as any,
+    insertionPoint: null as any,
+    _alreadyInsertedOrderInsensitiveRule: false,
+    _insertTag: jest.fn()
   };
 
   const mockCache: EmotionCache = {
