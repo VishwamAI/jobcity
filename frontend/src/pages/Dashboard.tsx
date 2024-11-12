@@ -48,6 +48,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box display="flex" width="full" minHeight="100vh" flexDir={{ base: 'column', md: 'row' }}>
+      {/* Sidebar */}
       <Flex
         as="aside"
         w={{ base: 'full', md: isWide ? '240px' : '70px' }}
@@ -61,6 +62,7 @@ const Dashboard: React.FC = () => {
         top="0"
         zIndex="sticky"
       >
+        {/* Toggle Button */}
         <Flex
           display={{ base: 'none', md: 'flex' }}
           align="center"
@@ -76,6 +78,7 @@ const Dashboard: React.FC = () => {
           />
         </Flex>
 
+        {/* Navigation Items */}
         <Flex
           flex="1"
           direction={{ base: 'row', md: 'column' }}
@@ -101,8 +104,11 @@ const Dashboard: React.FC = () => {
                 align="center"
                 justify={isWide ? "flex-start" : "center"}
                 w="full"
+                role="button"
+                aria-selected={activeTab === item.id}
+                tabIndex={0}
               >
-                <Icon as={item.icon} boxSize={5} />
+                <Icon as={item.icon} boxSize={5} aria-hidden="true" />
                 {(isWide || isMobile) && (
                   <Text
                     fontSize="sm"
@@ -117,6 +123,7 @@ const Dashboard: React.FC = () => {
             ))}
           </VStack>
 
+          {/* Bottom Navigation Items */}
           <VStack
             spacing={2}
             mt={{ base: 0, md: 'auto' }}
@@ -136,8 +143,11 @@ const Dashboard: React.FC = () => {
                 align="center"
                 justify={isWide ? "flex-start" : "center"}
                 w="full"
+                role="button"
+                aria-selected={activeTab === item.id}
+                tabIndex={0}
               >
-                <Icon as={item.icon} boxSize={5} />
+                <Icon as={item.icon} boxSize={5} aria-hidden="true" />
                 {isWide && (
                   <Text fontSize="sm" fontWeight="medium" ml={3}>
                     {item.label}
@@ -149,6 +159,7 @@ const Dashboard: React.FC = () => {
         </Flex>
       </Flex>
 
+      {/* Main Content */}
       <Box
         flex="1"
         ml={{ base: 0, md: isWide ? '240px' : '70px' }}
@@ -157,6 +168,7 @@ const Dashboard: React.FC = () => {
         minH="100vh"
       >
         <VStack spacing={6} align="stretch" maxW="1200px" mx="auto">
+          {/* Application Statistics */}
           <Card>
             <CardHeader>
               <CardTitle>Application Statistics</CardTitle>
@@ -165,7 +177,7 @@ const Dashboard: React.FC = () => {
               <HStack spacing={8} align="stretch" flexWrap={{ base: 'wrap', md: 'nowrap' }}>
                 <Box flex="1" minW={{ base: 'full', md: '0' }}>
                   <HStack spacing={4}>
-                    <Icon as={FiCheckCircle} boxSize={6} color="brand.500" />
+                    <Icon as={FiCheckCircle} boxSize={6} color="brand.500" aria-hidden="true" />
                     <VStack align="start" spacing={1}>
                       <Text fontSize="2xl" fontWeight="bold" color="brand.500">28</Text>
                       <Text fontSize="sm" color="gray.600">Auto-Applied Jobs</Text>
@@ -174,7 +186,7 @@ const Dashboard: React.FC = () => {
                 </Box>
                 <Box flex="1" minW={{ base: 'full', md: '0' }}>
                   <HStack spacing={4}>
-                    <Icon as={FiTrendingUp} boxSize={6} color="brand.500" />
+                    <Icon as={FiTrendingUp} boxSize={6} color="brand.500" aria-hidden="true" />
                     <VStack align="start" spacing={1}>
                       <Text fontSize="2xl" fontWeight="bold" color="brand.500">68%</Text>
                       <Text fontSize="sm" color="gray.600">Success Rate</Text>
@@ -183,7 +195,7 @@ const Dashboard: React.FC = () => {
                 </Box>
                 <Box flex="1" minW={{ base: 'full', md: '0' }}>
                   <HStack spacing={4}>
-                    <Icon as={FiCalendar} boxSize={6} color="brand.500" />
+                    <Icon as={FiCalendar} boxSize={6} color="brand.500" aria-hidden="true" />
                     <VStack align="start" spacing={1}>
                       <Text fontSize="2xl" fontWeight="bold" color="brand.500">12</Text>
                       <Text fontSize="sm" color="gray.600">Upcoming Interviews</Text>
@@ -194,6 +206,7 @@ const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
 
+          {/* Upcoming Interviews */}
           <Card>
             <CardHeader>
               <CardTitle>Upcoming Interviews</CardTitle>
@@ -207,7 +220,7 @@ const Dashboard: React.FC = () => {
                       <Text fontSize="sm" color="gray.600">Frontend Developer</Text>
                       <Badge colorScheme="brand" mt={1}>Tomorrow, 10:00 AM</Badge>
                     </VStack>
-                    <Icon as={FiCalendar} color="brand.500" boxSize={5} />
+                    <Icon as={FiCalendar} color="brand.500" boxSize={5} aria-hidden="true" />
                   </HStack>
                 </Box>
                 <Box p={4} bg="white" borderRadius="md" borderWidth="1px" borderColor="gray.200">
@@ -217,7 +230,7 @@ const Dashboard: React.FC = () => {
                       <Text fontSize="sm" color="gray.600">Full Stack Developer</Text>
                       <Badge colorScheme="brand" mt={1}>Feb 15, 2:30 PM</Badge>
                     </VStack>
-                    <Icon as={FiCalendar} color="brand.500" boxSize={5} />
+                    <Icon as={FiCalendar} color="brand.500" boxSize={5} aria-hidden="true" />
                   </HStack>
                 </Box>
               </VStack>
