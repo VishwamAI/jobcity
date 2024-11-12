@@ -107,6 +107,9 @@ importers:
       '@babel/plugin-transform-private-property-in-object':
         specifier: ^7.23.4
         version: 7.25.9(@babel/core@7.26.0(supports-color@9.4.0))(supports-color@9.4.0)
+      '@babel/plugin-transform-runtime':
+        specifier: ^7.25.9
+        version: 7.25.9(@babel/core@7.26.0(supports-color@9.4.0))(supports-color@9.4.0)
       '@babel/preset-env':
         specifier: ^7.23.8
         version: 7.26.0(@babel/core@7.26.0(supports-color@9.4.0))(supports-color@9.4.0)
