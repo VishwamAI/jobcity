@@ -66,6 +66,7 @@
     "@babel/preset-env": "^7.23.8",
     "@babel/preset-react": "^7.23.3",
     "@emotion/cache": "^11.13.1",
+    "@emotion/sheet": "^1.4.0",
     "@eslint/js": "^8.56.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@radix-ui/react-slot": "^1.1.0",

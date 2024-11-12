@@ -12,9 +12,7 @@ const extendTheme = (config: Partial<ThemeConfig>) => {
   return { ...config };
 };
 
-// Mock withEmotionCache function
 const withEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => {
-  // Create a complete mock StyleSheet implementation
   const mockSheet: StyleSheet = {
     isSpeedy: false,
     ctr: 0,
@@ -29,15 +27,13 @@ const withEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => {
     getIds: jest.fn(() => []),
   };
 
-  // Create a complete mock cache object
   const mockCache: EmotionCache = {
     sheet: mockSheet,
     inserted: {},
     registered: {},
     key: 'mock-key',
     nonce: undefined,
-    insert: jest.fn(),
-    stylisPlugins: [],
+    insert: jest.fn()
   };
 
   return fn(mockCache);

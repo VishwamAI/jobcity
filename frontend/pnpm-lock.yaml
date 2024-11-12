@@ -122,6 +122,9 @@ importers:
       '@emotion/cache':
         specifier: ^11.13.1
         version: 11.13.1
+      '@emotion/sheet':
+        specifier: ^1.4.0
+        version: 1.4.0
       '@eslint/js':
         specifier: ^8.56.0
         version: 8.57.1
