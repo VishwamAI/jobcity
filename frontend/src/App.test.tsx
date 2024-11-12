@@ -1,23 +1,28 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, FC } from 'react';
-import { screen, act } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { render, waitForElementToBeRemoved, RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
+import theme from './theme';
 
 jest.spyOn(useLoadingModule, 'useLoading').mockImplementation(({ duration = 2500 } = {}) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  // Use act to wrap the state update
   useEffect(() => {
+    let mounted = true;
+
     const timer = setTimeout(() => {
-      act(() => {
+      if (mounted) {
         setIsLoading(false);
-      });
+      }
     }, 100); // Use a shorter duration for tests
 
-    return () => clearTimeout(timer);
+    return () => {
+      mounted = false;
+      clearTimeout(timer);
+    };
   }, []);
 
   return isLoading;
@@ -37,7 +42,7 @@ const customRender = (
   const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
     return (
       <BrowserRouter>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           {options?.wrapper ? (
             <options.wrapper>{children}</options.wrapper>
           ) : (
@@ -59,7 +64,7 @@ test('renders landing page', async () => {
   // Verify loading indicator is present initially
   expect(screen.getByRole('progressbar')).toBeInTheDocument();
 
-  // Wait for loading indicator to be removed (this will happen automatically due to the useLoading hook)
+  // Wait for loading indicator to be removed
   await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
   // Verify the main content is rendered
