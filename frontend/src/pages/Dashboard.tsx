@@ -9,10 +9,11 @@ import {
   useMediaQuery,
   VStack,
   Badge,
+  Divider,
 } from '@chakra-ui/react';
 import {
   FiHome, FiMessageSquare, FiBriefcase, FiUser,
-  FiBarChart2, FiCalendar, FiSettings, FiHelpCircle, FiMenu,
+  FiCalendar, FiSettings, FiHelpCircle, FiMenu,
   FiCheckCircle, FiTrendingUp
 } from 'react-icons/fi';
 import { Card, CardHeader, CardContent, CardTitle } from '../components/ui/card';
@@ -51,34 +52,36 @@ const Dashboard: React.FC = () => {
       {/* Sidebar */}
       <Flex
         as="aside"
-        w={{ base: 'full', md: isWide ? '240px' : '70px' }}
+        w={{ base: 'full', md: isWide ? '280px' : '80px' }}
         h={{ base: '64px', md: '100vh' }}
         direction={{ base: 'row', md: 'column' }}
-        bg="white"
+        bg="#F8FAFC"
         borderRight="1px"
         borderColor="gray.200"
-        p={{ base: 2, md: 4 }}
+        boxShadow="sm"
+        p={{ base: 3, md: 5 }}
         position={{ base: 'sticky', md: 'fixed' }}
         top="0"
         zIndex="sticky"
+        transition="all 0.3s ease"
       >
-        {/* Toggle Button */}
         <Flex
           display={{ base: 'none', md: 'flex' }}
           align="center"
-          mb={6}
+          mb={8}
           justify="flex-start"
         >
           <IconButton
             aria-label="Toggle Sidebar"
-            icon={<Icon as={FiMenu} color="gray.600" />}
+            icon={<Icon as={FiMenu} color="#6366F1" boxSize={6} />}
             onClick={toggleWidth}
             variant="ghost"
-            _hover={{ bg: 'gray.100' }}
+            size="lg"
+            _hover={{ bg: '#EEF2FF' }}
+            _active={{ bg: '#E0E7FF' }}
           />
         </Flex>
 
-        {/* Navigation Items */}
         <Flex
           flex="1"
           direction={{ base: 'row', md: 'column' }}
@@ -86,7 +89,7 @@ const Dashboard: React.FC = () => {
           align={{ base: 'center', md: 'stretch' }}
         >
           <VStack
-            spacing={{ base: 4, md: 2 }}
+            spacing={{ base: 4, md: 3 }}
             align={{ base: 'center', md: 'stretch' }}
             flex="1"
             w="full"
@@ -94,26 +97,27 @@ const Dashboard: React.FC = () => {
             {navItems.map((item) => (
               <Flex
                 key={item.id}
-                p={3}
+                p={4}
                 cursor="pointer"
-                borderRadius="md"
-                bg={activeTab === item.id ? "brand.50" : "transparent"}
-                color={activeTab === item.id ? "brand.500" : "gray.600"}
+                borderRadius="xl"
+                bg={activeTab === item.id ? "#EEF2FF" : "transparent"}
+                color={activeTab === item.id ? "#6366F1" : "gray.600"}
                 onClick={() => setActiveTab(item.id)}
-                _hover={{ bg: "brand.50", color: "brand.500" }}
+                _hover={{ bg: "#EEF2FF", color: "#6366F1" }}
                 align="center"
                 justify={isWide ? "flex-start" : "center"}
                 w="full"
                 role="button"
                 aria-selected={activeTab === item.id}
                 tabIndex={0}
+                transition="all 0.2s ease"
               >
-                <Icon as={item.icon} boxSize={5} aria-hidden="true" />
+                <Icon as={item.icon} boxSize={6} aria-hidden="true" />
                 {(isWide || isMobile) && (
                   <Text
-                    fontSize="sm"
-                    fontWeight="medium"
-                    ml={3}
+                    fontSize="md"
+                    fontWeight={activeTab === item.id ? "semibold" : "medium"}
+                    ml={4}
                     display={{ base: 'block', md: isWide ? 'block' : 'none' }}
                   >
                     {item.label}
@@ -123,33 +127,39 @@ const Dashboard: React.FC = () => {
             ))}
           </VStack>
 
-          {/* Bottom Navigation Items */}
           <VStack
-            spacing={2}
+            spacing={3}
             mt={{ base: 0, md: 'auto' }}
             mb={{ base: 0, md: 4 }}
             display={{ base: 'none', md: 'flex' }}
             w="full"
           >
+            <Divider />
             {bottomNavItems.map((item) => (
               <Flex
                 key={item.id}
-                p={3}
+                p={4}
                 cursor="pointer"
-                borderRadius="md"
-                color="gray.600"
+                borderRadius="xl"
+                bg={activeTab === item.id ? "#EEF2FF" : "transparent"}
+                color={activeTab === item.id ? "#6366F1" : "gray.600"}
                 onClick={() => setActiveTab(item.id)}
-                _hover={{ bg: "brand.50", color: "brand.500" }}
+                _hover={{ bg: "#EEF2FF", color: "#6366F1" }}
                 align="center"
                 justify={isWide ? "flex-start" : "center"}
                 w="full"
                 role="button"
                 aria-selected={activeTab === item.id}
                 tabIndex={0}
+                transition="all 0.2s ease"
               >
-                <Icon as={item.icon} boxSize={5} aria-hidden="true" />
+                <Icon as={item.icon} boxSize={6} aria-hidden="true" />
                 {isWide && (
-                  <Text fontSize="sm" fontWeight="medium" ml={3}>
+                  <Text
+                    fontSize="md"
+                    fontWeight={activeTab === item.id ? "semibold" : "medium"}
+                    ml={4}
+                  >
                     {item.label}
                   </Text>
                 )}
@@ -175,30 +185,30 @@ const Dashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <HStack spacing={8} align="stretch" flexWrap={{ base: 'wrap', md: 'nowrap' }}>
-                <Box flex="1" minW={{ base: 'full', md: '0' }}>
-                  <HStack spacing={4}>
-                    <Icon as={FiCheckCircle} boxSize={6} color="brand.500" aria-hidden="true" />
-                    <VStack align="start" spacing={1}>
-                      <Text fontSize="2xl" fontWeight="bold" color="brand.500">28</Text>
-                      <Text fontSize="sm" color="gray.600">Auto-Applied Jobs</Text>
+                <Box flex="1" minW={{ base: 'full', md: '0' }} p={10} borderRadius="xl" bg="white" boxShadow="lg" border="1px" borderColor="gray.100" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
+                  <HStack spacing={8}>
+                    <Icon as={FiCheckCircle} boxSize={10} color="#6366F1" aria-hidden="true" />
+                    <VStack align="start" spacing={2}>
+                      <Text fontSize="4xl" fontWeight="bold" color="#6366F1">28</Text>
+                      <Text fontSize="md" color="gray.600" fontWeight="medium">Auto-Applied Jobs</Text>
                     </VStack>
                   </HStack>
                 </Box>
-                <Box flex="1" minW={{ base: 'full', md: '0' }}>
-                  <HStack spacing={4}>
-                    <Icon as={FiTrendingUp} boxSize={6} color="brand.500" aria-hidden="true" />
-                    <VStack align="start" spacing={1}>
-                      <Text fontSize="2xl" fontWeight="bold" color="brand.500">68%</Text>
-                      <Text fontSize="sm" color="gray.600">Success Rate</Text>
+                <Box flex="1" minW={{ base: 'full', md: '0' }} p={10} borderRadius="xl" bg="white" boxShadow="lg" border="1px" borderColor="gray.100" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
+                  <HStack spacing={8}>
+                    <Icon as={FiTrendingUp} boxSize={10} color="#6366F1" aria-hidden="true" />
+                    <VStack align="start" spacing={2}>
+                      <Text fontSize="4xl" fontWeight="bold" color="#6366F1">68%</Text>
+                      <Text fontSize="md" color="gray.600" fontWeight="medium">Success Rate</Text>
                     </VStack>
                   </HStack>
                 </Box>
-                <Box flex="1" minW={{ base: 'full', md: '0' }}>
-                  <HStack spacing={4}>
-                    <Icon as={FiCalendar} boxSize={6} color="brand.500" aria-hidden="true" />
-                    <VStack align="start" spacing={1}>
-                      <Text fontSize="2xl" fontWeight="bold" color="brand.500">12</Text>
-                      <Text fontSize="sm" color="gray.600">Upcoming Interviews</Text>
+                <Box flex="1" minW={{ base: 'full', md: '0' }} p={10} borderRadius="xl" bg="white" boxShadow="lg" border="1px" borderColor="gray.100" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
+                  <HStack spacing={8}>
+                    <Icon as={FiCalendar} boxSize={10} color="#6366F1" aria-hidden="true" />
+                    <VStack align="start" spacing={2}>
+                      <Text fontSize="4xl" fontWeight="bold" color="#6366F1">12</Text>
+                      <Text fontSize="md" color="gray.600" fontWeight="medium">Upcoming Interviews</Text>
                     </VStack>
                   </HStack>
                 </Box>
@@ -212,25 +222,29 @@ const Dashboard: React.FC = () => {
               <CardTitle>Upcoming Interviews</CardTitle>
             </CardHeader>
             <CardContent>
-              <VStack align="stretch" spacing={4}>
-                <Box p={4} bg="white" borderRadius="md" borderWidth="1px" borderColor="gray.200">
-                  <HStack justify="space-between">
-                    <VStack align="start" spacing={1}>
-                      <Text fontWeight="semibold" color="gray.800">TechCorp Solutions</Text>
-                      <Text fontSize="sm" color="gray.600">Frontend Developer</Text>
-                      <Badge colorScheme="brand" mt={1}>Tomorrow, 10:00 AM</Badge>
+              <VStack align="stretch" spacing={6}>
+                <Box p={8} bg="white" borderRadius="xl" borderWidth="1px" borderColor="gray.100" boxShadow="lg" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
+                  <HStack justify="space-between" align="center">
+                    <VStack align="start" spacing={4}>
+                      <Text fontWeight="bold" fontSize="xl" color="gray.800">TechCorp Solutions</Text>
+                      <Text fontSize="md" color="gray.600" fontWeight="medium">Frontend Developer</Text>
+                      <Badge bg="#6366F1" color="white" mt={2} borderRadius="full" px={6} py={2} fontSize="sm" fontWeight="semibold">
+                        TOMORROW, 10:00 AM
+                      </Badge>
                     </VStack>
-                    <Icon as={FiCalendar} color="brand.500" boxSize={5} aria-hidden="true" />
+                    <Icon as={FiCalendar} color="#6366F1" boxSize={8} aria-hidden="true" />
                   </HStack>
                 </Box>
-                <Box p={4} bg="white" borderRadius="md" borderWidth="1px" borderColor="gray.200">
-                  <HStack justify="space-between">
-                    <VStack align="start" spacing={1}>
-                      <Text fontWeight="semibold" color="gray.800">DataInc Analytics</Text>
-                      <Text fontSize="sm" color="gray.600">Full Stack Developer</Text>
-                      <Badge colorScheme="brand" mt={1}>Feb 15, 2:30 PM</Badge>
+                <Box p={8} bg="white" borderRadius="xl" borderWidth="1px" borderColor="gray.100" boxShadow="lg" _hover={{ transform: 'translateY(-2px)', boxShadow: 'xl' }} transition="all 0.2s">
+                  <HStack justify="space-between" align="center">
+                    <VStack align="start" spacing={4}>
+                      <Text fontWeight="bold" fontSize="xl" color="gray.800">DataInc Analytics</Text>
+                      <Text fontSize="md" color="gray.600" fontWeight="medium">Full Stack Developer</Text>
+                      <Badge bg="#6366F1" color="white" mt={2} borderRadius="full" px={6} py={2} fontSize="sm" fontWeight="semibold">
+                        FEB 15, 2:30 PM
+                      </Badge>
                     </VStack>
-                    <Icon as={FiCalendar} color="brand.500" boxSize={5} aria-hidden="true" />
+                    <Icon as={FiCalendar} color="#6366F1" boxSize={8} aria-hidden="true" />
                   </HStack>
                 </Box>
               </VStack>
