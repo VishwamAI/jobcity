@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, FC } from 'react';
-import { screen } from '@testing-library/react';
+import { screen, act } from '@testing-library/react';
 import { render, waitForElementToBeRemoved, RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -9,13 +9,16 @@ import * as useLoadingModule from './hooks/useLoading';
 jest.spyOn(useLoadingModule, 'useLoading').mockImplementation(({ duration = 2500 } = {}) => {
   const [isLoading, setIsLoading] = useState(true);
 
+  // Use act to wrap the state update
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, duration);
+      act(() => {
+        setIsLoading(false);
+      });
+    }, 100); // Use a shorter duration for tests
 
     return () => clearTimeout(timer);
-  }, [duration]);
+  }, []);
 
   return isLoading;
 });
