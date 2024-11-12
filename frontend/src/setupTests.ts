@@ -41,11 +41,4 @@ Object.defineProperty(window, 'ResizeObserver', {
   value: mockResizeObserver,
 });
 
-// Mock Chakra UI theme
-jest.mock('@chakra-ui/react', () => {
-  const originalModule = jest.requireActual('@chakra-ui/react');
-  return {
-    ...originalModule,
-    extendTheme: (config: any) => ({ ...config }),
-  };
-});
+// Note: Chakra UI and Emotion mocks are now handled by the __mocks__ directory
