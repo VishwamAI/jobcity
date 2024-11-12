@@ -7,20 +7,15 @@ import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
 import theme from './theme';
 
-jest.spyOn(useLoadingModule, 'useLoading').mockImplementation(({ duration = 2500 } = {}) => {
+jest.spyOn(useLoadingModule, 'useLoading').mockImplementation(() => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let mounted = true;
-
     const timer = setTimeout(() => {
-      if (mounted) {
-        setIsLoading(false);
-      }
-    }, 100); // Use a shorter duration for tests
+      setIsLoading(false);
+    }, 100); // Short duration for tests
 
     return () => {
-      mounted = false;
       clearTimeout(timer);
     };
   }, []);
