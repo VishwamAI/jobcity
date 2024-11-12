@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode, FC } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, FC, PropsWithChildren } from 'react';
 import { screen } from '@testing-library/react';
 import { render, waitForElementToBeRemoved, RenderOptions } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
@@ -51,9 +51,18 @@ const customRender = (
 };
 
 test('renders landing page', async () => {
-  // Render the component
+  // Create a proper router wrapper that includes Routes
+  const TestRouterProvider: FC<PropsWithChildren> = ({ children }) => (
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={children} />
+      </Routes>
+    </BrowserRouter>
+  );
+
+  // Render the component with the proper router provider
   customRender(
-    <App RouterProvider={({ children }) => <>{children}</>} />
+    <App RouterProvider={TestRouterProvider} />
   );
 
   // Verify loading indicator is present initially
