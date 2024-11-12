@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, ReactNode, FC } from 'react
 import { screen } from '@testing-library/react';
 import { render, waitForElementToBeRemoved, RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
 import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
 
@@ -46,11 +47,13 @@ const customRender = (
   const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
     return (
       <BrowserRouter>
-        {options?.wrapper ? (
-          <options.wrapper>{children}</options.wrapper>
-        ) : (
-          children
-        )}
+        <ChakraProvider>
+          {options?.wrapper ? (
+            <options.wrapper>{children}</options.wrapper>
+          ) : (
+            children
+          )}
+        </ChakraProvider>
       </BrowserRouter>
     );
   };
