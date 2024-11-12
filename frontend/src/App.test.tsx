@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, FC } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, FC } from 'react';
 import { screen } from '@testing-library/react';
 import { render, waitForElementToBeRemoved, RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -6,31 +6,18 @@ import { ChakraProvider } from '@chakra-ui/react';
 import App from './App';
 import * as useLoadingModule from './hooks/useLoading';
 
-interface LoadingContextType {
-  loading: boolean;
-  setLoading: (loading: boolean) => void;
-}
+jest.spyOn(useLoadingModule, 'useLoading').mockImplementation(({ duration = 2500 } = {}) => {
+  const [isLoading, setIsLoading] = useState(true);
 
-// Create a mock loading context
-const LoadingContext = createContext<LoadingContextType>({
-  loading: true,
-  setLoading: () => {}
-});
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, duration);
 
-// Create a provider component that uses real state
-const TestLoadingProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [loading, setLoading] = useState(true);
-  return (
-    <LoadingContext.Provider value={{ loading, setLoading }}>
-      {children}
-    </LoadingContext.Provider>
-  );
-};
+    return () => clearTimeout(timer);
+  }, [duration]);
 
-// Mock the useLoading hook to use our context
-jest.spyOn(useLoadingModule, 'useLoading').mockImplementation(() => {
-  const { loading } = useContext(LoadingContext);
-  return loading;
+  return isLoading;
 });
 
 // Increase Jest timeout for this test file
@@ -61,34 +48,15 @@ const customRender = (
 };
 
 test('renders landing page', async () => {
-  let setLoadingFn: ((loading: boolean) => void) | undefined;
-
-  // Create a wrapper that captures the setLoading function
-  const LoadingWrapper: FC<{ children: ReactNode }> = ({ children }) => {
-    const [loading, setLoading] = useState(true);
-    setLoadingFn = setLoading;
-    return (
-      <LoadingContext.Provider value={{ loading, setLoading }}>
-        {children}
-      </LoadingContext.Provider>
-    );
-  };
-
-  // Render the component with our loading provider
+  // Render the component
   customRender(
-    <App RouterProvider={({ children }) => <>{children}</>} />,
-    { wrapper: LoadingWrapper }
+    <App RouterProvider={({ children }) => <>{children}</>} />
   );
 
   // Verify loading indicator is present initially
   expect(screen.getByRole('progressbar')).toBeInTheDocument();
 
-  // Change loading state using the captured setLoading function
-  if (setLoadingFn) {
-    setLoadingFn(false);
-  }
-
-  // Wait for loading indicator to be removed
+  // Wait for loading indicator to be removed (this will happen automatically due to the useLoading hook)
   await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
   // Verify the main content is rendered
