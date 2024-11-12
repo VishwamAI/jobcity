@@ -160,21 +160,32 @@ const Dashboard: React.FC = () => {
                 </SimpleGrid>
               </CardContent>
             </Card>
-            <Box bg="white" p={6} borderRadius="lg" boxShadow="md" _hover={{ boxShadow: "lg" }}>
-              <Heading as="h3" size="md" mb={4} color="purple.500">Upcoming Interviews</Heading>
-              <VStack align="stretch" spacing={4}>
-                {[
-                  { company: 'TechCorp', date: '15/06/2023, 14:00:00' },
-                  { company: 'InnoSoft', date: '17/06/2023, 10:30:00' },
-                  { company: 'DataDynamics', date: '20/06/2023, 15:45:00' },
-                ].map((interview, index) => (
-                  <HStack key={index} justify="space-between" p={2} _hover={{ bg: "purple.50" }}>
-                    <Text fontWeight="bold">{interview.company}</Text>
-                    <Text fontSize="sm" color="gray.500">{interview.date}</Text>
-                  </HStack>
-                ))}
-              </VStack>
-            </Box>
+            <Card>
+              <CardHeader>
+                <CardTitle>Upcoming Interviews</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <VStack align="stretch" spacing={4}>
+                  {[
+                    { company: 'TechCorp', date: '15/06/2023, 14:00:00' },
+                    { company: 'InnoSoft', date: '17/06/2023, 10:30:00' },
+                    { company: 'DataDynamics', date: '20/06/2023, 15:45:00' },
+                  ].map((interview, index) => (
+                    <HStack
+                      key={index}
+                      justify="space-between"
+                      p={3}
+                      borderRadius="md"
+                      _hover={{ bg: "gray.50" }}
+                      transition="background 0.2s"
+                    >
+                      <Text fontWeight="semibold">{interview.company}</Text>
+                      <Text fontSize="sm" color="gray.500">{interview.date}</Text>
+                    </HStack>
+                  ))}
+                </VStack>
+              </CardContent>
+            </Card>
           </SimpleGrid>
           <Box bg="white" p={6} borderRadius="lg" boxShadow="md" _hover={{ boxShadow: "lg" }}>
             <Heading as="h3" size="md" mb={4} color="purple.500">Todo List</Heading>
