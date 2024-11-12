@@ -18,31 +18,34 @@ const Profile = lazy(() => import("./pages/Profile"));
 
 interface AppContentProps {
   isLoading: boolean;
-  colorMode: string;
 }
 
-const AppContent: FC<AppContentProps> = ({ isLoading, colorMode }) => (
-  <Box className="App" bg={colorMode === 'dark' ? 'gray.800' : 'white'} data-testid="box">
-    {isLoading ? (
-      <Loader />
-    ) : (
-      <>
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/job-browser" element={<JobBrowser />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </Suspense>
-        <ScrollToTopButton />
-      </>
-    )}
-  </Box>
-);
+const AppContent: FC<AppContentProps> = ({ isLoading }) => {
+  const { colorMode } = useColorMode();
+
+  return (
+    <Box className="App" bg={colorMode === 'dark' ? 'gray.800' : 'white'} data-testid="box">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/job-browser" element={<JobBrowser />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </Suspense>
+          <ScrollToTopButton />
+        </>
+      )}
+    </Box>
+  );
+};
 
 interface AppProps {
   RouterProvider?: FC<PropsWithChildren>;
@@ -50,12 +53,11 @@ interface AppProps {
 
 const App: FC<AppProps> = ({ RouterProvider = Router }) => {
   const isLoading = useLoading({ duration: 2500 });
-  const { colorMode } = useColorMode();
 
   return (
     <ChakraProvider theme={theme}>
       <RouterProvider>
-        <AppContent isLoading={isLoading} colorMode={colorMode} />
+        <AppContent isLoading={isLoading} />
       </RouterProvider>
     </ChakraProvider>
   );
