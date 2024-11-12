@@ -23,7 +23,6 @@ const withEmotionCache = (fn: (cache: EmotionCache) => React.ReactNode) => {
     insert: jest.fn(),
     flush: jest.fn(),
     hydrate: jest.fn(),
-    insertStyles: jest.fn(),
     getIds: jest.fn(() => []),
   };
 
