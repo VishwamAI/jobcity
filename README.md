@@ -1,8 +1,7 @@
 # Job-City Automated Job Application Platform
 
 ## Overview
-
-![Job-City Logo](https://github.com/user-attachments/assets/28656587-1b8e-4794-94e0-719126f6f80a)
+![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FVishwamAI%2Fjobcity&countColor=%23ff8a65)
 ### Supported Platforms
 | Platform | Type    | Status            |
 |----------|---------|-------------------|
